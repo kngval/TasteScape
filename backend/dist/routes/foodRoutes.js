@@ -8,5 +8,6 @@ const foodsController_1 = require("../controllers/foodsController");
 const router = express_1.default.Router();
 router.get('/foodlist', foodsController_1.getFoodList);
 router.post('/foodlist', foodsController_1.createFood);
+router.patch('/foodlist/:foodId', foodsController_1.updateFood);
 exports.default = router;
 //# sourceMappingURL=foodRoutes.js.map
