@@ -4,7 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const foodsController_1 = require("controllers/foodsController");
+const foodsController_1 = require("../controllers/foodsController");
 const router = express_1.default.Router();
-router.get('/foodList', foodsController_1.getFoodList);
+router.get('/foodlist', foodsController_1.getFoodList);
+router.post('/foodlist', foodsController_1.createFood);
+exports.default = router;
 //# sourceMappingURL=foodRoutes.js.map

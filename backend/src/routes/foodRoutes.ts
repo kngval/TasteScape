@@ -1,5 +1,13 @@
 import express from "express"
-import { getFoodList } from "controllers/foodsController";
+import {
+     getFoodList, 
+     createFood, 
+    } from "../controllers/foodsController";
+    
 const router = express.Router();
 
-router.get('/foodList', getFoodList)
+router.get('/foodlist', getFoodList)
+router.post('/foodlist', createFood)
+
+
+export default router

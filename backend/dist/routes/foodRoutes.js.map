@@ -1,1 +1,1 @@
-{"version":3,"file":"foodRoutes.js","sourceRoot":"","sources":["../../src/routes/foodRoutes.ts"],"names":[],"mappings":";;;;;AAAA,sDAA6B;AAC7B,iEAA0D;AAC1D,MAAM,MAAM,GAAG,iBAAO,CAAC,MAAM,EAAE,CAAC;AAEhC,MAAM,CAAC,GAAG,CAAC,WAAW,EAAE,6BAAW,CAAC,CAAA"}
+{"version":3,"file":"foodRoutes.js","sourceRoot":"","sources":["../../src/routes/foodRoutes.ts"],"names":[],"mappings":";;;;;AAAA,sDAA6B;AAC7B,oEAG4C;AAE5C,MAAM,MAAM,GAAG,iBAAO,CAAC,MAAM,EAAE,CAAC;AAEhC,MAAM,CAAC,GAAG,CAAC,WAAW,EAAE,6BAAW,CAAC,CAAA;AACpC,MAAM,CAAC,IAAI,CAAC,WAAW,EAAE,4BAAU,CAAC,CAAA;AAGpC,kBAAe,MAAM,CAAA"}
