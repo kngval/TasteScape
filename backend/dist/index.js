@@ -16,7 +16,7 @@ app.use('/profile', foodRoutes_1.default);
 mongoose_1.default
     .connect(process.env.MONGO_URI)
     .then(() => app.listen(process.env.PORT, () => console.log("Server listening..."))).catch((error) => console.log(error));
-mongoose_1.default.connection.on("MongoDB Connection Error:", (error) => {
-    console.log(error);
+mongoose_1.default.connection.on("error", (error) => {
+    console.log("MongoDB Connection Error : ", error);
 });
 //# sourceMappingURL=index.js.map
