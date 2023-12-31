@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 
+
+export interface Food {
+    foodName: string;
+    foodDescription?: string;
+}
+
+
 const foodSchema = new mongoose.Schema({
 
     foodName : {
@@ -8,11 +15,10 @@ const foodSchema = new mongoose.Schema({
     },
     foodDescription : {
         type: String,
-
     },
 
 
 })
-const FoodModel = mongoose.model('Food', foodSchema)
+const FoodModel = mongoose.model<Food & Document>('Food', foodSchema)
 
 export default FoodModel;
