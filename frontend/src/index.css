@@ -3,6 +3,13 @@
 @import 'tailwindcss/utilities';
 
 
+.dropdown,.filter-container{
+    background-color: #FF6F6F;
+}
+
+
+
+
 
 @media (min-width: 800px){
 
