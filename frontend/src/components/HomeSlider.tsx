@@ -1,4 +1,4 @@
-import ghibli1 from "../assets/ghibli1.jpg";
+import ghibli1 from "../assets/images/ghibli1.jpg";
 
 export const HomeSlider: React.FC = () => {
   return (
