@@ -1,3 +1,4 @@
+import { HomeSlider } from "../components/HomeSlider";
 import Navbar from "../components/Navbar";
 
 const Home: React.FC = () => {
@@ -5,6 +6,7 @@ const Home: React.FC = () => {
       <>
         <Navbar />
 
+        <HomeSlider />
         
       </>
     );
