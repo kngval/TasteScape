@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import foodRoutes from "./routes/foodRoutes"
+import foodSearch from "./routes/foodSearch"
 require("dotenv").config();
 const app = express();
 
@@ -9,6 +10,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use('/profile', foodRoutes)
+app.use('/Home', foodSearch)
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() =>
