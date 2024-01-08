@@ -1,8 +1,9 @@
- interface Recipe {
+ type Recipe = {
         recipe : {
+            id: number,
             label : string,
             image: string,
-            ingredientLines: []
+            ingredientLines: string[]
         }
 }
 
