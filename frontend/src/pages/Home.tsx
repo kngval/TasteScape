@@ -11,6 +11,7 @@ import { Recipes } from "../components/Recipes";
 import { MockData } from "../mock/MockData"
 //assets
 import searchIcon from "../assets/svgs/search.svg"
+import { BottomNavbar } from "../components/BottomNavbar";
 
 
 const Home: React.FC = () => {
@@ -82,7 +83,7 @@ const Home: React.FC = () => {
 
         {/* RECIPES */}
 
-        <div className="recipe-container grid grid-cols-2 md:grid-cols-3 p-4 gap-5 text-xs">
+        <div className="recipe-container flex-grow grid grid-cols-2 mb-20 md:grid-cols-3 p-4 gap-5 text-xs">
        {recipes && recipes.length > 0 ? recipes.map((recipe) => (
         <Recipes key={recipe.recipe.id} recipe={recipe.recipe}/>
        )) : <h1>No recipes</h1>
@@ -91,6 +92,7 @@ const Home: React.FC = () => {
       {!recipes && <h1>No Recipes</h1>}
 
       </div>
+          <BottomNavbar />
     </>
   );
 };
