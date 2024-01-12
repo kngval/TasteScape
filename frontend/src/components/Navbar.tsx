@@ -5,7 +5,7 @@ const Navbar:React.FC = () =>{
 
     return(
         <>
-        <nav className="flex justify-center w-full p-5 shadow-md">
+        <nav className="flex justify-center w-full p-5 shadow-md ">
             <div className="container justify-between flex items-center mx-5">
                 <div className="flex items-center">
                 <button>
