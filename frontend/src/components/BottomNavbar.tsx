@@ -1,11 +1,48 @@
 //React
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const BottomNavbar = () => {
   const [iconIndex, selectedIndex] = useState<number | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/Home':
+        selectedIndex(0);
+        break;
+      case '/favorite':
+        selectedIndex(1);
+        break;
+      case '/MyRecipes':
+        selectedIndex(2);
+        break;
+      case '/profile':
+        selectedIndex(3);
+        break;
+      default:
+        selectedIndex(null);
+        break;
+    }
+  },[])
   const handleClick = (index: number) => {
     selectedIndex(index);
+
+    switch(index){
+      case 0:
+        navigate('/Home')
+        break;
+      case 1 :
+        navigate('/Likes')
+        break;
+      case 2 :
+        navigate('/MyRecipes')
+        break;
+      case 3 :
+        navigate('/Profile')
+        break;
+    }
   };
 
   return (
@@ -121,6 +158,7 @@ export const BottomNavbar = () => {
           </g>
         </svg>
 
+        {/* PROFILE SVG */}
         <svg
           width="22px"
           height="25px"
