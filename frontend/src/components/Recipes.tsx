@@ -6,7 +6,7 @@ export const Recipes: React.FC<IRecipes> = ({ recipe }) => {
       <div className="flex flex-col justify-center">
         <img
           src={recipe.image}
-          className="food-img rounded-lg w-full h-28 sm:h-3/5 object-cover object-center"
+          className="food-img rounded-lg w-full h-28 sm:h-3/5 object-cover "
           alt=""
         />
 
