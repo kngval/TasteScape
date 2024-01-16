@@ -7,6 +7,7 @@ export default {
     extend: {
       colors: {
         customPink: "#FF6F6F",
+        customWhite: "#F8F8F8",
       },
     },
   },
