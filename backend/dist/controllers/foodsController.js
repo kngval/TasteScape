@@ -3,9 +3,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateFood = exports.createFood = exports.getFoodList = void 0;
-const foodSchema_1 = __importDefault(require("../models/foodSchema"));
+exports.updateFood = exports.createFood = exports.getFoodList = exports.getSearchList = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+const axios_1 = __importDefault(require("axios"));
+const foodSchema_1 = __importDefault(require("../models/foodSchema"));
+require("dotenv/config");
+//FOR SEARCHING RECIPES
+const getSearchList = async (req, res) => {
+    try {
+        const response = await axios_1.default.get(`
+    https://api.edamam.com/search?q=${req.params.query}&app_id=${process.env.APP_ID}&app_key=${process.env.APP_KEY}
+    `);
+        console.log(response.data);
+        res.status(200).json(response.data.hits);
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+exports.getSearchList = getSearchList;
+//FOR CREATING YOUR OWN RECIPES
 const getFoodList = async (req, res) => {
     const foodList = await foodSchema_1.default.find().sort({ createdAt: -1 });
     res.status(200).json(foodList);
