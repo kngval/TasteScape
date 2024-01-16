@@ -4,9 +4,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto+Mono&display=swap');
 
-*{
-    font-family: 'Montserrat';
-}
 
 .dropdown,.filter-container{
     background-color: #FF6F6F;
