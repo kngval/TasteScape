@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import IRecipes from "../interfaces/IRecipes";
+// import axios from "axios"
 import { MockData } from "../mock/MockData";
 interface FoodState {
   recipes: IRecipes[];
@@ -16,8 +17,11 @@ const initialState: FoodState = {
 export const fetchRecipes = createAsyncThunk(
   "recipes/fetchRecipes",
   async () => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return MockData as IRecipes[];
+    // const response = await axios.get(`http://localhost:3000/home/${query}`,{ withCredentials: true })
+
+    // console.log(response.data)
+    // const data = response.data;
+    return MockData as IRecipes[]
   }
 );
 

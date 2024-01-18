@@ -11,7 +11,7 @@ import { Recipes } from "../components/Recipes";
 import SearchForm from "../components/SearchForm";
 
 //assets
-import recipe from "../assets/svgs/recipe.svg";
+import recipeImg from "../assets/svgs/recipe.svg";
 const Home: React.FC = () => {
   const recipes = useSelector((state: RootState) => state.recipes.recipes);
 
@@ -27,7 +27,7 @@ const Home: React.FC = () => {
         <div className="w-full flex flex-col items-center">
           <SearchForm />
           <div
-            className={`recipes  text-center recipe-container  ${
+            className={`recipes w-full text-center recipe-container  ${
               recipes.length === 0 ? "flex justify-center" : "grid"
             } grid-cols-2 mb-20  md:grid-cols-3 p-5 gap-5 text-xs `}
           >
@@ -39,7 +39,7 @@ const Home: React.FC = () => {
             {!recipes ||
               (recipes.length === 0 && (
                 <div className="text-gray-400 flex flex-col">
-                  <img src={recipe} alt="" />
+                  <img src={recipeImg} alt="" />
                   <h1>Discover Recipes</h1>
                 </div>
               ))}

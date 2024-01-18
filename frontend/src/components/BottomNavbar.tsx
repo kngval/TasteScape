@@ -27,8 +27,6 @@ export const BottomNavbar = () => {
     }
   },[])
   const handleClick = (index: number) => {
-    selectedIndex(index);
-
     switch(index){
       case 0:
         navigate('/home')
@@ -54,7 +52,7 @@ export const BottomNavbar = () => {
           height="25px"
           viewBox="0 0 24 24"
           onClick={() => handleClick(0)}
-          fill={iconIndex === 0 ? "#000" : "none"}
+          fill={location.pathname == '/home' ? '#000' : 'none'}
           xmlns="http://www.w3.org/2000/svg"
           stroke="#000"
         >

@@ -3,7 +3,7 @@ import heart from "../assets/svgs/heart.svg";
 export const Recipes: React.FC<IRecipes> = ({ recipe }) => {
   return (
     <>
-      <div className="flex flex-col justify-center">
+      <div className="flex  flex-col justify-center">
         <img
           src={recipe.image}
           className="food-img rounded-lg w-full h-28 sm:h-3/5 object-cover "
