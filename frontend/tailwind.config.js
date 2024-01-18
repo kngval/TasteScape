@@ -9,6 +9,9 @@ export default {
         customPink: "#FF6F6F",
         customWhite: "#F8F8F8",
       },
+      fontSize:{
+        xxs: '0.6rem'
+      }
     },
   },
   plugins: [],
