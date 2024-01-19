@@ -9,7 +9,10 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(cors());
-app.use('/profile', foodRoutes)
+app.use(cors({
+  origin: 'http://localhost:5173', // Replace with your frontend's origin
+  credentials: true,
+}));app.use('/profile', foodRoutes)
 app.use('/Home', foodSearch)
 
 mongoose
