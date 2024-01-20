@@ -9,4 +9,5 @@ import {
 
 router.get('/:query', getSearchList);
 
+
 export default router;
