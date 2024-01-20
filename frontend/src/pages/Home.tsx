@@ -12,6 +12,8 @@ import SearchForm from "../components/SearchForm";
 
 //assets
 import recipeImg from "../assets/svgs/recipe.svg";
+
+
 const Home: React.FC = () => {
   const recipes = useSelector((state: RootState) => state.recipes.recipes);
 
@@ -33,8 +35,10 @@ const Home: React.FC = () => {
           >
             {recipes &&
               recipes.length !== 0 &&
-              recipes.map((recipe, index) => (
-                <Recipes key={index} recipe={recipe.recipe} />
+              recipes.map((recipe) => (
+                
+                <Recipes key={recipe.recipe.uri} recipe={recipe.recipe} />
+                
               ))}
             {!recipes ||
               (recipes.length === 0 && (
