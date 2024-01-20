@@ -1,6 +1,6 @@
- type Recipe = {
+interface Recipe {
         recipe : {
-            id: number,
+            uri: string,
             label : string,
             image: string,
             ingredientLines: string[]
