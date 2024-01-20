@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {  createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import IRecipes from "../interfaces/IRecipes";
 // import axios from "axios"
 import { MockData } from "../mock/MockData";
@@ -21,6 +21,8 @@ export const fetchRecipes = createAsyncThunk(
 
     // console.log(response.data)
     // const data = response.data;
+    // return data as IRecipes[];
+
     return MockData as IRecipes[]
   }
 );
