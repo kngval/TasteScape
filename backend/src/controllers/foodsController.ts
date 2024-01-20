@@ -10,12 +10,14 @@ export const getSearchList = async (req: Request, res: Response) => {
     const response = await axios.get(`
     https://api.edamam.com/search?q=${req.params.query}&app_id=${process.env.APP_ID}&app_key=${process.env.APP_KEY}
     `);
-    console.log(response.data)
-    res.status(200).json(response.data.hits);
+    const data = response.data.hits
+    console.log(data)
+    res.status(200).json(data);
   } catch (error) {
     console.log(error);
   }
 }
+
 
 //FOR CREATING YOUR OWN RECIPES
 export const getFoodList = async (req: Request, res: Response) => {
