@@ -10,7 +10,8 @@ export default {
         customWhite: "#F8F8F8",
       },
       fontSize:{
-        xxs: '0.6rem'
+        xxs: '0.6rem',
+        
       }
     },
   },
