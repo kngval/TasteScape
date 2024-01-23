@@ -6,7 +6,7 @@ export interface RecipeDetails {
   image: string,
   servings: number,
   readyInMinutes: number;
-  cuisines: string[];
+  cuisines: string[] | "N/A";
   healthScore: number,
   instructions: string,
   extendedIngredients: [
@@ -18,21 +18,11 @@ export interface RecipeDetails {
 }
 
 interface ChosenRecipe {
-  chosenRecipe: RecipeDetails;
+  chosenRecipe: RecipeDetails | null;
 }
 
 const initialState: ChosenRecipe = {
-  chosenRecipe: {
-    id: 0,
-    title: '',
-    image: '',
-    servings: 0,
-    readyInMinutes: 0,
-    cuisines:[],
-    healthScore: 0,
-    instructions:'',
-    extendedIngredients:[{original: ''}]
-  },
+  chosenRecipe: null,
 };
 export const fetchChosenRecipe = createAsyncThunk('recipe/fetchChosenRecipe', async(id:number) => {
   try{
