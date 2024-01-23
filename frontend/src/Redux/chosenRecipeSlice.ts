@@ -1,23 +1,61 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import IRecipes from "../interfaces/IRecipes";
+import {  createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from 'axios'
+export interface RecipeDetails {
+  id: number,
+  title: string,
+  image: string,
+  servings: number,
+  readyInMinutes: number;
+  cuisines: string[];
+  healthScore: number,
+  instructions: string,
+  extendedIngredients: [
+    {
+      original: string;
+    }
+  ];
+
+}
 
 interface ChosenRecipe {
-  chosenRecipe: IRecipes | null;
+  chosenRecipe: RecipeDetails;
 }
 
 const initialState: ChosenRecipe = {
-  chosenRecipe: null,
+  chosenRecipe: {
+    id: 0,
+    title: '',
+    image: '',
+    servings: 0,
+    readyInMinutes: 0,
+    cuisines:[],
+    healthScore: 0,
+    instructions:'',
+    extendedIngredients:[{original: ''}]
+  },
 };
+export const fetchChosenRecipe = createAsyncThunk('recipe/fetchChosenRecipe', async(id:number) => {
+  try{
+    const response  = await axios.get(`http://localhost:3000/home/recipe/${id}`,{withCredentials:true})
+    console.log(response.data)
+    const data = response.data;
+    return data  as RecipeDetails;
+  } catch (error){
+    console.log(error)
+  }
+})
+
 
 const chosenRecipeSlice = createSlice({
   name: "chosenRecipe",
   initialState,
-  reducers: {
-    setChosenRecipe: (state, action: PayloadAction<IRecipes | null>) => {
-      state.chosenRecipe = action.payload;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchChosenRecipe.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.chosenRecipe = action.payload;
+      }
+    });
   },
 });
-
-export const { setChosenRecipe } = chosenRecipeSlice.actions;
 export default chosenRecipeSlice.reducer;

@@ -35,9 +35,9 @@ const Home: React.FC = () => {
           >
             {recipes &&
               recipes.length !== 0 &&
-              recipes.map((recipe) => (
+              recipes.map((recipe,) => (
                 
-                <Recipes key={recipe.recipe.uri} recipe={recipe.recipe} />
+                <Recipes key={recipe.id} id={recipe.id}  image={recipe.image} title={recipe.title} />
                 
               ))}
             {!recipes ||

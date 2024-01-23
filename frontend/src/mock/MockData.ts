@@ -25,7 +25,7 @@ export const MockData: IRecipes[] = [
       totalTime: 80,
       image:
         "https://staticcookist.akamaized.net/wp-content/uploads/sites/22/2021/09/Chicken-Cordon-Bleu-Roll-Ups-1200x675.jpeg",
-      ingredientLines: ["Pagmamahal", "Aruga", "Kiss", "Cuddle"],
+      ingredientLines: ["ingredient1", "ingredient2", "ingredient3", "ingredient4"],
     },
   },
 
@@ -53,7 +53,7 @@ export const MockData: IRecipes[] = [
       totalTime: 60,
       image:
         "https://walkingthroughlavenderfields.com/wp-content/uploads/2022/09/aglio-e-olio-e-peperoncino-01.jpeg",
-      ingredientLines: ["Soy Sauce", "Vinegar", "Chicken", "Basil Leaves"],
+      ingredientLines: ["Pasta 1", "Pasta 2", "Pasta 3", "Pasta 4"],
     },
   },
 ];
