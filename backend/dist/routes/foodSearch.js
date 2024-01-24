@@ -7,5 +7,6 @@ const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const foodsController_1 = require("../controllers/foodsController");
 router.get('/:query', foodsController_1.getSearchList);
+router.get('/recipe/:id', foodsController_1.getRecipeDetails);
 exports.default = router;
 //# sourceMappingURL=foodSearch.js.map

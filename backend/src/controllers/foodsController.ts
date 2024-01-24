@@ -2,19 +2,29 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 import axios from "axios";
 import FoodModel, { Food } from "../models/foodSchema";
+
 import "dotenv/config";
 
 //FOR SEARCHING RECIPES
 export const getSearchList = async (req: Request, res: Response) => {
   try {
-    const response = await axios.get(`
-    https://api.edamam.com/search?q=${req.params.query}&app_id=${process.env.APP_ID}&app_key=${process.env.APP_KEY}
-    `);
-    const data = response.data.hits
+    const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.params.query}`)
+    const data = response.data.results
     console.log(data)
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
+  }
+}
+
+export const getRecipeDetails = async(req: Request, res: Response) => {
+  const  { id } = req.params
+  try {
+    const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.API_KEY}&includeNutrition=false`)
+    const data = response.data;
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error)
   }
 }
 

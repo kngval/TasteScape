@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateFood = exports.createFood = exports.getFoodList = exports.getSearchList = void 0;
+exports.updateFood = exports.createFood = exports.getFoodList = exports.getRecipeDetails = exports.getSearchList = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const axios_1 = __importDefault(require("axios"));
 const foodSchema_1 = __importDefault(require("../models/foodSchema"));
@@ -11,17 +11,28 @@ require("dotenv/config");
 //FOR SEARCHING RECIPES
 const getSearchList = async (req, res) => {
     try {
-        const response = await axios_1.default.get(`
-    https://api.edamam.com/search?q=${req.params.query}&app_id=${process.env.APP_ID}&app_key=${process.env.APP_KEY}
-    `);
-        console.log(response.data);
-        res.status(200).json(response.data.hits);
+        const response = await axios_1.default.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.params.query}`);
+        const data = response.data.results;
+        console.log(data);
+        res.status(200).json(data);
     }
     catch (error) {
         console.log(error);
     }
 };
 exports.getSearchList = getSearchList;
+const getRecipeDetails = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const response = await axios_1.default.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.API_KEY}&includeNutrition=false`);
+        const data = response.data;
+        res.status(200).json(data);
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+exports.getRecipeDetails = getRecipeDetails;
 //FOR CREATING YOUR OWN RECIPES
 const getFoodList = async (req, res) => {
     const foodList = await foodSchema_1.default.find().sort({ createdAt: -1 });
