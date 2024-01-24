@@ -1,21 +1,13 @@
 import IRecipes from "../interfaces/IRecipes";
 import heart from "../assets/svgs/heart.svg";
 import { Link } from "react-router-dom";
-import { AppDispatch } from "../Redux/store";
-import { useDispatch  } from "react-redux";
-import { fetchChosenRecipe } from "../Redux/chosenRecipeSlice";
+
 
 export const Recipes: React.FC<IRecipes> = ({ image , title, id }) => {
-    const dispatch = useDispatch<AppDispatch>()
-
-  const handleClick =(recipeID:number)=>{
-
-      dispatch(fetchChosenRecipe(recipeID)) 
-     
-  }
+  
   return (
     <>
-        <Link to={`/recipe/${id}`} onClick={() => handleClick(id)}>
+        <Link to={`/recipe/${id}`}>
        <div className="" >
         <img
           src={image}
