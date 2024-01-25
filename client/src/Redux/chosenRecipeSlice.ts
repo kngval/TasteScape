@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { FoodMock } from '../mock/foodMockData'
-// import axios from "axios";
+// import { FoodMock } from '../mock/foodMockData'
+import axios from "axios";
 export interface RecipeDetails {
   id: number;
   title: string;
@@ -11,16 +11,20 @@ export interface RecipeDetails {
   healthScore: number;
   analyzedInstructions:{
     steps:{
+      number:number;
       step:string
+    }[]
+  };
+  nutrition: {
+    nutrients: {
+      name: string,
+      amount: number
     }[]
   }
   extendedIngredients:{
       original: string;
     }[];
 }
-
-
-
 interface ChosenRecipe {
   chosenRecipe: RecipeDetails | null;
   loading: boolean;
@@ -28,22 +32,22 @@ interface ChosenRecipe {
 }
 
 const initialState: ChosenRecipe = {
-  chosenRecipe: FoodMock,
+  chosenRecipe: null,
   loading: true,
   error: null,
 };
 export const fetchChosenRecipe = createAsyncThunk(
   "recipe/fetchChosenRecipe",
-  async () => {
+  async (id:string) => {
     try {
-      // const response = await axios.get(`http://localhost:3000/home/recipe/${id}`, {
-      //   withCredentials: true,
-      // });
-      // console.log(response.data);
-      // const data = response.data;
-      // return data as RecipeDetails;
+      const response = await axios.get(`http://localhost:3000/home/recipe/${id}`, {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      const data = response.data;
+      return data as RecipeDetails;
       
-      return FoodMock as RecipeDetails
+      // return FoodMock as RecipeDetails
     } catch (error) {
       console.log(error);
     }
@@ -67,6 +71,7 @@ const chosenRecipeSlice = createSlice({
       .addCase(fetchChosenRecipe.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Error fetching recipe details";
+        console.error("Error fetching recipe details:", action.error)
       });
   },
 });

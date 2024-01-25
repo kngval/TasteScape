@@ -45,7 +45,7 @@ export const BottomNavbar = () => {
 
   return (
     <>
-      <div className="bot-nav flex justify-around items-center fixed w-full h-16 rounded-t-3xl p-4 bg-customPink bottom-0 sm:hidden">
+      <div className="bot-nav lg:hidden flex justify-around items-center fixed w-full h-16 rounded-t-3xl p-4 bg-customPink bottom-0 ">
         {/* HOME SVG */}
         <svg
           width="20px"

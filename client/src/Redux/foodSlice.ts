@@ -19,7 +19,7 @@ const initialState: FoodState = {
 export const fetchRecipes = createAsyncThunk(
   "recipes/fetchRecipes",
   async (query:string) => {
-    const response = await axios.get(`http://localhost:3000/home/${query}`,{ withCredentials: true })
+    const response = await axios.get(`http://localhost:3000/home/${query}`)
 
     console.log(response.data)
     const data = response.data;

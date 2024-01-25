@@ -20,7 +20,7 @@ export const getSearchList = async (req: Request, res: Response) => {
 export const getRecipeDetails = async(req: Request, res: Response) => {
   const  { id } = req.params
   try {
-    const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.API_KEY}&includeNutrition=false`)
+    const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.API_KEY}&includeNutrition=true`)
     const data = response.data;
     res.status(200).json(data);
   } catch (error) {
