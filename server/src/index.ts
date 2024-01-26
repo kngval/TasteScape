@@ -8,10 +8,9 @@ const app = express();
 
 //middleware
 app.use(express.json());
-app.use(cors());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Replace with your frontend's origin
+    origin: "http://192.168.1.15:5173", // Replace with your frontend's origin
     credentials: true,
   })
 );
