@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchChosenRecipe } from "../Redux/chosenRecipeSlice";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
 //Components
 import Navbar from "../components/Navbar";
 import { BottomNavbar } from "../components/BottomNavbar";
@@ -13,7 +12,7 @@ import { BottomNavbar } from "../components/BottomNavbar";
 import stopwatch from "../assets/svgs/Recipe Details/stopwatch.svg";
 import serving from "../assets/svgs/Recipe Details/serving.svg";
 import location from "../assets/svgs/Recipe Details/location.svg";
-import calories from "../assets/svgs/Recipe Details/calories.svg";
+import health from "../assets/svgs/Recipe Details/health.svg"
 
 const RecipeDetails: React.FC = () => {
   const [tab, setTab] = useState<string>("ingredients");
@@ -22,6 +21,7 @@ const RecipeDetails: React.FC = () => {
   const chosenRecipe = useSelector(
     (state: RootState) => state.chosenRecipe.chosenRecipe
   );
+  const sanitizedHTML =chosenRecipe?.summary
   const { loading, error } = useSelector(
     (state: RootState) => state.chosenRecipe
   );
@@ -32,7 +32,7 @@ const RecipeDetails: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchChosenRecipe(id));
+      dispatch(fetchChosenRecipe());
     }
   }, [dispatch, id]);
 
@@ -45,29 +45,36 @@ const RecipeDetails: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="xl:flex items-center justify-center h-screen w-full xl:px-5">
-        <div className="RecipeContainer xl:flex mb-20">
+      <div className="">
+        <div className="hidden w-full xl:flex flex-col items-center mb-5">
+        <div className="xl:w-[1200px] 2xl:w-[1500px] mt-10">
+          <h1 className="headline  text-[3rem]">{chosenRecipe?.title}</h1>
+        <div className="" dangerouslySetInnerHTML={{ __html: sanitizedHTML || ''}}>
+        </div>
+        </div>
+        </div>
+        <div className="RecipeContainer  xl:flex  justify-center  mb-20 xl:mb-32">
           {/* RECIPE IMAGE AND RECIPE DETAILS BAR */}
-          <div className="relative mb-20 xl:max-w-2xl xl:mr-10">
+          <div className="relative mb-20  xl:mb-0 xl:h-[700px]  xl:w-[700px] 2xl:w-[800px] xl:mr-5">
             
             <img
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover "
               src={chosenRecipe?.image}
               alt=""
             />
-            <div className="gradient flex justify-center bg-gradient-to-b from-transparent to-black  absolute top-0 w-full h-full z-10">
-              <h1 className="z-50 absolute  text-white bottom-20 font-bold">
+            <div className="gradient  flex justify-center bg-gradient-to-b from-transparent to-black  absolute top-0 w-full h-full z-10">
+              <h1 className="z-50 absolute 2xl:text-2xl  text-white bottom-20 font-bold">
                 {chosenRecipe?.title}
               </h1>
              
-              <div className="detailsBar w-5/6 flex justify-evenly gap-x-5 absolute mx-8  bg-white -bottom-10 shadow-xl rounded-lg  p-4 ">
+              <div className="detailsBar text-xxs 2xl:text-lg w-5/6 flex justify-evenly gap-x-5 absolute mx-8  bg-white -bottom-10 shadow-xl rounded-lg  p-4 ">
                 <div className="flex flex-col items-center">
                   <img
                     src={stopwatch}
                     className="w-8 h-8 object-contain"
                     alt=""
                   />
-                  <p className="text-xxs">
+                  <p className="">
                     {chosenRecipe?.readyInMinutes} mins
                   </p>
                 </div>
@@ -78,7 +85,7 @@ const RecipeDetails: React.FC = () => {
                     className="w-10 h-8 object-contain"
                     alt=""
                   />
-                  <p className="text-xxs">{chosenRecipe?.servings} servings</p>
+                  <p className="">{chosenRecipe?.servings} servings</p>
                 </div>
 
                 <div className="flex flex-col items-center ">
@@ -87,18 +94,18 @@ const RecipeDetails: React.FC = () => {
                     className="w-8 h-8 object-contain"
                     alt=""
                   />
-                  <p className="text-xxs text-nowrap">
+                  <p className=" text-nowrap">
                     {chosenRecipe?.cuisines[0]}
                   </p>
                 </div>
 
                 <div className="flex flex-col items-center">
                   <img
-                    src={calories}
+                    src={health}
                     className="w-8 h-8 object-contain"
                     alt=""
                   />
-                  <p className="text-xxs">
+                  <p className="">
                     {chosenRecipe?.healthScore !== undefined
                       ? Math.floor(chosenRecipe?.healthScore)
                       : "N/A"}{" "}
@@ -111,13 +118,13 @@ const RecipeDetails: React.FC = () => {
           </div>
 
           {/* INGREDIENTS, INSTRUCTIONS, AND NUTRIENTS */}
-          <div className="display lg:text-lg">
+          <div className="display lg:text-lg 2xl:w-[700px] xl:w-[500px] sm:px-2 lg:px-10  ">
             <div className="flex justify-center w-full">
-              <div className="btnContainer w-full text-xxs grid grid-cols-3 gap-5 xl:gap-0 xl:justify-center  md:text-sm  px-10 xl:px-0 mb-10">
+              <div className="btnContainer w-full text-xxs grid grid-cols-3 gap-5 lg:gap-0 xl:justify-center  md:text-sm  px-10 xl:px-0 mb-10">
                 <button
                   className={`${
                     tab === "ingredients" ? "bg-customPink" : "bg-gray-200"
-                  } rounded-full xl:rounded-none text-center  px-3 py-2`}
+                  } rounded-full lg:rounded-none text-center  px-3 py-2`}
                   onClick={() => handleClick("ingredients")}
                 >
                   Ingredients
@@ -125,7 +132,7 @@ const RecipeDetails: React.FC = () => {
                 <button
                   className={`${
                     tab === "instructions" ? "bg-customPink" : "bg-gray-200"
-                  } rounded-full xl:rounded-none  px-3 py-2`}
+                  } rounded-full lg:rounded-none  px-3 py-2`}
                   onClick={() => handleClick("instructions")}
                 >
                   Instructions
@@ -133,14 +140,14 @@ const RecipeDetails: React.FC = () => {
                 <button
                   className={`${
                     tab === "nutrients" ? "bg-customPink" : "bg-gray-200"
-                  } rounded-full xl:rounded-none  px-3 py-2`}
+                  } rounded-full lg:rounded-none  px-3 py-2`}
                   onClick={() => handleClick("nutrients")}
                 >
                   Nutrients
                 </button>
               </div>
             </div>
-            <div className="xl:max-w-3xl">
+            <div className="">
               {/* INGREDIENTS */}
               <ul
                 className={`${
@@ -148,13 +155,13 @@ const RecipeDetails: React.FC = () => {
                 }  px-8 py-5`}
               >
                 <div className="text-center mb-10 xl:text-md">
-                  <p className="text-xs xl:text-lg">INGREDIENTS FOR MAKING</p>
-                  <h1 className="font-bold xl:text-3xl xl:font-extrabold">
+                  <p className="text-xs sm:text-lg">INGREDIENTS FOR MAKING</p>
+                  <h1 className="font-bold sm:text-3xl xl:font-extrabold">
                     {chosenRecipe?.title}
                   </h1>
                 </div>
 
-                <div className="flex justify-center">
+                <div className="flex justify-center xl:h-[500px]">
                   <div>
                     {chosenRecipe?.extendedIngredients &&
                       chosenRecipe?.extendedIngredients.map((ingredient) => (
@@ -169,7 +176,7 @@ const RecipeDetails: React.FC = () => {
               <div
                 className={`${
                   tab === "instructions" ? "block" : "hidden"
-                } list-none px-8`}
+                } list-none px-8 `}
               >
                 <div className="text-center mb-10">
                   <p className="text-xs xl:text-lg">INSTRUCTIONS FOR MAKING</p>
@@ -177,17 +184,19 @@ const RecipeDetails: React.FC = () => {
                     {chosenRecipe?.title}
                   </h1>
                 </div>
+                <div className="xl:h-[500px] overflow-y-auto">
                 {chosenRecipe?.analyzedInstructions.steps &&
                   chosenRecipe?.analyzedInstructions.steps.map(
                     (steps, index) => (
                       <div>
-                        <h5 className="font-bold">Step {steps.number}</h5>
+                        <h5 className="font-bold 2xl:text-2xl">Step {steps.number}</h5>
                         <li key={index} className="mb-3">
                           {steps.step}
                         </li>
                       </div>
                     )
                   )}
+                  </div>
               </div>
               {/* INSTRUCTIONS ENDS HERE*/}
             </div>
