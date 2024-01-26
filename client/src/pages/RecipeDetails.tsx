@@ -9,10 +9,10 @@ import Navbar from "../components/Navbar";
 import { BottomNavbar } from "../components/BottomNavbar";
 
 //assets
-import stopwatch from "../assets/svgs/Recipe Details/stopwatch.svg";
-import serving from "../assets/svgs/Recipe Details/serving.svg";
-import location from "../assets/svgs/Recipe Details/location.svg";
-import health from "../assets/svgs/Recipe Details/health.svg"
+import stopwatch from "../assets/svgs/RecipeDetails/stopwatch.svg";
+import serving from "../assets/svgs/RecipeDetails/serving.svg";
+import location from "../assets/svgs/RecipeDetails/location.svg";
+import health from "../assets/svgs/RecipeDetails/health.svg"
 
 const RecipeDetails: React.FC = () => {
   const [tab, setTab] = useState<string>("ingredients");
