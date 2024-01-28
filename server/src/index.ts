@@ -3,7 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import foodRoutes from "./routes/foodRoutes";
 import foodSearch from "./routes/foodSearch";
-require("dotenv").config();
+import "dotenv/config" 
 const app = express();
 
 //middleware
