@@ -13,7 +13,7 @@ const SearchForm = () => {
 
   useEffect(() => {
     if (query) {
-      dispatch(fetchRecipes(query));
+      dispatch(fetchRecipes());
     }
   }, [query]);
 
