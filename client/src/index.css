@@ -1,26 +1,29 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Montserrat&family=Poppins&family=Roboto:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Montserrat&family=Poppins&family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
 
-*{
-    font-family:'Poppins';
+* {
+  font-family: "Poppins";
 }
 
-.headline{
-    font-family: 'Anton', sans-serif;
+
+
+
+
+.headline {
+  font-family: "Anton", sans-serif;
 }
 
-.dropdown{
-    background-color: #FF6F6F;
+.dropdown {
+  background-color: #ff6f6f;
 }
 
-@media (min-width: 800px){
-
-    .img-container{
-        height: 30rem;
-    }
+@media (min-width: 800px) {
+  .img-container {
+    height: 30rem;
+  }
 }
