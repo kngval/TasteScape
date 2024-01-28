@@ -47,7 +47,7 @@ const RecipeDetails: React.FC = () => {
       <Navbar />
       <div className="">
         <div className="hidden w-full xl:flex flex-col items-center mb-5">
-          <div className="xl:w-[1250px] 2xl:w-[1550px] mt-10 recipe-container p-5">
+          <div className="xl:w-[1150px] 2xl:w-[1450px] mt-10 recipe-container p-5">
             <h1 className="headline  text-[3rem]">{chosenRecipe?.title}</h1>
             <div
               className=""
@@ -57,13 +57,13 @@ const RecipeDetails: React.FC = () => {
         </div>
         <div className="RecipeContainer  xl:flex  justify-center  mb-20 xl:mb-32">
           {/* RECIPE IMAGE AND RECIPE DETAILS BAR */}
-          <div className="img-wrapper relative xl:sticky xl:top-28  mb-20  xl:mb-0 xl:h-[600px]  xl:w-[700px] 2xl:w-[800px] xl:mr-5">
+          <div className="img-wrapper relative xl:sticky xl:top-32  mb-20  xl:mb-0 xl:h-[400px] 2xl:h-[500px] xl:w-[500px] 2xl:w-[700px] xl:mr-5 xl:rounded-xl">
             <img
-              className="w-full h-full object-cover "
+              className="w-full h-full object-cover xl:rounded-xl"
               src={chosenRecipe?.image}
               alt=""
             />
-            <div className="gradient  flex justify-center bg-gradient-to-b from-transparent to-black  absolute top-0 w-full h-full z-10">
+            <div className="gradient xl:rounded-xl flex justify-center bg-gradient-to-b from-transparent to-black  absolute top-0 w-full h-full z-10">
               <h1 className="z-50 absolute 2xl:text-2xl  text-white bottom-20 font-bold">
                 {chosenRecipe?.title}
               </h1>
@@ -110,7 +110,7 @@ const RecipeDetails: React.FC = () => {
           </div>
 
           {/* INGREDIENTS, INSTRUCTIONS, AND NUTRIENTS */}
-          <div className="display lg:text-lg 2xl:w-[700px] xl:w-[500px] sm:px-2 lg:px-10 py-5 recipe-container">
+          <div className="display lg:text-lg 2xl:w-[700px] xl:w-[600px] sm:px-2 lg:px-10 py-5 recipe-container">
             <div className="flex justify-center w-full">
               <div className="btnContainer w-full text-xxs grid grid-cols-3 gap-5 lg:gap-0 xl:justify-center  md:text-sm  px-10 xl:px-0 mb-10">
                 <button
