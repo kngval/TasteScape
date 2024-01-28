@@ -12,7 +12,7 @@ import { BottomNavbar } from "../components/BottomNavbar";
 import stopwatch from "../assets/svgs/RecipeDetails/stopwatch.svg";
 import serving from "../assets/svgs/RecipeDetails/serving.svg";
 import location from "../assets/svgs/RecipeDetails/location.svg";
-import health from "../assets/svgs/RecipeDetails/health.svg"
+import health from "../assets/svgs/RecipeDetails/health.svg";
 
 const RecipeDetails: React.FC = () => {
   const [tab, setTab] = useState<string>("ingredients");
@@ -21,7 +21,7 @@ const RecipeDetails: React.FC = () => {
   const chosenRecipe = useSelector(
     (state: RootState) => state.chosenRecipe.chosenRecipe
   );
-  const sanitizedHTML =chosenRecipe?.summary
+  const sanitizedHTML = chosenRecipe?.summary;
   const { loading, error } = useSelector(
     (state: RootState) => state.chosenRecipe
   );
@@ -47,16 +47,17 @@ const RecipeDetails: React.FC = () => {
       <Navbar />
       <div className="">
         <div className="hidden w-full xl:flex flex-col items-center mb-5">
-        <div className="xl:w-[1200px] 2xl:w-[1500px] mt-10">
-          <h1 className="headline  text-[3rem]">{chosenRecipe?.title}</h1>
-        <div className="" dangerouslySetInnerHTML={{ __html: sanitizedHTML || ''}}>
-        </div>
-        </div>
+          <div className="xl:w-[1250px] 2xl:w-[1550px] mt-10 recipe-container p-5">
+            <h1 className="headline  text-[3rem]">{chosenRecipe?.title}</h1>
+            <div
+              className=""
+              dangerouslySetInnerHTML={{ __html: sanitizedHTML || "" }}
+            ></div>
+          </div>
         </div>
         <div className="RecipeContainer  xl:flex  justify-center  mb-20 xl:mb-32">
           {/* RECIPE IMAGE AND RECIPE DETAILS BAR */}
-          <div className="relative mb-20  xl:mb-0 xl:h-[700px]  xl:w-[700px] 2xl:w-[800px] xl:mr-5">
-            
+          <div className="img-wrapper relative xl:sticky xl:top-28  mb-20  xl:mb-0 xl:h-[600px]  xl:w-[700px] 2xl:w-[800px] xl:mr-5">
             <img
               className="w-full h-full object-cover "
               src={chosenRecipe?.image}
@@ -66,7 +67,7 @@ const RecipeDetails: React.FC = () => {
               <h1 className="z-50 absolute 2xl:text-2xl  text-white bottom-20 font-bold">
                 {chosenRecipe?.title}
               </h1>
-             
+
               <div className="detailsBar text-xxs 2xl:text-lg w-5/6 flex justify-evenly gap-x-5 absolute mx-8  bg-white -bottom-10 shadow-xl rounded-lg  p-4 ">
                 <div className="flex flex-col items-center">
                   <img
@@ -74,12 +75,10 @@ const RecipeDetails: React.FC = () => {
                     className="w-8 h-8 object-contain"
                     alt=""
                   />
-                  <p className="">
-                    {chosenRecipe?.readyInMinutes} mins
-                  </p>
+                  <p className="">{chosenRecipe?.readyInMinutes} mins</p>
                 </div>
 
-                <div className="flex flex-col items-center">
+                <div className="flex  flex-col items-center">
                   <img
                     src={serving}
                     className="w-10 h-8 object-contain"
@@ -94,17 +93,11 @@ const RecipeDetails: React.FC = () => {
                     className="w-8 h-8 object-contain"
                     alt=""
                   />
-                  <p className=" text-nowrap">
-                    {chosenRecipe?.cuisines[0]}
-                  </p>
+                  <p className=" text-nowrap">{chosenRecipe?.cuisines[0]}</p>
                 </div>
 
                 <div className="flex flex-col items-center">
-                  <img
-                    src={health}
-                    className="w-8 h-8 object-contain"
-                    alt=""
-                  />
+                  <img src={health} className="w-8 h-8 object-contain" alt="" />
                   <p className="">
                     {chosenRecipe?.healthScore !== undefined
                       ? Math.floor(chosenRecipe?.healthScore)
@@ -114,11 +107,10 @@ const RecipeDetails: React.FC = () => {
                 </div>
               </div>
             </div>
-            
           </div>
 
           {/* INGREDIENTS, INSTRUCTIONS, AND NUTRIENTS */}
-          <div className="display lg:text-lg 2xl:w-[700px] xl:w-[500px] sm:px-2 lg:px-10  ">
+          <div className="display lg:text-lg 2xl:w-[700px] xl:w-[500px] sm:px-2 lg:px-10 py-5 recipe-container">
             <div className="flex justify-center w-full">
               <div className="btnContainer w-full text-xxs grid grid-cols-3 gap-5 lg:gap-0 xl:justify-center  md:text-sm  px-10 xl:px-0 mb-10">
                 <button
@@ -147,59 +139,42 @@ const RecipeDetails: React.FC = () => {
                 </button>
               </div>
             </div>
-            <div className="">
-              {/* INGREDIENTS */}
-              <ul
-                className={`${
-                  tab === "ingredients" ? "block" : "hidden"
-                }  px-8 py-5`}
-              >
-                <div className="text-center mb-10 xl:text-md">
-                  <p className="text-xs sm:text-lg">INGREDIENTS FOR MAKING</p>
-                  <h1 className="font-bold sm:text-3xl xl:font-extrabold">
-                    {chosenRecipe?.title}
-                  </h1>
-                </div>
 
-                <div className="flex justify-center xl:h-[500px]">
-                  <div>
-                    {chosenRecipe?.extendedIngredients &&
-                      chosenRecipe?.extendedIngredients.map((ingredient) => (
-                        <li className="list-disc md:text-xl">{ingredient.original}</li>
-                      ))}
-                  </div>
-                </div>
-              </ul>
-              {/* INGREDIENTS ENDS HERE */}
-
-              {/* INSTRUCTIONS */}
+           
+             {/* INGREDIENTS,INSTRUCTIONS & NUTRIENTS DETAILS*/}
               <div
-                className={`${
-                  tab === "instructions" ? "block" : "hidden"
-                } list-none px-8 `}
+                className='infoDeta p-4 lg:px-0'
               >
                 <div className="text-center mb-10">
-                  <p className="text-xs xl:text-lg">INSTRUCTIONS FOR MAKING</p>
+                  <p className="text-xs xl:text-lg uppercase">{tab} FOR MAKING</p>
                   <h1 className="font-bold xl:text-3xl xl:font-extrabold">
                     {chosenRecipe?.title}
                   </h1>
                 </div>
-                <div className="xl:h-[500px] overflow-y-auto">
-                {chosenRecipe?.analyzedInstructions.steps &&
-                  chosenRecipe?.analyzedInstructions.steps.map(
-                    (steps, index) => (
-                      <div>
-                        <h5 className="font-bold 2xl:text-2xl">Step {steps.number}</h5>
-                        <li key={index} className="mb-3">
-                          {steps.step}
-                        </li>
-                      </div>
-                    )
-                  )}
-                  </div>
+                <div className="tab-details-container grid grid-cols-1 gap-5 list-none">
+                  
+                  {tab === 'ingredients' && chosenRecipe?.extendedIngredients && chosenRecipe?.extendedIngredients.map((ingredient,index) => (
+                    <li key={index} className="text-center shadow-lg py-4 border-l-8 border-customPink">{ingredient.original}</li>
+                  ))}
+
+                  {tab === 'instructions' && chosenRecipe?.analyzedInstructions.steps &&
+                    chosenRecipe?.analyzedInstructions.steps.map(
+                      (steps, index) => (
+                        <div className="border-l-8  border-customPink p-4  shadow-lg">
+                          <h5 className="font-bold 2xl:text-2xl">
+                            Step {steps.number}
+                          </h5>
+                          <li key={index} className="mb-3">
+                            {steps.step}
+                          </li>
+                        </div>
+                      )
+                    )}
+                    
+                </div>
               </div>
-              {/* INSTRUCTIONS ENDS HERE*/}
-            </div>
+              
+         
           </div>
         </div>
       </div>
