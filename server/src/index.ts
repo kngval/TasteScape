@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import foodRoutes from "./routes/foodRoutes";
 import foodSearch from "./routes/foodSearch";
+import likedRoutes from "./routes/likedRoutes"
 import "dotenv/config" 
 const app = express();
 
@@ -16,7 +17,7 @@ app.use(
 );
 app.use("/profile", foodRoutes);
 app.use("/Home", foodSearch);
-
+app.use("/liked-recipes",likedRoutes)
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() =>

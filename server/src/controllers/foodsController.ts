@@ -31,17 +31,30 @@ export const getRecipeDetails = async(req: Request, res: Response) => {
 
 //LIKING RECIPES
 export const addLikedRecipe = async(req:Request,res:Response) => {
-    const { LikedRecipe } = req.body
-
+    const { id,title,image }:{id:string,title:string, image:string} = req.body
+    console.log('Received Data:', { id, title, image });
     try{ 
       const LikedRecipes = await LikedModel.create({
-        LikedRecipe
+        id,
+        title,
+        image
       })
       res.status(200).json(LikedRecipes)
     } catch(error) {
       res.status(400).json({error: error.message})
     }
 }
+
+//FETCH LIKED RECIPES
+
+  export const fetchLikedRecipe = async(req:Request,res:Response) => {
+    try{
+      const LikedRecipes  = await LikedModel.find().sort({ createdAt: -1 })
+      res.status(200).json(LikedRecipes)
+    }catch(error){
+
+    }
+  }
 
 //FOR CREATING YOUR OWN RECIPES
 export const getFoodList = async (req: Request, res: Response) => {
