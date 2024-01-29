@@ -20,7 +20,7 @@ app.use("/Home", foodSearch);
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() =>
-    app.listen(process.env.PORT, () => console.log("Server listening..."))
+    app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}...`))
   )
   .catch((error: Error) => console.log(error));
 

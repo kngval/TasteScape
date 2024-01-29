@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 import axios from "axios";
 import FoodModel, { Food } from "../models/foodSchema";
-
+import LikedModel from "../models/LikedSchema";
 import "dotenv/config";
 
 //FOR SEARCHING RECIPES
@@ -17,6 +17,7 @@ export const getSearchList = async (req: Request, res: Response) => {
   }
 }
 
+// CONTROLLER FOR CLICKING A SPECIFIC RECIPE
 export const getRecipeDetails = async(req: Request, res: Response) => {
   const  { id } = req.params
   try {
@@ -28,6 +29,19 @@ export const getRecipeDetails = async(req: Request, res: Response) => {
   }
 }
 
+//LIKING RECIPES
+export const addLikedRecipe = async(req:Request,res:Response) => {
+    const { LikedRecipe } = req.body
+
+    try{ 
+      const LikedRecipes = await LikedModel.create({
+        LikedRecipe
+      })
+      res.status(200).json(LikedRecipes)
+    } catch(error) {
+      res.status(400).json({error: error.message})
+    }
+}
 
 //FOR CREATING YOUR OWN RECIPES
 export const getFoodList = async (req: Request, res: Response) => {
