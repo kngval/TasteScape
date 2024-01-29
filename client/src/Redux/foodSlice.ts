@@ -24,7 +24,8 @@ export const fetchRecipes = createAsyncThunk(
     // console.log(response.data)
     // const data = response.data;
     // return data as IRecipes[];
-
+  
+    console.log(searchMock)
     return searchMock as IRecipes[]
   }
 );
