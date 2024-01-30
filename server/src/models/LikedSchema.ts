@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const LikedSchema = new mongoose.Schema({
         id: Number,
         title: String,
+        image:String,
         liked: Boolean
 })
 

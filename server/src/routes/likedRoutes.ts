@@ -1,9 +1,9 @@
 import express from "express";
 
-import { fetchLikedRecipe } from '../controllers/foodsController'
+import { fetchLikedRecipe, removeLikedRecipe } from '../controllers/foodsController'
 
 const router = express.Router();
 
-router.get('/',fetchLikedRecipe)
-
+router.get('/', fetchLikedRecipe)
+router.delete('/liked-recipes/:id', removeLikedRecipe)
 export default router;

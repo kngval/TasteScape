@@ -45,6 +45,16 @@ export const addLikedRecipe = async(req:Request,res:Response) => {
     }
 }
 
+export const removeLikedRecipe = async(req:Request, res:Response) => {
+  const { id } = req.body;
+  try{
+    const removedRecipe = await LikedModel.deleteOne({ id });
+    res.status(200).json(removedRecipe)
+  }catch(error){
+    res.status(400).json({ error: error.message })
+  }
+}
+
 //FETCH LIKED RECIPES
 
   export const fetchLikedRecipe = async(req:Request,res:Response) => {
