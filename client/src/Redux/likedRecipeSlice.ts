@@ -14,10 +14,10 @@ const initialState:LikedRecipes = {
     error: null
 }
 
-export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title}:IRecipes,thunkAPI) => {
+export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title}:{id:number, image:string, title:string},thunkAPI) => {
     try{
         const response  = await axios.post("http://localhost:3000/home",{id,image,title});
-        console.log(response);
+        console.log(response.data);
         
         return response
     }catch(error){
@@ -39,6 +39,15 @@ export const fetchLikedRecipes = createAsyncThunk('recipe/fetchLikedRecipe',asyn
     }
 })
 
+export const deleteLikedRecipe = createAsyncThunk('recipe/deleteLikedRecipe', async(id:number) => {
+    try{
+        const response = await axios.delete(`http://localhost:3000/liked-recipes/${id}`)
+        console.log(response.data)
+
+    }catch(error){
+
+    }
+})
 const LikedRecipeSlice = createSlice({
     name: "likedRecipes",
     initialState,
