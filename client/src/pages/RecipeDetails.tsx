@@ -12,7 +12,7 @@ import { BottomNavbar } from "../components/BottomNavbar";
 import stopwatch from "../assets/svgs/RecipeDetails/stopwatch.svg";
 import serving from "../assets/svgs/RecipeDetails/serving.svg";
 import location from "../assets/svgs/RecipeDetails/location.svg";
-import health from "../assets/svgs/RecipeDetails/health.svg";
+// import health from "../assets/svgs/RecipeDetails/health.svg";
 
 const RecipeDetails: React.FC = () => {
   const [tab, setTab] = useState<string>("ingredients");
@@ -46,18 +46,10 @@ const RecipeDetails: React.FC = () => {
     <>
       <Navbar />
       <div className="">
-        <div className="hidden w-full xl:flex flex-col items-center mb-5">
-          <div className="xl:w-[1150px] 2xl:w-[1450px] mt-10 recipe-container p-5">
-            <h1 className="headline  text-[3rem]">{chosenRecipe?.title}</h1>
-            <div
-              className=""
-              dangerouslySetInnerHTML={{ __html: sanitizedHTML || "" }}
-            ></div>
-          </div>
-        </div>
-        <div className="RecipeContainer  xl:flex  justify-center  mb-20 xl:mb-32">
+        
+        <div className="RecipeContainer  xl:flex  justify-center  mb-20 xl:mb-0">
           {/* RECIPE IMAGE AND RECIPE DETAILS BAR */}
-          <div className="img-wrapper relative xl:sticky xl:top-32  mb-20  xl:mb-0 xl:h-[400px] 2xl:h-[500px] xl:w-[500px] 2xl:w-[700px] xl:mr-5 xl:rounded-xl">
+          <div className="img-wrapper relative xl:sticky xl:top-20  mb-20  xl:mb-0 xl:h-[450px]  xl:w-[500px] 2xl:w-[700px] xl:mr-5 xl:rounded-xl">
             <img
               className="w-full h-full object-cover xl:rounded-xl"
               src={chosenRecipe?.image}
@@ -97,7 +89,10 @@ const RecipeDetails: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col items-center">
-                  <img src={health} className="w-8 h-8 object-contain" alt="" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" className="w-8 h-8">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+</svg>
+
                   <p className="">
                     {chosenRecipe?.healthScore !== undefined
                       ? Math.floor(chosenRecipe?.healthScore)
@@ -107,10 +102,19 @@ const RecipeDetails: React.FC = () => {
                 </div>
               </div>
             </div>
+            <div className="hidden w-full xl:flex flex-col items-center mb-5">
+          <div className="mt-10 recipe-container p-5">
+            <h1 className="headline  text-[2rem]">{chosenRecipe?.title}</h1>
+            <div
+              className="text-xs 2xl:text-sm"
+              dangerouslySetInnerHTML={{ __html: sanitizedHTML || "" }}
+            ></div>
+          </div>
+        </div>
           </div>
 
           {/* INGREDIENTS, INSTRUCTIONS, AND NUTRIENTS */}
-          <div className="display lg:text-lg 2xl:w-[700px] xl:w-[600px] sm:px-2 lg:px-10 py-5 recipe-container">
+          <div className="display lg:text-lg 2xl:w-[600px] xl:w-[400px] sm:px-2 lg:px-10 py-5 recipe-container">
             <div className="flex justify-center w-full">
               <div className="btnContainer w-full text-xxs grid grid-cols-3 gap-5 lg:gap-0 xl:justify-center  md:text-sm  px-10 xl:px-0 mb-10">
                 <button
@@ -146,8 +150,8 @@ const RecipeDetails: React.FC = () => {
                 className='infoDeta p-4 lg:px-0'
               >
                 <div className="text-center mb-10">
-                  <p className="text-xs xl:text-lg uppercase">{tab} FOR MAKING</p>
-                  <h1 className="font-bold xl:text-3xl xl:font-extrabold">
+                  <p className="text-xs xl:text-md uppercase">{tab} FOR MAKING</p>
+                  <h1 className="font-bold xl:text-xl xl:font-extrabold">
                     {chosenRecipe?.title}
                   </h1>
                 </div>
@@ -161,10 +165,10 @@ const RecipeDetails: React.FC = () => {
                     chosenRecipe?.analyzedInstructions.steps.map(
                       (steps, index) => (
                         <div className="border-l-8  border-customPink p-4  shadow-lg">
-                          <h5 className="font-bold 2xl:text-2xl">
+                          <h5 className="font-bold xl:text-xl">
                             Step {steps.number}
                           </h5>
-                          <li key={index} className="mb-3">
+                          <li key={index} className="mb-3 xl:text-sm 2xl:text-lg">
                             {steps.step}
                           </li>
                         </div>
