@@ -19,6 +19,7 @@
   idx.extensions = [
     # "angular.ng-template
     "bradlc.vscode-tailwindcss"
+    "humao.rest-client"
   ];
 
   # Enable previews and customize configuration
