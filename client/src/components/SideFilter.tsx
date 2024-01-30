@@ -1,6 +1,6 @@
 const SideFilter = () => {
   return (
-    <div className="w-1/3 mr-10 rounded-2xl bg-customWhite p-6 side-filter h-2/5  hidden  lg:block">
+    <div className="w-[200px] mr-10 rounded-2xl bg-customWhite p-6 side-filter h-2/5  hidden  lg:block">
       <h1 className="text-2xl font-black">Filter By: </h1>
       <ul className="text-xl">
         <li>asd</li>
