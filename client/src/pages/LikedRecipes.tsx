@@ -9,7 +9,7 @@ const LikedRecipes = () =>{
     const dispatch = useDispatch<AppDispatch>()
     useEffect(() => {
         dispatch(fetchLikedRecipes())
-    },[])
+    },[dispatch,liked])
 
     return(
         <>
