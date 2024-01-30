@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import IRecipes from "../interfaces/IRecipes";
 
 interface LikedRecipes {
@@ -13,15 +13,21 @@ const initialState:LikedRecipes = {
     loading: true,
     error: null
 }
+interface ErrorData {
+    error: string
+}
 
-export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title}:{id:number, image:string, title:string},thunkAPI) => {
+export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title}:{id:number, image:string, title:string}) => {
     try{
         const response  = await axios.post("http://localhost:3000/home",{id,image,title});
         console.log(response.data);
         
         return response
     }catch(error){
-        return thunkAPI.rejectWithValue(error);
+        const axiosError = error as AxiosError
+        const errorData = axiosError.response?.data as ErrorData;
+        console.log(errorData.error)
+        throw errorData.error
     }
 
 })
@@ -54,6 +60,9 @@ const LikedRecipeSlice = createSlice({
     reducers:{
         displayLikedRecipes: (state,action:PayloadAction<IRecipes[]>) => {
             state.likedRecipes = [...action.payload]
+        },
+        displayError : (state,action) => {
+            state.error = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -68,9 +77,12 @@ const LikedRecipeSlice = createSlice({
           .addCase(fetchLikedRecipes.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message ?? "An error occurred.";
-          });
+          })
+          .addCase(addLikedRecipe.rejected,(state,action) => {
+            state.error = action.error.message || null
+          })
       },
     
 })
 export default LikedRecipeSlice.reducer;
-export const { displayLikedRecipes } = LikedRecipeSlice.actions
+export const { displayLikedRecipes, displayError } = LikedRecipeSlice.actions
