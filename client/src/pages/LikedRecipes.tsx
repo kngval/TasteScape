@@ -1,26 +1,23 @@
 import { useDispatch, useSelector } from "react-redux";
-import { BottomNavbar } from "../components/BottomNavbar";
 import { AppDispatch, RootState } from "../Redux/store";
 import { useEffect } from "react";
-import { displayLikedRecipes, fetchLikedRecipes } from "../Redux/likedRecipeSlice";
+import { fetchLikedRecipes } from "../Redux/likedRecipeSlice";
 import { Recipes } from "../components/Recipes";
 const LikedRecipes = () =>{
     const liked = useSelector((state:RootState) => state.likedRecipes.likedRecipes)
     const dispatch = useDispatch<AppDispatch>()
     useEffect(() => {
         dispatch(fetchLikedRecipes())
-    },[dispatch,liked])
+    },[dispatch])
 
     return(
         <>
-            LIKED RECIPES
-            {liked && liked.map((likedRecipe) => (
-                <div>
-                    <Recipes id={likedRecipe.id} image={likedRecipe.image} title={likedRecipe.title}/>
-                </div>
+            
+            <div className="recipes w-full text-center recipe-container  grid  grid-cols-2 mb-20  md:grid-cols-3  p-2 gap-2 text-xs">
+            {liked && liked.map((likedRecipe) => ( 
+                    <Recipes id={likedRecipe.id} image={likedRecipe.image} title={likedRecipe.title} isLiked={likedRecipe.isLiked}/>
             ))}
-
-            <BottomNavbar />
+            </div>
         </>
     )
 }

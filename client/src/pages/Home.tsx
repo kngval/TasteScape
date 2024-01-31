@@ -2,28 +2,27 @@
 import { AppDispatch, RootState } from "../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-
+// import { displayRecipes } from "../Redux/foodSlice";
 //Components
 import { HomeSlider } from "../components/HomeSlider";
-import Navbar from "../components/Navbar";
 import SideFilter from "../components/SideFilter";
-import { BottomNavbar } from "../components/BottomNavbar";
 import { Recipes } from "../components/Recipes";
 import SearchForm from "../components/SearchForm";
 
 //assets
 // import recipeImg from "../assets/svgs/recipe.svg";
-import { displayError } from "../Redux/likedRecipeSlice";
+import { displayError, displaySuccessMsg } from "../Redux/likedRecipeSlice";
 import addedRecipe from "../assets/svgs/addedRecipe.svg";
 import chef from "../assets/svgs/chef.svg"
 const Home: React.FC = () => {
-  const recipes = useSelector((state: RootState) => state.recipes.recipes);
+  const recipes = useSelector((state: RootState) => state?.recipes.recipes);
+  const success = useSelector((state:RootState) => state.likedRecipes.successMsg)
   // const dispatch = useDispatch<AppDispatch>()
   const error = useSelector((state: RootState) => state.likedRecipes.error);
   const [showError, setShowError] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    console.log(showError);
+    
     if (error) {
       setShowError(true);
 
@@ -31,15 +30,31 @@ const Home: React.FC = () => {
         setShowError(false);
         dispatch(displayError(null));
       }, 2000);
-
       return () => clearTimeout(timeout);
     }
-  }, [error]);
+    if(success){
+      dispatch(displaySuccessMsg('Recipe Added to Favorites'))
+      const timeout = setTimeout(() => {
+        dispatch(displaySuccessMsg(null))
+      }, 2000)
+      return () => clearTimeout(timeout);
+    }
+
+  }, [dispatch,error]);
 
   return (
     <>
-      <Navbar />
       <HomeSlider />
+      <div
+        className={`${
+          success ? "fixed" : "hidden"
+        } flex justify-center items-center top-20 z-20 w-full h-20`}
+      >
+        <div className="flex items-center justify-center bg-gray-100 rounded-lg w-[250px] p-4 text-xs xl:text-lg xl:w-[400px]">
+          <img src={addedRecipe} className="h-10" alt="" />
+          <h1 className="ml-5 text-center ">{success}</h1>
+        </div>
+      </div>
       <div
         className={`${
           showError ? "fixed" : "hidden"
@@ -58,7 +73,7 @@ const Home: React.FC = () => {
           <div
             className={`recipes w-full text-center recipe-container  ${
               recipes.length === 0 ? "flex justify-center" : "grid"
-            } grid-cols-2 mb-20  md:grid-cols-3  p-5 gap-3 text-xs`}
+            } grid-cols-2 mb-20  md:grid-cols-3  p-2 gap-3 text-xs`}
           >
             {/* RECIPES */}
             {recipes &&
@@ -69,6 +84,7 @@ const Home: React.FC = () => {
                   id={recipe.id}
                   image={recipe.image}
                   title={recipe.title}
+                  isLiked={recipe.isLiked}
                 />
               ))}
             {!recipes ||
@@ -87,7 +103,6 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <BottomNavbar />
     </>
   );
 };

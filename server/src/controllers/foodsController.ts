@@ -6,14 +6,32 @@ import LikedModel from "../models/LikedSchema";
 import "dotenv/config";
 
 //FOR SEARCHING RECIPES
+interface SearchList {
+  id: number,
+  title: string,
+  image: string
+  isLiked:boolean
+}
+
 export const getSearchList = async (req: Request, res: Response) => {
   try {
     const response = await axios.get(
       `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.params.query}`
     );
-    const data = response.data.results;
-    console.log(data);
-    res.status(200).json(data);
+    const apiData: SearchList[] = response.data.results;
+    
+    // Fetch liked recipes from the database
+    const likedRecipeIds = (await LikedModel.find({}, { id: 1 })).map((likedRecipe) => likedRecipe.id);
+
+    // Add isLiked property based on whether the recipe is liked
+    const recipeData: SearchList[] = apiData.map((recipe) => ({
+      ...recipe,
+      isLiked: likedRecipeIds.includes(recipe.id),
+    }));
+   
+    console.log(recipeData);
+    res.status(200).json(recipeData);
+  
   } catch (error) {
     console.log(error);
   }
@@ -33,9 +51,17 @@ export const getRecipeDetails = async (req: Request, res: Response) => {
   }
 };
 
+//FETCH LIKED RECIPES
+
+export const fetchLikedRecipe = async (req: Request, res: Response) => {
+  try {
+    const LikedRecipes = await LikedModel.find().sort({ createdAt: -1 });
+    res.status(200).json(LikedRecipes);
+  } catch (error) {}
+};
 //LIKING RECIPES
 export const addLikedRecipe = async (req: Request, res: Response) => {
-  const { id, title, image }: { id: string; title: string; image: string } =
+  const { id, title, image}: { id: string; title: string; image: string,} =
     req.body;
     console.log("Received Data:", { id, title, image });
 
@@ -47,6 +73,7 @@ export const addLikedRecipe = async (req: Request, res: Response) => {
         id,
         title,
         image,
+        isLiked: true
       });
       res.status(200).json(LikedRecipes);
     } else {
@@ -68,14 +95,6 @@ export const removeLikedRecipe = async (req: Request, res: Response) => {
   }
 };
 
-//FETCH LIKED RECIPES
-
-export const fetchLikedRecipe = async (req: Request, res: Response) => {
-  try {
-    const LikedRecipes = await LikedModel.find().sort({ createdAt: -1 });
-    res.status(200).json(LikedRecipes);
-  } catch (error) {}
-};
 
 //FOR CREATING YOUR OWN RECIPES
 export const getFoodList = async (req: Request, res: Response) => {

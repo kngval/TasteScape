@@ -5,8 +5,6 @@ import { fetchChosenRecipe } from "../Redux/chosenRecipeSlice";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 //Components
-import Navbar from "../components/Navbar";
-import { BottomNavbar } from "../components/BottomNavbar";
 
 //assets
 import stopwatch from "../assets/svgs/RecipeDetails/stopwatch.svg";
@@ -44,7 +42,7 @@ const RecipeDetails: React.FC = () => {
   }
   return (
     <>
-      <Navbar />
+
       <div className="">
         
         <div className="RecipeContainer  xl:flex  justify-center  mb-20 xl:mb-0">
@@ -182,7 +180,7 @@ const RecipeDetails: React.FC = () => {
           </div>
         </div>
       </div>
-      <BottomNavbar />
+      
     </>
   );
 };
