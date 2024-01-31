@@ -1,7 +1,7 @@
 import IRecipes from "../interfaces/IRecipes";
 import { Link } from "react-router-dom";
 import { AppDispatch, RootState } from "../Redux/store";
-import { addLikedRecipe } from "../Redux/likedRecipeSlice";
+import { addLikedRecipe, displaySuccessMsg } from "../Redux/likedRecipeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
@@ -10,23 +10,30 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
   const [liked, setLiked] = useState<boolean>(isLiked);
   const error = useSelector((state:RootState) => state.likedRecipes.error);
 
-  const handleClick = async() => {
-    if(!error)
-    {
-      setLiked(!liked)
-      
-    }
+  const handleClick = async () => {
+    if (!error) {
+      setLiked(true);
+      await dispatch(
+        addLikedRecipe({
+          image,
+          title,
+          id,
+          isLiked,
+        })
+      );
+      if(!error){
+  
+        dispatch(displaySuccessMsg('Recipe added to Favorites'));
     
-    setLiked(true)
-    await dispatch(
-      addLikedRecipe({
-        image,
-        title,
-        id,
-        isLiked
-      })
-    );
+        const timeout = setTimeout(() => {
+          dispatch(displaySuccessMsg(null));
+        }, 2000);
+    
+        return () => clearTimeout(timeout);
+      }
+    }
   };
+
 
   return (
     <>
