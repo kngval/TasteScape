@@ -4,13 +4,10 @@ import MyRecipes from "./pages/MyRecipes";
 import LikedRecipes from "./pages/LikedRecipes";
 import Profile from "./pages/Profile";
 import RecipeDetails from "./pages/RecipeDetails";
-import Navbar from "./components/Navbar";
-import { BottomNavbar } from "./components/BottomNavbar";
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
       <div>
         <Routes>
           <Route path="/home" element={<Home />} />
@@ -20,7 +17,6 @@ function App() {
           <Route path="/recipe/:id" element={<RecipeDetails />} />
         </Routes>
         </div>
-        <BottomNavbar />
     </BrowserRouter>
   );
 }
