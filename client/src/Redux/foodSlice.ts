@@ -33,7 +33,11 @@ export const fetchRecipes = createAsyncThunk(
 const recipeSlice = createSlice({
   name: "recipes",
   initialState,
-  reducers: {},
+  reducers: {
+    displayRecipes : (state, action) => {
+      state.recipes = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchRecipes.pending, (state) => {
@@ -49,5 +53,5 @@ const recipeSlice = createSlice({
       });
   },
 });
-
+export const { displayRecipes } = recipeSlice.actions
 export default recipeSlice.reducer;
