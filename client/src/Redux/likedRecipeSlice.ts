@@ -6,23 +6,25 @@ interface LikedRecipes {
     likedRecipes: IRecipes[] | null
     loading : boolean
     error: string | null
+    successMsg: string | null
 }
 
 const initialState:LikedRecipes = {
     likedRecipes: null,
     loading: true,
-    error: null
+    error: null,
+    successMsg: null
 }
 interface ErrorData {
     error: string
 }
 
-export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title}:{id:number, image:string, title:string}) => {
+export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title,isLiked}:{id:number, image:string, title:string ,isLiked:boolean}) => {
     try{
-        const response  = await axios.post("http://localhost:3000/home",{id,image,title});
-        console.log(response.data);
-        
-        return response
+        const response  = await axios.post("http://localhost:3000/home",{id,image,title,isLiked});
+        const data = response.data
+        console.log(data);
+        return data
     }catch(error){
         const axiosError = error as AxiosError
         const errorData = axiosError.response?.data as ErrorData;
@@ -63,6 +65,9 @@ const LikedRecipeSlice = createSlice({
         },
         displayError : (state,action) => {
             state.error = action.payload
+        },
+        displaySuccessMsg: (state,action) => {
+            state.successMsg = action.payload 
         }
     },
     extraReducers: (builder) => {
@@ -85,4 +90,4 @@ const LikedRecipeSlice = createSlice({
     
 })
 export default LikedRecipeSlice.reducer;
-export const { displayLikedRecipes, displayError } = LikedRecipeSlice.actions
+export const { displayLikedRecipes, displayError, displaySuccessMsg } = LikedRecipeSlice.actions
