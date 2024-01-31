@@ -1,4 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import axios, { AxiosError } from "axios"
 import IRecipes from "../interfaces/IRecipes";
 
@@ -19,17 +20,20 @@ interface ErrorData {
     error: string
 }
 
-export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title,isLiked}:{id:number, image:string, title:string ,isLiked:boolean}) => {
+
+export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title,isLiked}:{id:number, image:string, title:string ,isLiked:boolean},thunkAPI) => {
     try{
         const response  = await axios.post("http://localhost:3000/home",{id,image,title,isLiked});
         const data = response.data
         console.log(data);
         return data
     }catch(error){
-        const axiosError = error as AxiosError
-        const errorData = axiosError.response?.data as ErrorData;
-        console.log(errorData.error)
-        throw errorData.error
+        const axiosError = error as AxiosError;
+      const errorData = axiosError.response?.data as ErrorData;
+      console.log(errorData.error);
+      thunkAPI.dispatch(displayError(errorData.error));
+
+      throw errorData.error;
     }
 
 })
