@@ -23,7 +23,7 @@ interface ErrorData {
 
 export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title,isLiked}:{id:number, image:string, title:string ,isLiked:boolean},thunkAPI) => {
     try{
-        const response  = await axios.post("http://localhost:3000/home",{id,image,title,isLiked});
+        const response  = await axios.post("http://localhost:3000/home",{id,image,title,isLiked},{ withCredentials:true });
         const data = response.data
         console.log(data);
         return data
@@ -40,7 +40,7 @@ export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({i
 
 export const fetchLikedRecipes = createAsyncThunk('recipe/fetchLikedRecipe',async() => {
     try{
-        const response = await axios.get(`http://localhost:3000/liked-recipes`)
+        const response = await axios.get(`http://localhost:3000/liked-recipes`,{ withCredentials: true })
 
         const data = response.data
         console.log(data);

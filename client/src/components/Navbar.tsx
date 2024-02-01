@@ -21,7 +21,7 @@ const Navbar:React.FC = () =>{
                     <li><a href="">Create</a></li>
                     
                 </div>
-            <img className="w-7" src={userSvg} alt="" />
+            <img className="hidden lg:block w-7" src={userSvg} alt="" />
             </div>
         </nav>
         </>

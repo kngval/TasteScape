@@ -60,7 +60,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
             strokeWidth={0.5}
             stroke="currentColor"
             className={`ml-2 w-5 h-5  ${
-              liked === true ? "fill-customPink stroke-0" : "fill-none stroke-1"
+              liked === true || isLiked === true ? "fill-customPink stroke-0" : "fill-none stroke-1"
             }`}
           >
             <path
