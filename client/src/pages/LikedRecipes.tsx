@@ -5,7 +5,7 @@ import { fetchLikedRecipes } from "../Redux/likedRecipeSlice";
 import { Recipes } from "../components/Recipes";
 import Navbar from "../components/Navbar";
 import { BottomNavbar } from "../components/BottomNavbar";
-import { ErrorPopUp } from "../components/ErrorPopUp";
+import ErrorPopUp from "../components/ErrorPopUp";
 const LikedRecipes = () =>{
     const liked = useSelector((state:RootState) => state.likedRecipes.likedRecipes)
     const dispatch = useDispatch<AppDispatch>()
@@ -13,13 +13,12 @@ const LikedRecipes = () =>{
         dispatch(fetchLikedRecipes())
     },[dispatch])
 
-    const firstLikedRecipe = liked && liked.length > 0 ? liked[0] : null;
 
 
     return(
         <>
             <Navbar />
-            <ErrorPopUp id={firstLikedRecipe?.id ?? 0}/>
+            <ErrorPopUp />
             <div className="recipes w-full  recipe-container  grid  grid-cols-2 mb-20  md:grid-cols-3  p-2 gap-2 text-xs">
             {liked && liked.map((likedRecipe) => (
                     
