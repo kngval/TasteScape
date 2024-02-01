@@ -5,5 +5,5 @@ import { fetchLikedRecipe, removeLikedRecipe } from '../controllers/foodsControl
 const router = express.Router();
 
 router.get('/', fetchLikedRecipe)
-router.delete('/liked-recipes/:id', removeLikedRecipe)
+router.delete('/:id', removeLikedRecipe)
 export default router;
