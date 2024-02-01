@@ -13,9 +13,6 @@ app.use(
   cors({
     origin: "*",    
     credentials: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    optionsSuccessStatus: 204,
-    allowedHeaders: "Content-Type,Authorization",
   })
 );
 app.use("/profile", foodRoutes);
