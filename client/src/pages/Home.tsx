@@ -10,30 +10,17 @@ import SearchForm from "../components/SearchForm";
 import Navbar from "../components/Navbar";
 
 //assets
-import addedRecipe from "../assets/svgs/addedRecipe.svg";
 import chef from "../assets/svgs/chef.svg";
-// import { ErrorPopUp } from "../components/ErrorPopUp";
+import ErrorPopUp from "../components/ErrorPopUp";
 const Home: React.FC = () => {
   const recipes = useSelector((state: RootState) => state?.recipes.recipes);
-  const successMsg = useSelector(
-    (state: RootState) => state.likedRecipes.successMsg
-  );
+  
   // const dispatch = useDispatch<AppDispatch>()
-  const error = useSelector((state: RootState) => state.likedRecipes.error);
   return (
     <>
       <Navbar />
       <HomeSlider />
-      <div
-        className={`${
-          successMsg && !error ? "fixed" : "hidden"
-        } flex justify-center items-center top-20 z-20 w-full h-20`}
-      >
-        <div className="flex items-center justify-center bg-gray-100 rounded-lg w-[250px] p-4 text-xs xl:text-lg xl:w-[400px]">
-          <img src={addedRecipe} className="h-10" alt="" />
-          <h1 className="ml-5 text-center ">{successMsg}</h1>
-        </div>
-      </div>
+      <ErrorPopUp />
       <div className="flex lg:px-20">
         <SideFilter />
         <div className="w-full flex flex-col items-center">
