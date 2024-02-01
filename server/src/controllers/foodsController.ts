@@ -86,7 +86,7 @@ export const addLikedRecipe = async (req: Request, res: Response) => {
 };
 
 export const removeLikedRecipe = async (req: Request, res: Response) => {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
     const removedRecipe = await LikedModel.deleteOne({ id });
     res.status(200).json(removedRecipe);
