@@ -53,11 +53,11 @@ export const fetchLikedRecipes = createAsyncThunk('recipe/fetchLikedRecipe',asyn
 
 export const deleteLikedRecipe = createAsyncThunk('recipe/deleteLikedRecipe', async(id:number) => {
     try{
-        const response = await axios.delete(`http://localhost:3000/liked-recipes/${id}`)
+        const response = await axios.delete(`http://localhost:3000/liked-recipes/${id}`,{ withCredentials:true })
         console.log(response.data)
 
     }catch(error){
-
+        console.log(error)
     }
 })
 const LikedRecipeSlice = createSlice({

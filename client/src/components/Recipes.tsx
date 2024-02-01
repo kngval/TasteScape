@@ -4,13 +4,14 @@ import { AppDispatch, RootState } from "../Redux/store";
 import { addLikedRecipe, displaySuccessMsg } from "../Redux/likedRecipeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { ErrorPopUp } from "./ErrorPopUp";
 
 export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [liked, setLiked] = useState<boolean>(isLiked);
   const error = useSelector((state:RootState) => state.likedRecipes.error);
 
-  const handleClick = async () => {
+  const handleClick = async (id:number) => {
     if (!error) {
       setLiked(true);
       await dispatch(
@@ -32,6 +33,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
         return () => clearTimeout(timeout);
       }
     }
+    
   };
 
 
@@ -53,7 +55,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
             <h1 className="">{title}</h1>
           </div>
           <svg
-            onClick={handleClick}
+            onClick={() => handleClick(id)}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -71,6 +73,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
           </svg>
         </div>
       </div>
+      {error && <ErrorPopUp id={id} />}
     </>
   );
 };
