@@ -8,14 +8,14 @@ import { BottomNavbar } from "../components/BottomNavbar";
 import SideFilter from "../components/SideFilter";
 import SearchForm from "../components/SearchForm";
 import Navbar from "../components/Navbar";
-
+import ErrorPopUp from "../components/ErrorPopUp";
 //assets
 import chef from "../assets/svgs/chef.svg";
-import ErrorPopUp from "../components/ErrorPopUp";
+
+
 const Home: React.FC = () => {
   const recipes = useSelector((state: RootState) => state?.recipes.recipes);
   
-  // const dispatch = useDispatch<AppDispatch>()
   return (
     <>
       <Navbar />
