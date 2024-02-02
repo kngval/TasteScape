@@ -1,7 +1,7 @@
 import IRecipes from "../interfaces/IRecipes";
 import { Link } from "react-router-dom";
 import { AppDispatch, RootState } from "../Redux/store";
-import { addLikedRecipe, deleteLikedRecipe, displaySuccessMsg } from "../Redux/likedRecipeSlice";
+import { addLikedRecipe, deleteLikedRecipe, displaySuccessMsg, fetchLikedRecipes } from "../Redux/likedRecipeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
@@ -40,7 +40,8 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
 
 
     const handleDelete = async() => {
-     await dispatch(deleteLikedRecipe(id))
+      await dispatch(deleteLikedRecipe(id))
+      dispatch(fetchLikedRecipes())
     }
   return (
     <>
@@ -89,12 +90,12 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
               className={`xl:w-[25px] ${location.pathname === '/home' ? 'hidden' : 'block'} stroke-black`}
               onClick={handleDelete}
             >
-              <g id="SVGRepo_bgCarrier" stroke-width="0" />
+              <g id="SVGRepo_bgCarrier" strokeWidth="0" />
 
               <g
                 id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
 
               <g id="SVGRepo_iconCarrier">
