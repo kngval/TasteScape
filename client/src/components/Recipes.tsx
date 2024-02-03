@@ -40,8 +40,10 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
 
 
   const handleDelete = async(id:number) => {
-        await dispatch(deleteLikedRecipe(id));
-        dispatch(fetchLikedRecipes());
+        const response = await dispatch(deleteLikedRecipe(id));
+        if(response){
+          dispatch(fetchLikedRecipes());
+        }
   }
   return (
     <>
