@@ -53,7 +53,7 @@ export const fetchLikedRecipes = createAsyncThunk('recipe/fetchLikedRecipe',asyn
 
 export const deleteLikedRecipe = createAsyncThunk('recipe/deleteLikedRecipe', async(id:number) => {
     try{
-        const response = await axios.delete(`http://localhost:3000/favorites/${id}`)
+        const response = await axios.delete(`http://localhost:3000/favorites/${id}`,{withCredentials:true, timeout:5000})
         console.log(response.data)
     }catch(error){
         console.log("Error in Delete Redux: " ,error)

@@ -11,18 +11,19 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: '*', 
+    origin: 'http://localhost:5173',
     methods: "GET,POST,PUT,PATCH,DELETE",
     credentials: true,
   })
 );
+app.options('/favorites/:id', cors());  // Handle OPTIONS for DELETE
 app.use("/profile", foodRoutes);
 app.use("/Home", foodSearch);
 app.use("/favorites",likedRoutes)
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() =>
-    app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}...`))
+    app.listen(process.env.PORT, () => console.log(`Server listening on port http://localhost:${process.env.PORT}...`))
   )
   .catch((error: Error) => console.log(error));
 
