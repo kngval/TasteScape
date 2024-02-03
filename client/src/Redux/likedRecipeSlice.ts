@@ -40,26 +40,27 @@ export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({i
 
 export const fetchLikedRecipes = createAsyncThunk('recipe/fetchLikedRecipe',async() => {
     try{
-        const response = await axios.get(`http://localhost:3000/liked-recipes`,{ withCredentials: true, timeout:5000 })
+        const response = await axios.get(`http://localhost:3000/favorites`,{ withCredentials: true })
 
         const data = response.data
         console.log(data);
         return data as IRecipes[]
 
     } catch(error){
-
+        console.log("fetched liked recipe error: ",error);
     }
-})
+});
 
 export const deleteLikedRecipe = createAsyncThunk('recipe/deleteLikedRecipe', async(id:number) => {
     try{
-        const response = await axios.delete(`http://localhost:3000/liked-recipes/${id}`,{ withCredentials: true })
+        const response = await axios.delete(`http://localhost:3000/favorites/${id}`)
         console.log(response.data)
-
     }catch(error){
         console.log("Error in Delete Redux: " ,error)
     }
-})
+});
+
+
 const LikedRecipeSlice = createSlice({
     name: "likedRecipes",
     initialState,

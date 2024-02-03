@@ -12,7 +12,7 @@ function App() {
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/my-recipes" element={<MyRecipes />} />
-          <Route path="/liked-recipes" element={<LikedRecipes />} />
+          <Route path="/favorites" element={<LikedRecipes />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/recipe/:id" element={<RecipeDetails />} />
         </Routes>

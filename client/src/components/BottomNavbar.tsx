@@ -12,7 +12,7 @@ export const BottomNavbar = () => {
       case '/home':
         selectedIndex(0);
         break;
-      case '/liked-recipes':
+      case '/favorites':
         selectedIndex(1);
         break;
       case '/my-recipes':
@@ -32,7 +32,7 @@ export const BottomNavbar = () => {
         navigate('/home')
         break;
       case 1 :
-        navigate('/liked-recipes')
+        navigate('/favorites')
         break;
       case 2 :
         navigate('/my-recipes')

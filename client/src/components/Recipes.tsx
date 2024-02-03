@@ -39,10 +39,11 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
     likedRecipes && likedRecipes.some((recipe) => recipe.id === id);
 
 
-    const handleDelete = async() => {
-      await dispatch(deleteLikedRecipe(id))
-      dispatch(fetchLikedRecipes())
-    }
+  const handleDelete = async(id:number) => {
+        await dispatch(deleteLikedRecipe(id));
+        dispatch(fetchLikedRecipes());
+
+  }
   return (
     <>
       <div className="md:text-sm xl:text-md  p-4 shadow-md  rounded-lg">
@@ -72,7 +73,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
               isRecipeLiked || liked
                 ? "fill-customPink stroke-0"
                 : "fill-none stroke-1"
-            } ${location.pathname === "/liked-recipes" ? "hidden" : "block"}`}
+            } ${location.pathname === "/favorites" ? "hidden" : "block"}`}
           >
             <path
               strokeLinecap="round"
@@ -88,7 +89,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
               viewBox="0 0 1920 1920"
               xmlns="http://www.w3.org/2000/svg"
               className={`xl:w-[25px] ${location.pathname === '/home' ? 'hidden' : 'block'} stroke-black`}
-              onClick={handleDelete}
+              onClick={() => handleDelete(id)}
             >
               <g id="SVGRepo_bgCarrier" strokeWidth="0" />
 

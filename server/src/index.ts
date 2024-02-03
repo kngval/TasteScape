@@ -11,14 +11,14 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", 
+    origin: '*', 
     methods: "GET,POST,PUT,PATCH,DELETE",
     credentials: true,
   })
 );
 app.use("/profile", foodRoutes);
 app.use("/Home", foodSearch);
-app.use("/liked-recipes",likedRoutes)
+app.use("/favorites",likedRoutes)
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() =>
