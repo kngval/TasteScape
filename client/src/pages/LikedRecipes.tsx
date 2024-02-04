@@ -19,6 +19,9 @@ const LikedRecipes = () =>{
         <>
             <Navbar />
             <ErrorPopUp />
+            <div className="headline w-full text-center mt-7 text-lg font-bold">
+                <h1>Liked Recipes</h1>
+            </div>
             <div className="recipes w-full  recipe-container  grid  grid-cols-2 mb-20  md:grid-cols-3  p-2 gap-2 text-xs">
             {liked && liked.map((likedRecipe) => (
                     
