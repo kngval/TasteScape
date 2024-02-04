@@ -10,10 +10,12 @@ export interface RecipeDetails {
   cuisines: string[];
   healthScore: number;
   analyzedInstructions:{
-    steps:{
-      number:number;
-      step:string
-    }[]
+    0:{
+      steps:{
+        number:number;
+        step:string
+      }[]
+    }
   };
   nutrition: {
     nutrients: {
