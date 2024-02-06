@@ -42,6 +42,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
   const handleDelete = async(id:number) => {
         const response = await dispatch(deleteLikedRecipe(id));
         if(response){
+          dispatch(displaySuccessMsg('Recipe removed from Favorites'))
           dispatch(fetchLikedRecipes());
         }
   }

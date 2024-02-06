@@ -56,7 +56,7 @@ const ErrorPopUp: React.FC = () => {
         >
           <div className="flex items-center justify-center bg-gray-100 rounded-lg w-[250px] p-4 text-xs xl:text-lg xl:w-[400px]">
             <img src={addedRecipe} className="h-10" alt="" />
-            <h1 className="ml-5 text-center ">{successMsg}</h1>
+            <h1 className="ml-5 text-center text-sm">{successMsg}</h1>
           </div>
         </div>
       )}

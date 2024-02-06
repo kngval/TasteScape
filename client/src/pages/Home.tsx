@@ -2,20 +2,23 @@
 import { RootState } from "../Redux/store";
 import { useSelector } from "react-redux";
 //Components
-import { HomeSlider } from "../components/HomeSlider";
+import { HomeSlider } from "../components/Header";
 import { Recipes } from "../components/Recipes";
 import { BottomNavbar } from "../components/BottomNavbar";
 import SideFilter from "../components/SideFilter";
-import SearchForm from "../components/SearchForm";
 import Navbar from "../components/Navbar";
 import ErrorPopUp from "../components/ErrorPopUp";
 //assets
 import chef from "../assets/svgs/chef.svg";
+import { PacmanLoader } from "react-spinners";
 
 
 const Home: React.FC = () => {
   const recipes = useSelector((state: RootState) => state?.recipes.recipes);
+  const loading = useSelector((state:RootState) => state?.recipes.loading);
+
   
+
   return (
     <>
       <Navbar />
@@ -25,15 +28,21 @@ const Home: React.FC = () => {
         <SideFilter />
         <div className="w-full flex flex-col items-center">
           {/* SEARCH BAR */}
-          <SearchForm />
+      
           <div
             className={`recipes w-full text-center recipe-container  ${
-              recipes.length === 0 ? "flex justify-center" : "grid"
+              !recipes ? "flex justify-center" : "grid"
             } grid-cols-2 mb-20  md:grid-cols-3  p-2 gap-3 text-xs`}
           >
             {/* RECIPES */}
-            {recipes &&
-              recipes.length !== 0 &&
+            {loading && !recipes && (
+              <div className="w-full my-20 flex justify-center">
+                <PacmanLoader color="#FF6F6F"/>
+              </div>
+            )}
+          
+
+            {recipes && !loading &&
               recipes.map((recipe) => (
                 <Recipes
                   key={recipe.id}
@@ -43,8 +52,8 @@ const Home: React.FC = () => {
                   isLiked={recipe.isLiked}
                 />
               ))}
-            {!recipes ||
-              (recipes.length === 0 && (
+
+            {!recipes && !loading && (
                 <div className="w-full flex flex-col items-center">
                   <img
                     className="my-5 w-28
@@ -59,7 +68,7 @@ const Home: React.FC = () => {
 
                   <h1 className="text-lg font-bold">TASTESCAPE</h1>
                 </div>
-              ))}
+              )}
           </div>
         </div>
       </div>

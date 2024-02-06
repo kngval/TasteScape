@@ -46,7 +46,6 @@ const RecipeDetails: React.FC = () => {
     <>
       <Navbar />
       <div className="">
-        
         <div className="RecipeContainer xl:mt-10  xl:flex  justify-center  mb-20 xl:mb-0">
           {/* RECIPE IMAGE AND RECIPE DETAILS BAR */}
           <div className="img-wrapper relative xl:sticky xl:top-20  mb-20  xl:mb-0 xl:h-[350px]  xl:w-[500px] 2xl:w-[600px] xl:mr-5 xl:rounded-xl">
@@ -89,9 +88,20 @@ const RecipeDetails: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1" stroke="currentColor" className="w-8 h-8">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-</svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1"
+                    stroke="currentColor"
+                    className="w-8 h-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                    />
+                  </svg>
 
                   <p className="">
                     {chosenRecipe?.healthScore !== undefined
@@ -103,14 +113,16 @@ const RecipeDetails: React.FC = () => {
               </div>
             </div>
             <div className="hidden w-full xl:flex flex-col items-center mb-5">
-          <div className="mt-10 recipe-container p-5">
-            <h1 className="headline font-bold xl:text-[2.5rem] 2xl:text-[3rem]">{chosenRecipe?.title}</h1>
-            <div
-              className="text-xs 2xl:text-sm"
-              dangerouslySetInnerHTML={{ __html: sanitizedHTML || "" }}
-            ></div>
-          </div>
-        </div>
+              <div className="mt-10 recipe-container p-5">
+                <h1 className="headline font-bold xl:text-[2rem] 2xl:text-[2rem]">
+                  {chosenRecipe?.title}
+                </h1>
+                <div
+                  className="text-xs 2xl:text-sm"
+                  dangerouslySetInnerHTML={{ __html: sanitizedHTML || "" }}
+                ></div>
+              </div>
+            </div>
           </div>
 
           {/* INGREDIENTS, INSTRUCTIONS, AND NUTRIENTS */}
@@ -144,41 +156,45 @@ const RecipeDetails: React.FC = () => {
               </div>
             </div>
 
-           
-             {/* INGREDIENTS,INSTRUCTIONS & NUTRIENTS DETAILS*/}
-              <div
-                className='infoDeta p-4 lg:px-0'
-              >
-                <div className="text-center mb-10">
-                  <p className="text-xs xl:text-md uppercase">{tab} FOR MAKING</p>
-                  <h1 className="font-bold xl:text-xl xl:font-extrabold">
-                    {chosenRecipe?.title}
-                  </h1>
-                </div>
-                <div className="tab-details-container grid grid-cols-1 gap-5 list-none">
-                  
-                  {tab === 'ingredients' && chosenRecipe?.extendedIngredients && chosenRecipe?.extendedIngredients.map((ingredient,index) => (
-                    <li key={index} className="text-center shadow-lg py-4 border-l-8 border-customPink">{ingredient.original}</li>
+            {/* INGREDIENTS,INSTRUCTIONS & NUTRIENTS DETAILS*/}
+            <div className="infoDeta p-4 lg:px-0">
+              <div className="text-center mb-10">
+                <p className="text-xs xl:text-md uppercase">{tab} FOR MAKING</p>
+                <h1 className="font-bold xl:text-xl xl:font-extrabold">
+                  {chosenRecipe?.title}
+                </h1>
+              </div>
+              <div className="tab-details-container grid grid-cols-1 gap-5 list-none">
+                {tab === "ingredients" &&
+                  chosenRecipe?.extendedIngredients &&
+                  chosenRecipe?.extendedIngredients.map((ingredient, index) => (
+                    <li
+                      key={index}
+                      className="text-center shadow-lg py-4 border-l-8 border-customPink"
+                    >
+                      {ingredient.original}
+                    </li>
                   ))}
 
-                  {tab === 'instructions' && chosenRecipe?.analyzedInstructions[0].steps &&
-                    chosenRecipe?.analyzedInstructions[0].steps.map(
-                      (steps,index) => (
-                        <div key={index} className="border-l-8  border-customPink p-4  shadow-lg">
-                          <h5  className="font-bold xl:text-xl">
-                            Step {steps.number}
-                          </h5>
-                          <li  className="mb-3 xl:text-sm 2xl:text-lg">
-                            {steps.step}
-                          </li>
-                        </div>
-                      )
-                    )}
-                    
-                </div>
+                {tab === "instructions" &&
+                  chosenRecipe?.analyzedInstructions[0].steps &&
+                  chosenRecipe?.analyzedInstructions[0].steps.map(
+                    (steps, index) => (
+                      <div
+                        key={index}
+                        className="border-l-8  border-customPink p-4  shadow-lg"
+                      >
+                        <h5 className="font-bold xl:text-xl">
+                          Step {steps.number}
+                        </h5>
+                        <li className="mb-3 xl:text-sm 2xl:text-lg">
+                          {steps.step}
+                        </li>
+                      </div>
+                    )
+                  )}
               </div>
-              
-         
+            </div>
           </div>
         </div>
       </div>

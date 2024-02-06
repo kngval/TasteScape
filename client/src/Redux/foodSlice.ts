@@ -5,14 +5,14 @@ import axios from "axios"
 
 
 interface FoodState {
-  recipes: IRecipes[];
-  status: "idle" | "loading" | "succeeded" | "failed";
+  recipes: IRecipes[] | null;
+  loading: boolean;
   error: string | null;
 }
 
 const initialState: FoodState = {
-  recipes: [],
-  status: "idle",
+  recipes: null,
+  loading: false,
   error: null,
 };
 
@@ -41,14 +41,15 @@ const recipeSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchRecipes.pending, (state) => {
-        state.status = "loading";
+        state.loading = true
+        state.recipes = null
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.loading = false;
         state.recipes = action.payload;
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
-        state.status = "failed";
+        state.loading = false;
         state.error = action.error.message ?? "An error occurred.";
       });
   },
