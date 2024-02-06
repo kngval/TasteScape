@@ -30,6 +30,12 @@ export const fetchRecipes = createAsyncThunk(
   }
 );
 
+export const fetchTrendingRecipes = createAsyncThunk("recipes/fetchTrendingRecipes", async() => {
+  const response = await axios.get(`http://localhost:3000/home`);
+  const data = response.data;
+  return data ;
+})
+
 const recipeSlice = createSlice({
   name: "recipes",
   initialState,
