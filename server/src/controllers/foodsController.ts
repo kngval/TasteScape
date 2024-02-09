@@ -13,6 +13,18 @@ interface SearchList {
   isLiked:boolean
 }
 
+//FETCH TRENDING RECIPES 
+export const fetchRandomRecipe = async(req:Request, res:Response) => {
+  try{
+    const response = await axios.get(`https://api.spoonacular.com/recipes/random?apiKey=${process.env.API_KEY}`)
+    const data = response.data;
+    res.status(200).json(data)
+  } catch(error){
+      console.log(error);
+  }
+}
+
+
 export const getSearchList = async (req: Request, res: Response) => {
   try {
     const response = await axios.get(
@@ -59,6 +71,8 @@ export const fetchLikedRecipe = async (req: Request, res: Response) => {
     res.status(200).json(LikedRecipes);
   } catch (error) {}
 };
+
+
 //LIKING RECIPES
 export const addLikedRecipe = async (req: Request, res: Response) => {
   const { id, title, image}: { id: string; title: string; image: string,} =
