@@ -5,13 +5,13 @@ const Navbar:React.FC = () =>{
 
     return(
         <>
-        <nav className=" text-sm lg:text-md sticky top-0 flex justify-center w-full bg-white p-4 shadow-md z-20">
+        <nav className=" text-sm lg:text-md sticky top-0 flex justify-center w-full bg-white p-4 shadow-md z-50">
             <div className="container w-10/12 justify-between flex items-center mx-5">
                 <div className="flex items-center">
                 <button>
               
             </button>
-            <h1>TASTESCAPE</h1>
+            <h1 className="navbar-title text-xl font-bold">TasteScape</h1>
 
 
             </div>

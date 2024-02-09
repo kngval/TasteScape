@@ -28,7 +28,7 @@ const SearchForm = () => {
       className="w-full  absolute  flex justify-center items-center text-xs  -bottom-10 z-20"
     >
       <div className="bg-gray-200 border-8 border-white  flex flex-col w-3/4 justify-center p-3 rounded-md text-center">
-        <h1 className="text-lg font-semibold">Whatchu Lookin' For?</h1>
+        {/* <h1 className="text-lg font-semibold">Whatchu Lookin' For?</h1> */}
         <div className="flex justify-center">
           <input
             type="text"

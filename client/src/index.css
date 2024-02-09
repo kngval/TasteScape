@@ -6,6 +6,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Montserrat&family=Poppins&family=Roboto:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
 
+
+/* PlayFair Display & Protest Revolution Font */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Protest+Revolution&display=swap');
+:root{
+  background: #fcfcfc;
+}
+
+.navbar-title{
+  font-family: 'PlayFair Display';
+}
+
+
 * {
   font-family: "Poppins";
 }

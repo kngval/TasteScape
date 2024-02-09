@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { HomeSlider } from "../components/Header";
 import { Recipes } from "../components/Recipes";
 import { BottomNavbar } from "../components/BottomNavbar";
-import SideFilter from "../components/SideFilter";
 import Navbar from "../components/Navbar";
 import ErrorPopUp from "../components/ErrorPopUp";
 //assets
@@ -25,7 +24,6 @@ const Home: React.FC = () => {
       <HomeSlider />
       <ErrorPopUp />
       <div className="flex lg:px-20">
-        <SideFilter />
         <div className="w-full flex flex-col items-center">
           {/* SEARCH BAR */}
       
