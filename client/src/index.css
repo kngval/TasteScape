@@ -9,11 +9,12 @@
 
 /* PlayFair Display & Protest Revolution Font */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Protest+Revolution&display=swap');
+
 :root{
-  background: #fcfcfc;
+  background: #fff;
 }
 
-.navbar-title{
+.navbar-title,.headline,.trending{
   font-family: 'PlayFair Display';
 }
 
@@ -23,12 +24,14 @@
 }
 
 
-.headline{
-  font-family: 'Montserrat';
-}
+
 
 .dropdown {
   background-color: #ff6f6f;
+}
+
+.foodName{
+  background: #fcfcfc;
 }
 
 @media (min-width: 800px) {
