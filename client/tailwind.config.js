@@ -8,6 +8,7 @@ export default {
       colors: {
         customPink: "#FF6F6F",
         customWhite: "#F8F8F8",
+        customPink2: "#FFDBDB",
       },
       fontSize:{
         xxs: '0.6rem',

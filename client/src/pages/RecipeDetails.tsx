@@ -114,7 +114,7 @@ const RecipeDetails: React.FC = () => {
             </div>
             <div className="hidden w-full xl:flex flex-col items-center mb-5">
               <div className="mt-10 recipe-container p-5">
-                <h1 className="headline font-bold xl:text-[2rem] 2xl:text-[2rem]">
+                <h1 className="headline font-extrabold xl:text-[2rem] 2xl:text-[2rem]">
                   {chosenRecipe?.title}
                 </h1>
                 <div
@@ -160,7 +160,7 @@ const RecipeDetails: React.FC = () => {
             <div className="infoDeta p-4 lg:px-0">
               <div className="text-center mb-10">
                 <p className="text-xs xl:text-md uppercase">{tab} FOR MAKING</p>
-                <h1 className="font-bold xl:text-xl xl:font-extrabold">
+                <h1 className="headline font-bold xl:text-xl xl:font-extrabold">
                   {chosenRecipe?.title}
                 </h1>
               </div>

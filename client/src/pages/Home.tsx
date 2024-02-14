@@ -1,6 +1,6 @@
 //REACT & REDUX
-import { RootState } from "../Redux/store";
-import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
 //Components
 import { HomeSlider } from "../components/Header";
 import { Recipes } from "../components/Recipes";
@@ -8,68 +8,60 @@ import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
 import ErrorPopUp from "../components/ErrorPopUp";
 //assets
-import chef from "../assets/svgs/chef.svg";
 import { PacmanLoader } from "react-spinners";
-
-
+import { useEffect } from "react";
+import { fetchLikedRecipes } from "../Redux/likedRecipeSlice";
+import { searchMock } from "../mock/searchMock";
 const Home: React.FC = () => {
   const recipes = useSelector((state: RootState) => state?.recipes.recipes);
-  const loading = useSelector((state:RootState) => state?.recipes.loading);
-
-  
+  const loading = useSelector((state: RootState) => state?.recipes.loading);
+  const dispatch = useDispatch<AppDispatch>();
+  const liked = useSelector(
+    (state: RootState) => state.likedRecipes.likedRecipes
+  );
+  useEffect(() => {
+    dispatch(fetchLikedRecipes());
+  }, [dispatch]);
 
   return (
     <>
       <Navbar />
       <HomeSlider />
       <ErrorPopUp />
-      <div className="flex lg:px-20">
-        <div className="w-full flex flex-col items-center">
-          {/* SEARCH BAR */}
-      
-          <div
-            className={`recipes w-full text-center recipe-container  ${
-              !recipes ? "flex justify-center" : "grid"
-            } grid-cols-2 mb-20  md:grid-cols-3  p-2 gap-3 text-xs`}
-          >
-            {/* RECIPES */}
-            {loading && !recipes && (
-              <div className="w-full my-20 flex justify-center">
-                <PacmanLoader color="#FF6F6F"/>
-              </div>
-            )}
-          
 
-            {recipes && !loading &&
-              recipes.map((recipe) => (
-                <Recipes
-                  key={recipe.id}
-                  id={recipe.id}
-                  image={recipe.image}
-                  title={recipe.title}
-                  isLiked={recipe.isLiked}
-                />
-              ))}
+      {/* Loader Spinner */}
+      {loading && !recipes && (
+        <div className="w-full my-20 flex justify-center">
+          <PacmanLoader color="#FF6F6F" />
+        </div>
+      )}
 
-            {!recipes && !loading && (
-                <div className="w-full flex flex-col items-center">
-                  <img
-                    className="my-5 w-28
-                  "
-                    src={chef}
-                    alt=""
-                  />
-                  <p className="w-10/12 uppercase text-xxs sm:text-xs">
-                    Discover Vast Recipes from Around the World{" "}
-                    <span className="block">with</span>
-                  </p>
-
-                  <h1 className="text-lg font-bold">TASTESCAPE</h1>
-                </div>
-              )}
-          </div>
+      <div className="mb-40 mt-20 lg:mt-32 px-4 lg:mx-auto lg:w-[790px] xl:w-[1200px] 2xl:w-[1400px]">
+        <h1 className="trending  lg:ml-0 ml- text-xl lg:text-2xl mt-10 font-bold">Trending Recipes</h1>
+        <div className="py-4  flex overflow-x-auto w-full ">
+          <div className="flex gap-2">
+          {searchMock &&
+            searchMock.map((likedRecipe) => (
+              <Recipes
+                key={likedRecipe.id}
+                id={likedRecipe.id}
+                image={likedRecipe.image}
+                title={likedRecipe.title}
+                isLiked={likedRecipe.isLiked}
+              />
+            ))}
+            </div>
         </div>
       </div>
+
+      {/* Recipe Search */}
+      {/* <div
+        className={`recipes w-full recipe-container  ${
+          !recipes ? "hidden" : "grid"
+        } grid-cols-2 mb-20  md:grid-cols-3  p-2 gap-3 text-xs`}
+      >
+      </div> */}
+
       <BottomNavbar />
     </>
   );
