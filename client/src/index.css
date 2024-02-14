@@ -11,7 +11,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Protest+Revolution&display=swap');
 
 :root{
-  background: #fff;
+  background: #fcfcfc;
 }
 
 .navbar-title,.headline,.trending{
@@ -31,8 +31,45 @@
 }
 
 .foodName{
-  background: #fcfcfc;
+  background: #fff;
 }
+
+/* Define scrollbar styles */
+::-webkit-scrollbar {
+  width: 5px; /* Set the width of the scrollbar */
+}
+
+/* Define scrollbar track styles */
+::-webkit-scrollbar-track {
+  background: #ffe3e3; /* Set the background color of the scrollbar track */
+}
+
+/* Define scrollbar thumb styles */
+::-webkit-scrollbar-thumb {
+  background: #888; /* Set the color of the scrollbar thumb */
+  border-radius: 3px; /* Set border radius of the scrollbar thumb */
+}
+
+/* Define scrollbar hover styles */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Set the color of the scrollbar thumb on hover */
+}
+
+.scrollbar-style {
+  scrollbar-width:thin; /* Firefox */
+  scrollbar-color: #fabbbb #f1f1f1; /* Firefox */
+}
+
+
+.scrollbar-style::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Set the background color of the scrollbar track */
+}
+
+
+.scrollbar-style::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Set the color of the scrollbar thumb on hover */
+}
+
 
 @media (min-width: 800px) {
   .img-container {

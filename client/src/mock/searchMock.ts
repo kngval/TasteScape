@@ -7,7 +7,7 @@ export const searchMock = [
     },
     {
         id:2,
-        title: 'Cordon Bleu',
+        title: 'Carbonara',
         image: 'https://www.simplyrecipes.com/thmb/G0WpDNn_iGeaSImHqH2TGiG8rjY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Spaghetti-Carbonara-LEAD-7-82d6bacf7f3848a4943b14712ab205ff.jpg',
         isLiked: false
 
@@ -21,7 +21,7 @@ export const searchMock = [
     },
     {
         id:4,
-        title: 'Cordon Bleu',
+        title: 'Carbonara',
         image: 'https://www.simplyrecipes.com/thmb/G0WpDNn_iGeaSImHqH2TGiG8rjY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Spaghetti-Carbonara-LEAD-7-82d6bacf7f3848a4943b14712ab205ff.jpg',
         isLiked: false
 
@@ -34,7 +34,7 @@ export const searchMock = [
     },
     {
         id:6,
-        title: 'Cordon Bleu',
+        title: 'Carbonara',
         image: 'https://www.simplyrecipes.com/thmb/G0WpDNn_iGeaSImHqH2TGiG8rjY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Spaghetti-Carbonara-LEAD-7-82d6bacf7f3848a4943b14712ab205ff.jpg',
         isLiked: false
 
@@ -48,7 +48,7 @@ export const searchMock = [
     },
     {
         id:8,
-        title: 'Cordon Bleu',
+        title: 'Carbonara',
         image: 'https://www.simplyrecipes.com/thmb/G0WpDNn_iGeaSImHqH2TGiG8rjY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Spaghetti-Carbonara-LEAD-7-82d6bacf7f3848a4943b14712ab205ff.jpg',
         isLiked: false
 
