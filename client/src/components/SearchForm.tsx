@@ -26,12 +26,12 @@ const SearchForm = () => {
       onSubmit={handleSearch}
       className="w-full  absolute  flex justify-center items-center text-xs  -bottom-10 z-20"
     >
-      <div className="bg-gray-200 border-8 border-white  flex flex-col w-3/4 justify-center p-3 rounded-md text-center">
+      <div className="bg-gray-200 border-8 border-white   w-3/4  p-3  rounded-md ">
         <div className="flex justify-center">
           <input
             type="text"
             value={search}
-            className="w-3/4 bg-white h-10 p-4 rounded-s-md  outline-none"
+            className="w-full bg-white h-10 py-2 px-4 rounded-s-md  outline-none"
             placeholder="Search for A Recipe..."
             onChange={(e) => setSearch(e.target.value)}
           />
