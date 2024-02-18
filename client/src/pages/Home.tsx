@@ -41,7 +41,7 @@ const Home: React.FC = () => {
         </div>
       )}
 
-      <div className="mb-40 mt-20 lg:mt-32 px-4 lg:px-12 ">
+      <div className="mb-40 mt-0 lg:mt-32 px-4 lg:px-12 ">
         <h1 className="trending  lg:ml-0 ml- text-xl lg:text-2xl mt-10 font-bold">
           Trending Recipes
         </h1>
