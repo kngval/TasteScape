@@ -4,6 +4,8 @@ import MyRecipes from "./pages/MyRecipes";
 import LikedRecipes from "./pages/LikedRecipes";
 import Profile from "./pages/Profile";
 import RecipeDetails from "./pages/RecipeDetails";
+import Search from "./pages/Search";
+
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
       <div>
         <Routes>
           <Route path="/home" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+
           <Route path="/my-recipes" element={<MyRecipes />} />
           <Route path="/favorites" element={<LikedRecipes />} />
           <Route path="/profile" element={<Profile />} />
