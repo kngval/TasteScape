@@ -41,7 +41,7 @@ const Home: React.FC = () => {
         </div>
       )}
 
-      <div className="mb-40 mt-20 lg:mt-32 px-4 lg:mx-auto lg:w-[790px] xl:w-[1200px] 2xl:w-[1400px]">
+      <div className="mb-40 mt-20 lg:mt-32 px-4 lg:px-12 ">
         <h1 className="trending  lg:ml-0 ml- text-xl lg:text-2xl mt-10 font-bold">
           Trending Recipes
         </h1>
@@ -49,6 +49,7 @@ const Home: React.FC = () => {
           <div className="flex gap-2 ">
             {searchMock &&
               searchMock.map((likedRecipe) => (
+                <div className="text-xs md:text-sm xl:text-md  bg-white w-[200px] sm:w-[300px] lg:w-[300px] border-gray-200 border-2">
                 <Recipes
                   key={likedRecipe.id}
                   id={likedRecipe.id}
@@ -56,6 +57,7 @@ const Home: React.FC = () => {
                   title={likedRecipe.title}
                   isLiked={likedRecipe.isLiked}
                 />
+                </div>
               ))}
           </div>
         </div>
@@ -71,6 +73,7 @@ const Home: React.FC = () => {
           <div className="flex gap-2">
             {searchMock &&
               searchMock.map((likedRecipe) => (
+                <div className="text-xs md:text-sm xl:text-md  bg-white w-[200px] sm:w-[300px] lg:w-[300px] border-gray-200 border-2">
                 <Recipes
                   key={likedRecipe.id}
                   id={likedRecipe.id}
@@ -78,6 +81,7 @@ const Home: React.FC = () => {
                   title={likedRecipe.title}
                   isLiked={likedRecipe.isLiked}
                 />
+                </div>
               ))}
           </div>
         </div>
