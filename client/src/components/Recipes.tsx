@@ -51,8 +51,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
     }
   };
   return (
-    <>
-      <div className="text-xs md:text-sm xl:text-md  bg-white w-[200px] sm:w-[300px] lg:w-[300px] border-gray-200 border-2">
+    <>  
         <Link to={`/recipe/${id} `}>
           <div className="w-full">
             <img
@@ -114,7 +113,6 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
             </g>
           </svg>
         </div>
-      </div>
     </>
   );
 };
