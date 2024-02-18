@@ -15,10 +15,12 @@ const Navbar:React.FC = () =>{
 
 
             </div>
-                <div className="hidden lg:grid grid-cols-3 list-none gap-10">
+                <div className="hidden lg:grid grid-cols-4 list-none gap-10">
                     <li><NavLink to='/home'>Home</NavLink></li>
+                    <li><NavLink to='/my-recipes'>Search</NavLink></li>
                     <li><NavLink to='/favorites'>Favorites</NavLink></li>
                     <li><NavLink to='/my-recipes'>Create</NavLink></li>
+                    
                     
                 </div>
             <img className="hidden lg:block w-7" src={userSvg} alt="" />
