@@ -19,15 +19,17 @@ const LikedRecipes = () =>{
         <>
             <Navbar />
             <ErrorPopUp />
-            <div className="headline w-full text-center mt-7 text-lg font-bold">
-                <h1>Liked Recipes</h1>
+            <div className="headline w-full text-center my-10 text-lg font-bold">
+                <h1>LIKED RECIPES</h1>
             </div>
-            <div className="recipes w-full  recipe-container  grid  grid-cols-2 mb-20  md:grid-cols-3  p-2 gap-2 text-xs">
+            
+            <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {liked && liked.map((likedRecipe) => (
-                    
+                    <div className="border-gray-200 border-2">
                     <Recipes key={likedRecipe.id} id={likedRecipe.id} image={likedRecipe.image} title={likedRecipe.title} isLiked={likedRecipe.isLiked}/>
+                    </div>
                     ))}
-            </div>
+                </div>
             <BottomNavbar />
         </>
     )
