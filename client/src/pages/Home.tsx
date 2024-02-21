@@ -45,6 +45,8 @@ const Home: React.FC = () => {
         <h1 className="trending  lg:ml-0 ml- text-xl lg:text-2xl mt-10 font-bold">
           Trending Recipes
         </h1>
+        
+        {/* CAROUSEL */}
         <div className="py-4  flex overflow-x-auto w-full scrollbar-style" >
           <div className="flex gap-2 ">
             {searchMock &&
