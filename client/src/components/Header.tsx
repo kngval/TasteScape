@@ -34,7 +34,7 @@ export const HomeSlider: React.FC = () => {
     <div className="relative w-full h-[200px] sm:h-[250px] md:h-[350px]  overflow-hidden">
       <div className="gradient bg-[#00000073] absolute top-0 w-full h-full z-10  text-white flex flex-col items-center justify-center p-4">
         <h1 className="headline text-3xl sm:text-5xl">TASTESCAPE</h1>
-        <p className="text-center text-xs sm:text-lg upperca">Discover vast recipes from around the world</p>
+        <p className="text-center text-xs sm:text-lg upperca">Embark on a Journey Through Flavorful Creations in the Heart of Home Cooking.</p>
       </div>
       <div
         className="flex h-full"
