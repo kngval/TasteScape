@@ -6,12 +6,14 @@ import axios from "axios"
 
 interface FoodState {
   recipes: IRecipes[] | null;
+  searchedRecipes : IRecipes[] | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: FoodState = {
   recipes: null,
+  searchedRecipes : null,
   loading: false,
   error: null,
 };
@@ -25,8 +27,6 @@ export const fetchRecipes = createAsyncThunk(
     const data = response.data;
     return data as IRecipes[];
   
-    // console.log(searchMock)
-    // return searchMock as IRecipes[]
   }
 );
 
@@ -43,10 +43,13 @@ const recipeSlice = createSlice({
       .addCase(fetchRecipes.pending, (state) => {
         state.loading = true
         state.recipes = null
+        state.searchedRecipes = null
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.loading = false;
         state.recipes = action.payload;
+        state.searchedRecipes = action.payload;
+
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
         state.loading = false;
