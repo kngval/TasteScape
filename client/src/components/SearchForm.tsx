@@ -3,16 +3,20 @@ import { useState, useEffect, FormEvent } from "react";
 import searchIcon from "../assets/svgs/search.svg";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../Redux/store";
-import { fetchRecipes } from "../Redux/foodSlice";
+import { searchRecipes } from "../Redux/foodSlice";
+import { useNavigate } from "react-router-dom";
 
 const SearchForm = () => {
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
   const dispatch = useDispatch<AppDispatch>();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (query) {
-      dispatch(fetchRecipes(query));
+      navigate('/search')
+      dispatch(searchRecipes(query));
     }
   }, [query]);
 
@@ -26,7 +30,7 @@ const SearchForm = () => {
       onSubmit={handleSearch}
       className="w-full  absolute  flex justify-center items-center text-xs  -bottom-10 z-20"
     >
-      <div className="bg-gray-200 border-8 border-white   w-3/4  p-3  rounded-md ">
+      <div className="bg-gray-200 border-8 border-[#fcfcfc]   w-3/4  p-3  rounded-md ">
         <div className="flex justify-center">
           <input
             type="text"
