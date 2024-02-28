@@ -6,8 +6,11 @@ import food4 from "../assets/images/food4.jpg";
 import food5 from "../assets/images/food5.jpg";
 import food6 from "../assets/images/food6.jpg";
 
-export const HomeSlider: React.FC = () => {
+export const Header: React.FC = () => {
   const foodArr = [food3, food4, food5, food6];
+  const foodLinks = ["https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+]
+
   const [currIndex,setCurrIndex] = useState(0)
   const [direction, setDirection] = useState(1);
   useEffect(() => {
@@ -31,10 +34,10 @@ export const HomeSlider: React.FC = () => {
 
 
   return (
-    <div className="relative w-full h-[200px] sm:h-[250px] md:h-[350px]  overflow-hidden">
+    <div className="relative w-full h-[200px] sm:h-[250px] md:h-[350px]  overflow-x-hidden overflow-y-visible">
       <div className="gradient bg-[#00000073] absolute top-0 w-full h-full z-10  text-white flex flex-col items-center justify-center p-4">
         <h1 className="headline text-3xl sm:text-5xl">TASTESCAPE</h1>
-        <p className="text-center text-xs sm:text-lg upperca">Embark on a Journey Through Flavorful Creations in the Heart of Home Cooking.</p>
+        <p className="text-center text-xs sm:text-lg ">Embark on a Journey Through Flavorful Creations in the Heart of Home Cooking.</p>
       </div>
       <div
         className="flex h-full"
@@ -52,6 +55,7 @@ export const HomeSlider: React.FC = () => {
           />
         ))}
       </div>
+
     </div>
   );
 };
