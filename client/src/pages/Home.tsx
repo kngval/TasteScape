@@ -3,7 +3,7 @@ import { AppDispatch, RootState } from "../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 //Components
-import { HomeSlider } from "../components/Header";
+import { Header } from "../components/Header";
 import { Recipes } from "../components/Recipes";
 import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
@@ -13,6 +13,8 @@ import { PacmanLoader } from "react-spinners";
 
 //Exported Functions
 import { fetchRecipes } from "../Redux/foodSlice";
+import SearchForm from "../components/SearchForm";
+import LoadingSpinner from "../components/LoadingSpinner";
 const Home: React.FC = () => {
   //REDUX STATES
   const recipes = useSelector((state: RootState) => state?.recipes.recipes);
@@ -25,13 +27,17 @@ const Home: React.FC = () => {
   useEffect(() => {
     dispatch(fetchRecipes("Korean"));
   }, [dispatch]);
-
+  
   return (
     <>
       <Navbar />
-      <HomeSlider />
-      <ErrorPopUp />
 
+      <div className="relative">
+      <Header />
+      <SearchForm />
+      </div>
+      <ErrorPopUp />
+      
       {/* Loader Spinner */}
 
       <div className="mb-40 mt-0 lg:mt-32 px-4 lg:px-12 ">
@@ -40,12 +46,12 @@ const Home: React.FC = () => {
         </h1>
 
         {/* CAROUSEL */}
-        <div className="py-4  flex overflow-x-auto w-full scrollbar-style" style={{justifyContent : `${!recipes ? 'center' : 'none'}`}}>
+        <div className="py-4  flex overflow-x-auto w-full scrollbar-style" >
             {loading && !recipes && (
-              <div className="w-full my-20 flex justify-center">
-                <PacmanLoader color="#FF6F6F" />
-              </div>
+              <LoadingSpinner />
             )}
+
+            {/* RECIPE  */}
           <div className="flex gap-2 ">
             {recipes &&
               recipes.map((recipe) => (
@@ -69,11 +75,9 @@ const Home: React.FC = () => {
           </h1>
         </div>
 
-        <div className="py-4  flex overflow-x-auto w-full scrollbar-style" style={{justifyContent : `${!recipes ? 'center' : 'none'}`}}>
+        <div className="py-4  flex overflow-x-auto w-full scrollbar-style" >
             {loading && !recipes && (
-              <div className="w-full my-20 flex justify-center">
-                <PacmanLoader color="#FF6F6F" />
-              </div>
+              <LoadingSpinner />
             )}
           <div className="flex gap-2">
             {recipes &&
