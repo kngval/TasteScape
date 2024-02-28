@@ -36,23 +36,27 @@ const ErrorPopUp: React.FC = () => {
   
   }, [error, successMsg, dispatch]);
 
+  
   return (
     <>
       {error && (
       <div
-        className={`fixed flex justify-center items-center top-20 lg:top-24 z-20 w-full h-20`}
-      >
-        <div className="p-4 bg-gray-100 rounded-lg w-[250px] text-xs xl:text-lg lg:w-[400px]">
-          <h1 className="text-xs font-semibold lg:text-sm">{error}</h1>
-        </div>
+      className={`
+       fixed
+       flex justify-center items-center top-20 z-50 w-full h-20`}
+    >
+      <div className="flex items-center justify-center bg-gray-100 rounded-lg w-[250px] p-4 text-xs xl:text-lg xl:w-[400px]">
+        <img src={addedRecipe} className="h-10" alt="" />
+        <h1 className="ml-5 text-center text-sm">{error}</h1>
       </div>
+    </div>
       )}
 
       {successMsg && !error && (
         <div
           className={`
            fixed
-           flex justify-center items-center top-20 z-20 w-full h-20`}
+           flex justify-center items-center top-20 z-50 w-full h-20`}
         >
           <div className="flex items-center justify-center bg-gray-100 rounded-lg w-[250px] p-4 text-xs xl:text-lg xl:w-[400px]">
             <img src={addedRecipe} className="h-10" alt="" />
