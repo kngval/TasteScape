@@ -8,8 +8,7 @@ import food6 from "../assets/images/food6.jpg";
 
 export const Header: React.FC = () => {
   const foodArr = [food3, food4, food5, food6];
-  const foodLinks = ["https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-]
+ 
 
   const [currIndex,setCurrIndex] = useState(0)
   const [direction, setDirection] = useState(1);

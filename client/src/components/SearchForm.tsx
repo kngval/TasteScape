@@ -28,24 +28,27 @@ const SearchForm = () => {
   return (
     <form
       onSubmit={handleSearch}
-      className="w-full  absolute  flex justify-center items-center text-xs  -bottom-10 z-20"
+      className="w-full   absolute  flex justify-center items-center text-xxs sm:text-sm   -bottom-10 z-20"
     >
-      <div className="bg-gray-200 border-8 border-[#fcfcfc]   w-3/4  p-3  rounded-md ">
+      <div className="bg-gray-200 border-8 border-[#fcfcfc]   w-3/4  p-3 rounded-sm ">
         <div className="flex justify-center">
           <input
             type="text"
             value={search}
-            className="w-full bg-white h-10 py-2 px-4 rounded-s-md  outline-none"
+            className="w-full h-[50%] bg-white  py-2 px-4 rounded-s-sm  outline-none"
             placeholder="Search for A Recipe..."
             onChange={(e) => setSearch(e.target.value)}
           />
+          <div className="w-10 flex items-center h-[30px]  rounded-e-sm bg-white p-2">
           <button
             type="submit"
-            className="w-10 flex items-center h-10 p-3 rounded-e-md bg-white"
+            className=""
           >
-            <img src={searchIcon} className="" alt="" />
+            <img src={searchIcon} className="w-full h-full" alt="" />
           </button>
+          </div>
         </div>
+        
       </div>
     </form>
   );

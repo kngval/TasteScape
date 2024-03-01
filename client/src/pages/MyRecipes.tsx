@@ -5,7 +5,6 @@ const MyRecipes = () => {
   return (
     <>
       <Navbar />
-      <h1>RECIPE PAGE</h1>
 
       <BottomNavbar />
     </>

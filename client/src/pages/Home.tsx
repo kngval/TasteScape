@@ -9,7 +9,6 @@ import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
 import ErrorPopUp from "../components/ErrorPopUp";
 //assets
-import { PacmanLoader } from "react-spinners";
 
 //Exported Functions
 import { fetchRecipes } from "../Redux/foodSlice";
@@ -38,15 +37,16 @@ const Home: React.FC = () => {
       </div>
       <ErrorPopUp />
       
-      {/* Loader Spinner */}
 
-      <div className="mb-40 mt-0 lg:mt-32 px-4 lg:px-12 ">
+        {/* CAROUSEL */}
+        <div className="recipe-wrapper mb-40 mt-32 lg:mt-32 px-4 lg:px-12 ">
+      <div className="">
         <h1 className="trending  lg:ml-0 ml- text-xl lg:text-2xl mt-10 font-bold">
           Trending Recipes
         </h1>
 
-        {/* CAROUSEL */}
-        <div className="py-4  flex overflow-x-auto w-full scrollbar-style" >
+          {/* Loader Spinner */}
+        <div className="py-4  flex overflow-x-auto w-full scrollbar-style " >
             {loading && !recipes && (
               <LoadingSpinner />
             )}
@@ -95,7 +95,7 @@ const Home: React.FC = () => {
           </div>
         </div>
       </div>
-
+      </div>
       {/* Recipe Search */}
       {/* <div
         className={`recipes w-full recipe-container  ${

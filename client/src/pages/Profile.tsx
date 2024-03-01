@@ -1,10 +1,12 @@
 import { BottomNavbar } from "../components/BottomNavbar";
+import Navbar from "../components/Navbar";
 
 const Profile = () => {
   return (
     <>
-        PROFILE
-        <BottomNavbar />
+      <Navbar />
+      <div></div>
+      <BottomNavbar />
     </>
   );
 };

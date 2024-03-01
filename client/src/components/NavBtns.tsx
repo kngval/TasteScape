@@ -48,22 +48,17 @@ const NavBtns = () => {
     }
   };
 
-  const NavBtnStyle = `w-[20px] h-[25px] lg:w-[30px] lg:h-[25px]`;
-  const BtnContainerStyle = ` py-2 px-6 lg:py-4 lg:px-8 rounded-lg   lg:h-full  justify-center items-center hover:bg-gray-200 transition-colors duration-500 ease-in-out `;
-
+  const NavBtnStyle = `h-[15px] lg:h-[20px]  `;
+  const BtnContainerStyle = `py-2 px-6 lg:py-2    lg:h-full  flex justify-center items-center hover:bg-gray-200 transition-color duration-500 ease-in-out relative rounded-lg`;
+  const svgLine = `absolute -bottom-1 border-customPink border-b-2 transition-width ease-in-out duration-700`;
   return (
     <>
-      <div
-        className={BtnContainerStyle}
-        style={{ backgroundColor: `${iconIndex === 0 ? "#e5e7eb" : "none"}` }}
-        onClick={() => handleClick(0)}
-      >
+      <div className={BtnContainerStyle} onClick={() => handleClick(0)}>
         <svg
           className={NavBtnStyle}
           viewBox="0 0 24 24"
           fill={location.pathname == "/home" ? "#FF6F6F" : "none"}
           xmlns="http://www.w3.org/2000/svg"
-          stroke="#000"
         >
           <g id="SVGRepo_bgCarrier" strokeWidth="0" />
 
@@ -88,19 +83,19 @@ const NavBtns = () => {
             />{" "}
           </g>
         </svg>
+        <div
+          className={svgLine}
+          style={{ width: `${iconIndex === 0 ? "100%" : "0%"}` }}
+        ></div>
       </div>
       {/* SEARCH SVG */}
-      <div
-        className={BtnContainerStyle}
-        onClick={() => handleClick(4)}
-        style={{ backgroundColor: `${iconIndex === 4 ? "#e5e7eb" : "none"}` }}
-      >
+      <div className={BtnContainerStyle} onClick={() => handleClick(4)}>
         <svg
           viewBox="0 0 24 24"
+          className={NavBtnStyle}
+          // className={iconIndex === 4 ? "border-customPink border-b-2" : ""}
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          width="23px"
-          height="23px"
         >
           <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
           <g
@@ -119,13 +114,13 @@ const NavBtns = () => {
             ></path>{" "}
           </g>
         </svg>
+        <div
+          className={svgLine}
+          style={{ width: `${iconIndex === 4 ? "100%" : "0%"}` }}
+        ></div>
       </div>
       {/* ADD SVG */}
-      <div
-        className={BtnContainerStyle}
-        onClick={() => handleClick(2)}
-        style={{ backgroundColor: `${iconIndex === 2 ? "#e5e7eb" : "none"}` }}
-      >
+      <div className={BtnContainerStyle} onClick={() => handleClick(2)}>
         <svg
           className={NavBtnStyle}
           viewBox="0 0 24 24"
@@ -165,16 +160,15 @@ const NavBtns = () => {
             />{" "}
           </g>
         </svg>
+        <div
+          className={svgLine}
+          style={{ width: `${iconIndex === 2 ? "100%" : "0%"}` }}
+        ></div>
       </div>
       {/* HEART SVG */}
-      <div
-        className={BtnContainerStyle}
-        onClick={() => handleClick(1)}
-        style={{ backgroundColor: `${iconIndex === 1 ? "#e5e7eb" : "none"}` }}
-      >
+      <div className={BtnContainerStyle} onClick={() => handleClick(1)}>
         <svg
-          className="w-[26px] cursor-pointer"
-          height="25px"
+          className={NavBtnStyle}
           viewBox="0 0 24 24"
           fill={iconIndex === 1 ? "#FF6F6F" : "none"}
           xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +180,6 @@ const NavBtns = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
             stroke="#CCCCCC"
-            strokeWidth="0.048"
           />
 
           <g id="SVGRepo_iconCarrier">
@@ -196,23 +189,23 @@ const NavBtns = () => {
               clipRule="evenodd"
               d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z"
               stroke={iconIndex === 1 ? "#FF6F6F" : "#000"}
-              strokeWidth="1.2"
+              strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />{" "}
           </g>
         </svg>
+        <div
+          className={svgLine}
+          style={{ width: `${iconIndex === 1 ? "100%" : "0%"}` }}
+        ></div>
       </div>
       {/* PROFILE SVG */}
 
-      <div
-        className={BtnContainerStyle}
-        style={{ backgroundColor: `${iconIndex === 3 ? "#e5e7eb" : "none"}` }}
-      >
+      <div className={BtnContainerStyle} onClick={() => handleClick(3)}>
         <svg
           className={NavBtnStyle}
           viewBox="0 0 24.00 24.00"
-          onClick={() => handleClick(3)}
           xmlns="http://www.w3.org/2000/svg"
           stroke="#000000"
           fill={iconIndex === 3 ? "#FF6F6F" : "none"}
@@ -224,7 +217,7 @@ const NavBtns = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
             stroke="#000"
-            strokeWidth="1.968"
+            strokeWidth="1.5"
           />
 
           <g id="SVGRepo_iconCarrier">
@@ -238,7 +231,7 @@ const NavBtns = () => {
             <path
               opacity="1"
               d="M12.1207 12.78C12.0507 12.77 11.9607 12.77 11.8807 12.78C10.1207 12.72 8.7207 11.28 8.7207 9.50998C8.7207 7.69998 10.1807 6.22998 12.0007 6.22998C13.8107 6.22998 15.2807 7.69998 15.2807 9.50998C15.2707 11.28 13.8807 12.72 12.1207 12.78Z"
-              stroke={iconIndex === 3 ? "#fcfcfc" : "#000000"}
+              stroke={iconIndex === 3 ? "#fff" : "#000000"}
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -246,13 +239,17 @@ const NavBtns = () => {
             <path
               opacity="1"
               d="M18.7398 19.3801C16.9598 21.0101 14.5998 22.0001 11.9998 22.0001C9.39977 22.0001 7.03977 21.0101 5.25977 19.3801C5.35977 18.4401 5.95977 17.5201 7.02977 16.8001C9.76977 14.9801 14.2498 14.9801 16.9698 16.8001C18.0398 17.5201 18.6398 18.4401 18.7398 19.3801Z"
-              stroke={iconIndex === 3 ? "#fcfcfc" : "#000000"}
+              stroke={iconIndex === 3 ? "#fff" : "#000000"}
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </g>
         </svg>
+        <div
+          className={svgLine}
+          style={{ width: `${iconIndex === 3 ? "100%" : "0%"}` }}
+        ></div>
       </div>
     </>
   );
