@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import NavBtns from "./NavBtns";
 import searchIcon from "../assets/svgs/search.svg";
 
-// import userSvg from "../assets/svgs/userIcon.svg";
 const Navbar: React.FC = () => {
   return (
     <>
