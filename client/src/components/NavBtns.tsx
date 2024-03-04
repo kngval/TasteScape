@@ -48,7 +48,7 @@ const NavBtns = () => {
     }
   };
 
-  const NavBtnStyle = `h-[15px] lg:h-[20px]  `;
+  const NavBtnStyle = `h-[20px] lg:h-[24px]  `;
   const BtnContainerStyle = `py-2 px-6 lg:py-2    lg:h-full  flex justify-center items-center hover:bg-gray-200 transition-color duration-500 ease-in-out relative rounded-lg`;
   const svgLine = `absolute -bottom-1 border-customPink border-b-2 transition-width ease-in-out duration-700`;
   return (
