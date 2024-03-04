@@ -19,9 +19,7 @@ const Home: React.FC = () => {
   const recipes = useSelector((state: RootState) => state?.recipes.recipes);
   const loading = useSelector((state: RootState) => state?.recipes.loading);
   const dispatch = useDispatch<AppDispatch>();
-  // const liked = useSelector(
-  //   (state: RootState) => state.likedRecipes.likedRecipes
-  // );
+  
 
   useEffect(() => {
     dispatch(fetchRecipes("Korean"));
@@ -69,7 +67,6 @@ const Home: React.FC = () => {
         </div>
 
         <div className="mt-10 ">
-          {/* <p className="text-xxs ml-5">RECIPES FROM </p> */}
           <h1 className="trending   text-xl lg:text-2xl font-bold">
             Asian Recipes
           </h1>
