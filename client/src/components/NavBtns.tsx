@@ -53,7 +53,7 @@ const NavBtns = () => {
   const svgLine = `absolute -bottom-1 border-customPink border-b-2 transition-width ease-in-out duration-700`;
   return (
     <>
-      <div className={BtnContainerStyle} onClick={() => handleClick(0)}>
+      <div className={BtnContainerStyle} onClick={() => navigate("/home")}>
         <svg
           className={NavBtnStyle}
           viewBox="0 0 24 24"
