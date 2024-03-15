@@ -69,7 +69,7 @@ export const fetchLikedRecipe = async (req: Request, res: Response) => {
   try {
     const LikedRecipes = await LikedModel.find().sort({ createdAt: -1 });
     res.status(200).json(LikedRecipes);
-  } catch (error) {}
+  } catch (error) {console.log(error)}
 };
 
 
