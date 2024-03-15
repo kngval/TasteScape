@@ -12,7 +12,6 @@ import serving from "../assets/svgs/RecipeDetails/serving.svg";
 import location from "../assets/svgs/RecipeDetails/location.svg";
 import Navbar from "../components/Navbar";
 import { BottomNavbar } from "../components/BottomNavbar";
-// import health from "../assets/svgs/RecipeDetails/health.svg";
 
 const RecipeDetails: React.FC = () => {
   const [tab, setTab] = useState<string>("ingredients");

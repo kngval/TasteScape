@@ -26,27 +26,27 @@ const Profile = () => {
           <div className="pfp-header-wrapper  flex flex-col  items-center relative w-full  bg-[#fcfcfc] ">
             <div className="head w-full h-[200px] lg:h-[300px] ">
               <img
-                src="https://scontent.fmnl4-2.fna.fbcdn.net/v/t39.30808-6/420924621_1928494867552019_7848630957939104409_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=783fdb&_nc_eui2=AeF4u2npJvVUIbJgTwJwdHcqPMu6VVFecgo8y7pVUV5yCoAq63Si4CxjHMTOqVJrthF5ckVK1AETQI_2uWg3HGxs&_nc_ohc=6eTGzbaruGMAX9w25DP&_nc_ht=scontent.fmnl4-2.fna&oh=00_AfBD0y9PHyIFV6MzFGK0SWD_okrvYKY0Yvtm3cuL7AzGcQ&oe=65EB644B"
+                src="https://scontent.fmnl25-3.fna.fbcdn.net/v/t39.30808-6/420924621_1928494867552019_7848630957939104409_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeF4u2npJvVUIbJgTwJwdHcqPMu6VVFecgo8y7pVUV5yCoAq63Si4CxjHMTOqVJrthF5ckVK1AETQI_2uWg3HGxs&_nc_ohc=GqBtJ621R1MAX8JCFB_&_nc_ht=scontent.fmnl25-3.fna&oh=00_AfAab9UaUpT1nNobETtdVZqvFlwUg-Zdckzp45A_EZ9RSQ&oe=65F1530B"
                 alt=""
                 className="w-full h-full object-cover object-center"
               />
             </div>
             <div className="z-50 flex flex-col lg:flex-row items-center lg:justify-between lg: lg:w-full lg:p-4 -mt-[5rem] lg:mb-0">
-              <div className="lg:flex items-center">
-                <div className="pfp-icon-container flex justify-center items-center rounded-full w-[200px] h-[200px]  mb-2 border-[5px] border-[#fcfcfc] ">
+              <div className="lg:flex items-center ">
+                <div className="pfp-icon-container flex justify-center items-center rounded-full w-[200px]   mb-2 border-[5px] border-[#fcfcfc] ">
                   <img
-                    src="https://scontent.fmnl4-6.fna.fbcdn.net/v/t39.30808-6/427946549_1941758782892294_7126879791046981568_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeHhM_bqgOcQmV04dBxhSi1zBg8ymP9XlHUGDzKY_1eUdYgXEohr-o614_geGqMbI_AjeEVBmSQ3JsnYUGMwaLXY&_nc_ohc=-eAsjLjSAOwAX8prQyp&_nc_ht=scontent.fmnl4-6.fna&oh=00_AfB-BdqK76JdCxdibjs0KE1AzzG9yvCOHr4fn4b5CnFaIw&oe=65EA0FF3"
+                    src="https://scontent.fmnl25-1.fna.fbcdn.net/v/t39.30808-6/427946549_1941758782892294_7126879791046981568_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHhM_bqgOcQmV04dBxhSi1zBg8ymP9XlHUGDzKY_1eUdYgXEohr-o614_geGqMbI_AjeEVBmSQ3JsnYUGMwaLXY&_nc_ohc=UgR5P-otfOIAX8a99YZ&_nc_ht=scontent.fmnl25-1.fna&oh=00_AfCypSNXpC3Nciis9LiVwYfjUsWnJsoWKo9xMu3lSYoV1A&oe=65F1F8F3"
                     alt=""
                     className="w-full h-full object-cover object-center rounded-full"
                   />
                 </div>
-                <div className="pfp-name text-center lg:ml-[1rem] mb-2 lg:mb-0">
-                  <h1 className="font-medium text-lg lg:text-2xl lg:font-extrabold ">
-                    Brent King Valino
+                <div className="pfp-name text-center ml-0  lg:ml-[1rem] mb-2 lg:mb-0 w-[200px]">
+                  <h1 className="font-medium text-md md:text-lg lg:text-2xl lg:font-extrabold ">
+                    
                   </h1>
                 </div>
               </div>
-              <div className=" bg-customPink flex justify-center items-end w-[80%] lg:w-[200px] text-white px-4 py-2 rounded-md text-sm ">
+              <div className=" bg-customPink flex justify-center items-center w-[80%] lg:w-[170px] h-[40px] text-white px-2 lg:px-4 py-2 rounded-md text-sm ">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
