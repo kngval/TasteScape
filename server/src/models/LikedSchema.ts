@@ -10,5 +10,5 @@ const LikedSchema = new mongoose.Schema({
   },
 });
 
-const LikedModel = mongoose.model<Document>("Liked Recipes", LikedSchema);
+const LikedModel = mongoose.model<Document>("likedRecipes", LikedSchema);
 export default LikedModel;
