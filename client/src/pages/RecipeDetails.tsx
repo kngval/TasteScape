@@ -54,11 +54,11 @@ const RecipeDetails: React.FC = () => {
               alt=""
             />
             <div className="gradient xl:rounded-xl flex justify-center bg-gradient-to-b from-transparent to-black  absolute top-0 w-full h-full z-10">
-              <h1 className="z-50 absolute 2xl:text-2xl  text-white bottom-20 font-bold xl:hidden">
+              <h1 className="z-50 absolute text-2xl text-white bottom-20 font-bold xl:hidden">
                 {chosenRecipe?.title}
               </h1>
 
-              <div className="detailsBar text-xxs 2xl:text-lg w-5/6 flex justify-evenly gap-x-5 absolute mx-8  bg-white -bottom-10 shadow-xl rounded-lg  p-4 ">
+              <div className="detailsBar text-xxs 2xl:text-lg w-5/6 flex justify-evenly gap-x-5 absolute mx-8  bg-white -bottom-10 rounded-lg  p-4">
                 <div className="flex flex-col items-center">
                   <img
                     src={stopwatch}
@@ -125,7 +125,7 @@ const RecipeDetails: React.FC = () => {
           </div>
 
           {/* INGREDIENTS, INSTRUCTIONS, AND NUTRIENTS */}
-          <div className="display  2xl:w-[600px] xl:w-[400px] sm:px-2 lg:px-10 xl:px-0 ml-10 recipe-container">
+          <div className="display  2xl:w-[600px] xl:w-[400px] sm:px-2 lg:px-10 xl:px-0 xl:ml-10 recipe-container">
             <div className="flex justify-center w-full">
               <div className="btnContainer w-full text-xxs grid grid-cols-3 gap-5 lg:gap-0 xl:justify-center  md:text-sm  px-10 xl:px-0 mb-10">
                 <button
@@ -156,20 +156,20 @@ const RecipeDetails: React.FC = () => {
             </div>
 
             {/* INGREDIENTS,INSTRUCTIONS & NUTRIENTS DETAILS*/}
-            <div className="infoDeta p-4 lg:px-0">
+            <div className="infoDeta p-2 lg:px-0">
               <div className="text-center mb-10">
                 <p className="text-xs xl:text-md uppercase">{tab} FOR MAKING</p>
                 <h1 className="headline font-bold xl:text-xl xl:font-extrabold">
                   {chosenRecipe?.title}
                 </h1>
               </div>
-              <div className="tab-details-container grid grid-cols-1 gap-5 list-none">
+              <div className="tab-details-container grid grid-cols-1 gap-2 list-none">
                 {tab === "ingredients" &&
                   chosenRecipe?.extendedIngredients &&
                   chosenRecipe?.extendedIngredients.map((ingredient, index) => (
                     <li
                       key={index}
-                      className="text-center shadow-lg py-4 border-l-8 border-customPink"
+                      className="text-center py-4 border-4 border-customPink"
                     >
                       {ingredient.original}
                     </li>

@@ -1,14 +1,17 @@
 import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
 import chef3 from "../assets/svgs/MyRecipes/chef3.svg";
+import { useNavigate } from "react-router-dom";
+
 const MyRecipes = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Navbar />
 
-      <div className="mt-[2rem] mb-[5rem] lg:mt-[10rem]">
+      <div className="mt-[4rem] mb-[5rem] lg:mt-[10rem]">
         <div className="w-full flex justify-center ">
-          <div className="bg-customPink p-2 text-sm lg:text-lg text-white rounded-sm cursor-pointer">
+          <div className="bg-customPink p-2 text-sm lg:text-lg text-white rounded-sm cursor-pointer" onClick={() => navigate('/my-recipes/createRecipe')}>
             <h1>Click here to Create your own Recipe</h1>
           </div>
         </div>
@@ -19,10 +22,12 @@ const MyRecipes = () => {
         <div className="w-full flex justify-center text-sm lg:text-lg  mt-5">
           <h1 className="p-4 w-[90%] text-center">
             Empower your kitchen; innovate, taste, and craft your own culinary
-            legacy
+            Legacy
           </h1>
         </div>
       </div>
+
+     
       <BottomNavbar />
     </>
   );
