@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import foodRoutes from "./routes/foodRoutes";
 import foodSearch from "./routes/foodSearch";
 import likedRoutes from "./routes/likedRoutes";
 import "dotenv/config";
@@ -17,7 +16,6 @@ app.use(
   })
 );
 app.options("/favorites/:id", cors()); // Handle OPTIONS for DELETE
-app.use("/profile", foodRoutes);
 app.use("/Home", foodSearch);
 app.use("/favorites", likedRoutes);
 mongoose

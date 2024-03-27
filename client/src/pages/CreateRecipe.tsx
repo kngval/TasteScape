@@ -1,41 +1,74 @@
+//REACT
 import { useState } from "react";
+
+//COMPONENTS
 import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
+//icons
+import { FaPlus, FaTrash } from "react-icons/fa";
 
-
-
+//ASSETS
+import instructions from "../assets/svgs/MyRecipes/instructions.svg";
+import basket from "../assets/svgs/MyRecipes/basket.svg";
+import nutrition from "../assets/svgs/MyRecipes/nutrition.svg";
 const CreateRecipe: React.FC = () => {
+  // INGREDIENTS INPUT
   const [ingredient, setIngredient] = useState<string[]>([]);
-  const [ingredientName, setIngredientName] = useState<string>()
-  const [quantity, setQuantity] = useState<string>()
-  const [measurement,setMeasurement] = useState<string>()
+  const [ingredientName, setIngredientName] = useState<string>("");
+  const [quantity, setQuantity] = useState<string>("");
+  const [measurement, setMeasurement] = useState<string>("");
+
+  //INSTRUCTIONS INPUT
+  const [instruction, setInstruction] = useState("");
+  const [instructionList, setInstructionList] = useState<string[]>([]);
+
+  // NUTRITION INPUT
 
   const addIngredients = () => {
-    if(quantity !== undefined && ingredientName !== undefined && measurement !== undefined){
-      const newIngredient = quantity + ' ' + measurement + ' ' + ingredientName
-      setIngredient(prevIngredients => [...prevIngredients, newIngredient])
-      setQuantity('');
-      setMeasurement('')
-      setIngredientName('')
-  }
-   
-  }
+    const newIngredient = `${quantity} ${measurement} ${ingredientName}`;
+    setIngredient((prevIngredients) => [...prevIngredients, newIngredient]);
+    setQuantity("");
+    setMeasurement("");
+    setIngredientName("");
+  };
 
-  const removeIngredient = (ingredientToRemove :string) => {
-    setIngredient((prevIngredient) => prevIngredient.filter(ingredients => ingredients !== ingredientToRemove));
-  }
+  const removeIngredient = (ingredientToRemove: number) => {
+    setIngredient((prevIngredient) =>
+      prevIngredient.filter(
+        (_ingredients, index) => index !== ingredientToRemove
+      )
+    );
+  };
 
+  const addInstruction = () => {
+    setInstructionList((prevInstructions) => [
+      ...prevInstructions,
+      instruction,
+    ]);
+    setInstruction("");
+  };
+
+  const removeInstruction = (indexToRemove: number) => {
+    setInstructionList((prevInstructions) =>
+      prevInstructions.filter((_, index) => index !== indexToRemove)
+    );
+  };
   return (
     <>
       <Navbar />
       <div className="flex justify-center text-xs md:text-md">
-        <form action="" className="w-[90%] lg:w-[900px]  grid gap-8 py-5 mb-[5rem]">
+        <form
+          action=""
+          className="w-[90%] lg:w-[900px]  grid gap-8 py-5 mb-[5rem]"
+        >
           <div className="grid lg:grid-cols-2 gap-5">
             <div className="">
-              <label>Name :</label>
+              <label>
+                Name: <span className="text-[#FF0000]">*</span>
+              </label>
               <input
                 type="text"
-                className="block w-full p-2 border-2 rounded-md outline-customPink"
+                className="block w-full p-2 border-2 rounded-md outline-none"
                 placeholder="e.g Filipino Chicken Adobo"
                 required
               />
@@ -45,9 +78,8 @@ const CreateRecipe: React.FC = () => {
               <select
                 name=""
                 id=""
-                className=" block p-2 w-full border-2 rounded-md outline-customPink bg-white ease-in-out transition duration-300"
+                className=" block p-2 w-full border-2 rounded-md outline-none bg-white ease-in-out transition duration-300"
                 required
-
               >
                 <option value="">Select a cuisine type :</option>
                 <option value="">Chinese</option>
@@ -63,24 +95,20 @@ const CreateRecipe: React.FC = () => {
                 <option value="">British</option>
                 <option value="">American</option>
                 <option value="">Carribean</option>
-
-
-
               </select>
             </div>
           </div>
 
           <div className="">
             <label className="">
-              About the Dish :{" "}
+              About the Dish : <span className="text-[#FF0000]">*</span>{" "}
             </label>
             <textarea
               name=""
               id=""
-              className="block w-full h-[200px] p-2 border-2 rounded-md outline-customPink"
+              className="block w-full h-[200px] p-2 border-2 rounded-md outline-none"
               placeholder="e.g Adobo is a dish that is usually made with meat (chicken, pork, or beef) marinated in vinegar, soy sauce, garlic, and other spices. The meat is slowly cooked until it becomes tender and flavorful. Adobo is often served with rice and is a staple dish in many Filipino households"
               required
-
             ></textarea>
           </div>
 
@@ -123,73 +151,220 @@ const CreateRecipe: React.FC = () => {
 
           <div className="grid lg:grid-cols-3 gap-2 lg:gap-5">
             <div>
-            <label>Cooking Time in Minutes :</label>
-            <input type="number" name="" id="" className="block border-2 p-1 rounded-md w-full" required/>
+              <label>Cooking Time in Minutes :</label>
+              <input
+                type="number"
+                name=""
+                id=""
+                className="block border-2 p-1 rounded-md w-full outline-none"
+                required
+              />
             </div>
 
             <div>
-            <label>Servings :</label>
-            <input type="number" name="" id="" className="block border-2 p-1 rounded-md w-full" required/>
+              <label>Servings :</label>
+              <input
+                type="number"
+                name=""
+                id=""
+                className="block border-2 p-1 rounded-md w-full outline-none"
+                required
+              />
             </div>
             <div>
-            <label>Health Score :</label>
-            <input type="number" name="" id="" className="block border-2 p-1 rounded-md w-full" required/>
+              <label>Health Score :</label>
+              <input
+                type="number"
+                name=""
+                id=""
+                className="block border-2 p-1 rounded-md w-full outline-none"
+                required
+              />
             </div>
           </div>
 
           <div className="ingredients-form">
-            
             <div className="ingredients-list flex justify-center mt-4">
               <fieldset className="bg-white border-2 w-full p-4">
-                <legend className="text-sm ml-4">Ingredients List</legend>
+                <legend className="text-sm lg:text-lg ml-4">
+                  Ingredients List <span className="text-[#FF0000]">*</span>
+                </legend>
 
-                    <div className="grid lg:grid-cols-3 p-4 lg:justify-items-center gap-4 rounded-md relative">
+                <div className="grid lg:grid-cols-3 p-4 lg:justify-items-center gap-4 rounded-md relative">
+                  <div className="w-full">
+                    <label>Ingredient :</label>
+                    <input
+                      type="text"
+                      className="border-2 p-1 rounded-md block w-full outline-none"
+                      onChange={(e) => setIngredientName(e.target.value)}
+                      value={ingredientName}
+                    />
+                  </div>
                   <div className="w-full">
                     <label>Quantity :</label>
-                    <input type="number" className="border-2 p-1 rounded-md block w-full " onChange={(e) => setQuantity(e.target.value)} value={quantity}/>
+                    <input
+                      type="number"
+                      className="border-2 p-1 rounded-md block w-full outline-none"
+                      onChange={(e) => setQuantity(e.target.value)}
+                      value={quantity}
+                    />
                   </div>
 
                   <div className="w-full">
-                    <label>Measurement  :</label>
-                    <input type="text" className="border-2 p-1 rounded-md block w-full" onChange={(e) => setMeasurement(e.target.value)} value={measurement}/>
-                    </div>
-                    
-                    <div className="w-full">
-                    <label>Ingredient  :</label>
-                    <input type="text" className="border-2 p-1 rounded-md block w-full" onChange={(e) => setIngredientName(e.target.value)} value={ingredientName}/>
-                    </div>
+                    <label>Measurement :</label>
+                    <input
+                      type="text"
+                      className="border-2 p-1 rounded-md block w-full outline-none"
+                      onChange={(e) => setMeasurement(e.target.value)}
+                      value={measurement}
+                    />
                   </div>
-                  <div className="w-full px-4  lg:flex lg:justify-end">
-                    <div className="flex justify-center items-center bg-customPink text-white lg:pr-4 rounded-md "  onClick={addIngredients}>
-                      <svg  className="w-[35px] h-[35px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_iconCarrier">  <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"></path> </g></svg>
+                </div>
+                <div className="w-full px-4  lg:flex lg:justify-end">
+                  <div
+                    className="flex justify-center items-center bg-customPink text-white p-2 rounded-md cursor-pointer"
+                    onClick={addIngredients}
+                  >
+                    <button type="button" className="flex items-center">
+                      <FaPlus className="w-[20px] h-[10px]" />
+                      <h1 className="">Add New Ingredient</h1>
+                    </button>
+                  </div>
+                </div>
 
-                      <button type="button" className="">Add New Ingredient</button>
-                    </div>
+                <div className="ingredient-lists my-10">
+                  <div className="flex flex-col justify-center items-center">
+                    <img
+                      src={basket}
+                      alt=""
+                      className="w-[200px] h-[200px] sm:h-[200px] my-8"
+                    />
+                    <h1>
+                      {ingredient.length === 0
+                        ? "Your Ingredients Will be Displayed Here"
+                        : `There are ${ingredient.length} ingredients in your Basket`}
+                    </h1>
                   </div>
 
-
-                    <div className="ingredient-lists my-10">
-                      <div className="grid grid-cols-1 gap-2">
-                    {ingredient.map((ingredients) => (
-                      <div className="w-full flex items-center justify-between py-4 px-8 bg-[#FF6F6F]  rounded-md">
-                        <h1 className="text-sm text-white">{ingredients}</h1>
-                        <div className="trash" onClick={() => removeIngredient(ingredients)}>
-                        <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M9.1709 4C9.58273 2.83481 10.694 2 12.0002 2C13.3064 2 14.4177 2.83481 14.8295 4" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"></path> <path d="M20.5001 6H3.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"></path> <path d="M18.8332 8.5L18.3732 15.3991C18.1962 18.054 18.1077 19.3815 17.2427 20.1907C16.3777 21 15.0473 21 12.3865 21H11.6132C8.95235 21 7.62195 21 6.75694 20.1907C5.89194 19.3815 5.80344 18.054 5.62644 15.3991L5.1665 8.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"></path> <path d="M9.5 11L10 16" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"></path> <path d="M14.5 11L14 16" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"></path> </g></svg>
-                        </div>
+                  <div className="w-full flex justify-center p-4">
+                    {ingredient && ingredient.length > 0 && (
+                      <div className="grid md:grid-cols-2 gap-2 w-full justify-items-center">
+                        {ingredient.map((ingredients, index) => (
+                          <div
+                            key={index}
+                            className=" flex bg-customPink justify-between items-center py-3 lg:py-4 px-4 text-white text-sm rounded-md w-[95%] break-all"
+                          >
+                            <h1 className="w-[80%]">{ingredients}</h1>
+                            <div onClick={() => removeIngredient(index)}>
+                              <FaTrash fill="#fff" className="cursor-pointer" />
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                    </div>
-
-                    {!ingredient || ingredient.length === 0 && 
-                    <div className="flex flex-col justify-center items-center">
-                      <svg width="256px" height="256px" viewBox="0 0 1024 1024" className="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M341.333333 426.645333m-170.666666 0a170.666667 170.666667 0 1 0 341.333333 0 170.666667 170.666667 0 1 0-341.333333 0Z" fill="#FFB300"></path><path d="M362.666667 725.312m-170.666667 0a170.666667 170.666667 0 1 0 341.333333 0 170.666667 170.666667 0 1 0-341.333333 0Z" fill="#FFB300"></path><path d="M810.666667 551.936c0-131.562667-80.576-101.184-80.576-384.533333h-201.493334C528.597333 450.752 448 420.373333 448 551.936v313.728A30.293333 30.293333 0 0 0 478.229333 896h302.229334A30.293333 30.293333 0 0 0 810.666667 865.664V551.936z" fill="#90CAF9"></path><path d="M746.666667 160.021333C746.666667 177.685333 733.525333 192 717.333333 192h-176C525.141333 192 512 177.685333 512 160.021333v-21.333333C512 121.024 525.141333 106.666667 541.333333 106.666667h176C733.525333 106.666667 746.666667 121.024 746.666667 138.688v21.333333z" fill="#9C27B0"></path><path d="M770.368 825.173333a10.090667 10.090667 0 0 1-10.090667 10.133334H498.368a10.112 10.112 0 0 1-10.090667-10.133334V551.936c0-43.776 9.856-63.658667 24.768-93.781333 13.461333-27.136 28.608-58.026667 39.786667-108.629334h153.002667c11.157333 50.602667 26.325333 81.472 39.786666 108.629334 14.890667 30.101333 24.746667 50.005333 24.746667 93.781333V825.173333z" fill="#FAFAFA"></path><path d="M170.666667 554.688L213.333333 896h597.333334l42.666666-341.312H170.666667zM320 832h-42.666667v-85.333333h42.666667v85.333333z m0-128h-42.666667v-85.333333h42.666667v85.333333z m106.666667 128h-42.666667v-85.333333h42.666667v85.333333z m0-128h-42.666667v-85.333333h42.666667v85.333333z m106.666666 128h-42.666666v-85.333333h42.666666v85.333333z m0-128h-42.666666v-85.333333h42.666666v85.333333z m106.666667 128h-42.666667v-85.333333h42.666667v85.333333z m0-128h-42.666667v-85.333333h42.666667v85.333333z m106.666667 128h-42.666667v-85.333333h42.666667v85.333333z m0-128h-42.666667v-85.333333h42.666667v85.333333z" fill="#E91E63"></path><path d="M885.205333 512a21.333333 21.333333 0 0 0-21.333333-21.333333H160.128a21.333333 21.333333 0 0 0-21.333333 21.333333v42.688a21.333333 21.333333 0 0 0 21.333333 21.333333h703.744a21.333333 21.333333 0 0 0 21.333333-21.333333V512z" fill="#AD1457"></path><path d="M341.333333 331.306667s-21.333333-139.285333-192-117.952c42.666667 149.333333 192 117.952 192 117.952z" fill="#4CAF50"></path></g></svg>
-                      <h1>Your Ingredients Will be Displayed Here</h1>
-                      </div>}
-
+                    )}
                   </div>
+                </div>
               </fieldset>
             </div>
           </div>
+
+          <fieldset className="bg-white border-2 p-4">
+            <legend className="text-sm lg:text-lg ml-4">
+              Cooking Instructions <span className="text-[#FF0000]">*</span>
+            </legend>
+
+            <div className="">
+              <div className=" flex gap-2 items-center p-6">
+                <div className="w-full">
+                  <label>Instructions : </label>
+                  <input
+                    type="text"
+                    className="border-2 block p-1 rounded-md w-full outline-none"
+                    value={instruction}
+                    onChange={(e) => setInstruction(e.target.value)}
+                  />
+                </div>
+
+                <div className="translate-y-2 ">
+                  <div className="flex justify-center items-center bg-customPink text-white  rounded-md ">
+                    <button
+                      type="button"
+                      className="p-2"
+                      onClick={addInstruction}
+                    >
+                      <FaPlus />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center my-6">
+                <img
+                  src={instructions}
+                  alt=""
+                  className="w-[200px] h-[200px]"
+                />
+                <h1>Turn your ideas into reality</h1>
+              </div>
+
+              {instructionList && instructionList.length > 0 && (
+                <div className="grid gap-2 px-6 mt-2">
+                  {instructionList.map((step, index) => (
+                    <fieldset key={index} className="border-2  rounded-md">
+                      <legend className="text-black ml-4">
+                        Step {index + 1}
+                      </legend>
+                      <div className="flex justify-between items-center mb-2 px-4 py-2">
+                        <h1 className="break-all w-[90%]">{step}</h1>
+                        <FaTrash
+                          onClick={() => removeInstruction(index)}
+                          className="cursor-pointer"
+                        />
+                      </div>
+                    </fieldset>
+                  ))}
+                </div>
+              )}
+            </div>
+          </fieldset>
+
+          <fieldset className="bg-white border-2 p-4">
+            <legend className="text-sm lg:text-lg ml-4">Nutrition</legend>
+
+            <div className="grid px-4">
+              <div className="">
+                <label>Nutrition Label : </label>
+                <input
+                  type="text"
+                  className="w-full block border-2 p-1 rounded-md"
+                  placeholder="e.g Sodium , Protein , Carbohydrates"
+                />
+              </div>
+
+              <div>
+                <label>Amount : </label>
+                <input
+                  type="number"
+                  className="w-full block border-2 p-1 rounded-md"
+                  placeholder="0"
+                />
+              </div>
+
+              <div>
+                <label>Unit : </label>
+                <input
+                  type="text"
+                  className="w-full block border-2 p-1 rounded-md"
+                  placeholder="e.g kg , g "
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <img src={nutrition} alt="" className="w-[200px] h-[200px]" />
+              <h1>Keep track of what you consume</h1>
+            </div>
+          </fieldset>
         </form>
       </div>
       <BottomNavbar />
