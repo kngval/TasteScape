@@ -17,6 +17,9 @@ const NavBtns = () => {
       case "/my-recipes":
         selectedIndex(2);
         break;
+        case "/my-recipes/createRecipe":
+        selectedIndex(2);
+        break;
       case "/profile":
         selectedIndex(3);
         break;
@@ -48,8 +51,8 @@ const NavBtns = () => {
     }
   };
 
-  const NavBtnStyle = `h-[20px] lg:h-[24px]  `;
-  const BtnContainerStyle = `py-2 px-6 lg:py-2    lg:h-full  flex justify-center items-center hover:bg-gray-200 transition-color duration-500 ease-in-out relative rounded-lg`;
+  const NavBtnStyle = `h-[20px] lg:h-[20px]  `;
+  const BtnContainerStyle = `py-2 px-6 lg:py-3 lg:px-8   lg:h-full  flex justify-center items-center hover:bg-gray-200 transition-color duration-500 ease-in-out relative rounded-lg`;
   const svgLine = `absolute -bottom-1 border-customPink border-b-2 transition-width ease-in-out duration-700`;
   return (
     <>
@@ -124,7 +127,7 @@ const NavBtns = () => {
         <svg
           className={NavBtnStyle}
           viewBox="0 0 24 24"
-          fill={iconIndex === 2 ? "#FF6F6F" : "none"}
+          fill={iconIndex === 2  ? "#FF6F6F" : "none"}
           xmlns="http://www.w3.org/2000/svg"
         >
           <g id="SVGRepo_bgCarrier" strokeWidth="0" />
