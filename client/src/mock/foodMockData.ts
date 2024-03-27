@@ -108,4 +108,38 @@ export const FoodMock = {
     }
   },
   summary: "Chicken Adobo & Coconut Ginger Rice is a <b>gluten free and dairy free</b> recipe with 4 servings. One serving contains <b>730 calories</b>, <b>33g of protein</b>, and <b>34g of fat</b>. For <b>$1.92 per serving</b>, this recipe <b>covers 26%</b> of your daily requirements of vitamins and minerals. Head to the store and pick up rice, ginger, brown sugar, and a few other things to make it today. This recipe from Foodista has 3 fans. It works well as a main course. From preparation to the plate, this recipe takes about <b>1 hour and 30 minutes</b>. Taking all factors into account, this recipe <b>earns a spoonacular score of 58%</b>, which is solid. If you like this recipe, take a look at these similar recipes: <a href=\"https://spoonacular.com/recipes/chicken-adobo-coconut-ginger-rice-1369193\">Chicken Adobo & Coconut Ginger Rice</a>, <a href=\"https://spoonacular.com/recipes/thai-chicken-satay-and-peanut-sauce-ginger-coconut-rice-576937\">Thai Chicken Satay and Peanut Sauce + Ginger Coconut Rice</a>, and <a href=\"https://spoonacular.com/recipes/mango-chicken-brown-rice-salad-with-coconut-ginger-dressing-549074\">Mango, Chicken & Brown Rice Salad with Coconut-Ginger Dressing</a>.",
+  nutrition:{
+    nutrients:[
+      {
+        amount: 10,
+        unit: "kcal",
+        name: "Calories"
+      },
+      {
+        amount: 20,
+        unit: "kcal",
+        name: "Calories"
+      },
+      {
+        amount: 40,
+        unit: "g",
+        name: "Protein"
+      },
+      {
+        amount: 50,
+        unit: "g",
+        name: "Carbohydrates"
+      },
+      {
+        amount: 15,
+        unit: "g",
+        name: "Sodium"
+      },
+      {
+        amount: 5,
+        unit: "g",
+        name: "Sugar"
+      },
+    ]
+  }
 };
