@@ -5,7 +5,7 @@ import searchIcon from "../assets/svgs/search.svg";
 const Navbar: React.FC = () => {
   return (
     <>
-      <nav className=" text-sm lg:text-md sticky top-0 flex justify-center w-full bg-white p-4 z-[100]">
+      <nav className=" text-sm lg:text-md sticky top-0 flex justify-center w-full bg-white p-2 z-[100]">
         <div className="w-[95%] flex justify-between items-center">
           <div className="flex items-center h-full">
             <NavLink to="/home" className="">
