@@ -20,6 +20,7 @@ const RecipeDetails: React.FC = () => {
   const chosenRecipe = useSelector(
     (state: RootState) => state.chosenRecipe.chosenRecipe
   );
+
   const sanitizedHTML = chosenRecipe?.summary;
   const { loading, error } = useSelector(
     (state: RootState) => state.chosenRecipe
@@ -44,16 +45,16 @@ const RecipeDetails: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="">
-        <div className="RecipeContainer xl:mt-10  xl:flex  justify-center  mb-20 xl:mb-0">
+      <div className="flex justify-center">
+        <div className="RecipeContainer w-full lg:w-[1000px] xl:w-[1200px] lg:mt-10 mb-20 grid gap-[100px]  justify-items-cente">
           {/* RECIPE IMAGE AND RECIPE DETAILS BAR */}
-          <div className="img-wrapper relative xl:sticky xl:top-20  mb-20  xl:mb-0 xl:h-[350px]  xl:w-[500px] 2xl:w-[600px] xl:mr-5 xl:rounded-xl">
+          <div className="img-wrapper relative xl:rounded-xl w-full">
             <img
               className="w-full h-full object-cover xl:rounded-md"
               src={chosenRecipe?.image}
               alt=""
             />
-            <div className="gradient xl:rounded-xl flex justify-center bg-gradient-to-b from-transparent to-black  absolute top-0 w-full h-full z-10">
+            <div className="gradient xl:rounded-xl flex justify-center bg-gradient-to-b from-transparent to-black  absolute top-0 bottom-0 w-full h-full z-10">
               <h1 className="z-50 absolute text-2xl text-white bottom-20 font-bold xl:hidden">
                 {chosenRecipe?.title}
               </h1>
@@ -105,49 +106,52 @@ const RecipeDetails: React.FC = () => {
                   <p className="">
                     {chosenRecipe?.healthScore !== undefined
                       ? Math.floor(chosenRecipe?.healthScore)
-                      : "N/A"}{" "}
+                      : "N/A"}
                     HS
                   </p>
                 </div>
               </div>
             </div>
-            <div className="hidden w-full xl:flex flex-col items-center mb-5">
-              <div className="mt-10 recipe-container p-5">
-                <h1 className="headline font-extrabold xl:text-[2rem] 2xl:text-[2rem]">
-                  {chosenRecipe?.title}
-                </h1>
-                <div
-                  className="text-xs 2xl:text-sm"
-                  dangerouslySetInnerHTML={{ __html: sanitizedHTML || "" }}
-                ></div>
-              </div>
-            </div>
           </div>
 
           {/* INGREDIENTS, INSTRUCTIONS, AND NUTRIENTS */}
-          <div className="display  2xl:w-[600px] xl:w-[400px] sm:px-2 lg:px-10 xl:px-0 xl:ml-10 recipe-container">
+          <div className="display w-full  sm:px-2 lg:px-10  recipe-container">
             <div className="flex justify-center w-full">
-              <div className="btnContainer w-full text-xxs grid grid-cols-3 gap-5 lg:gap-0 xl:justify-center  md:text-sm  px-10 xl:px-0 mb-10">
+              <div className="btnContainer text-xxs grid grid-cols-4 gap-5  sm:text-sm xl:px-0 mb-10">
                 <button
                   className={`${
-                    tab === "ingredients" ? "bg-customPink" : "bg-gray-200"
-                  } rounded-full lg:rounded-none text-center  px-3 py-2`}
+                    tab === "about" ? "bg-customPink text-white" : "bg-gray-200"
+                  } rounded-sm text-center  px-3 py-2`}
+                  onClick={() => handleClick("about")}
+                >
+                  About The Dish
+                </button>
+                <button
+                  className={`${
+                    tab === "ingredients"
+                      ? "bg-customPink text-white"
+                      : "bg-gray-200"
+                  } rounded-sm text-center  px-3 py-2`}
                   onClick={() => handleClick("ingredients")}
                 >
                   Ingredients
                 </button>
                 <button
                   className={`${
-                    tab === "instructions" ? "bg-customPink" : "bg-gray-200"
-                  } rounded-full lg:rounded-none  px-3 py-2`}
+                    tab === "instructions"
+                      ? "bg-customPink text-white"
+                      : "bg-gray-200"
+                  } rounded-sm  px-3 py-2`}
                   onClick={() => handleClick("instructions")}
                 >
                   Instructions
                 </button>
                 <button
                   className={`${
-                    tab === "nutrients" ? "bg-customPink" : "bg-gray-200"
-                  } rounded-full lg:rounded-none  px-3 py-2`}
+                    tab === "nutrients"
+                      ? "bg-customPink text-white"
+                      : "bg-gray-200"
+                  } rounded-sm  px-3 py-2`}
                   onClick={() => handleClick("nutrients")}
                 >
                   Nutrients
@@ -156,21 +160,36 @@ const RecipeDetails: React.FC = () => {
             </div>
 
             {/* INGREDIENTS,INSTRUCTIONS & NUTRIENTS DETAILS*/}
-            <div className="infoDeta p-2 lg:px-0">
+            <div className="infoDeta flex flex-col items-center p-2 lg:px-0">
               <div className="text-center mb-10">
-                <p className="text-xs xl:text-md uppercase">{tab} FOR MAKING</p>
+                <p className="text-xs xl:text-md uppercase">
+                  {tab === "ingredients" || "instructions"
+                    ? `${tab} FOR MAKING`
+                    : `${tab}`}{" "}
+                </p>
                 <h1 className="headline font-bold xl:text-xl xl:font-extrabold">
                   {chosenRecipe?.title}
                 </h1>
               </div>
-              <div className="tab-details-container grid grid-cols-1 gap-2 list-none">
+              <div className="tab-details-container grid w-full gap-2 list-none">
+                {tab === "about" && (
+                  <fieldset className="w-full p-4 border-2">
+                    <legend className="text-sm">About the Dish :</legend>
+                    <div className="">
+                      <div
+                        className=""
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizedHTML || "",
+                        }}
+                      ></div>
+                    </div>
+                  </fieldset>
+                )}
+
                 {tab === "ingredients" &&
                   chosenRecipe?.extendedIngredients &&
                   chosenRecipe?.extendedIngredients.map((ingredient, index) => (
-                    <li
-                      key={index}
-                      className="text-center py-4 border-4 border-customPink"
-                    >
+                    <li key={index} className="px-6 py-2 border-2">
                       {ingredient.original}
                     </li>
                   ))}
@@ -179,19 +198,30 @@ const RecipeDetails: React.FC = () => {
                   chosenRecipe?.analyzedInstructions[0].steps &&
                   chosenRecipe?.analyzedInstructions[0].steps.map(
                     (steps, index) => (
-                      <div
-                        key={index}
-                        className="border-l-8  border-customPink p-4  shadow-lg"
-                      >
-                        <h5 className="font-bold xl:text-xl">
+                      <fieldset key={index} className="border-2 p-4 ">
+                        <legend className="font-bold xl:text-xl">
                           Step {steps.number}
-                        </h5>
+                        </legend>
                         <li className="mb-3 xl:text-sm 2xl:text-lg">
                           {steps.step}
                         </li>
-                      </div>
+                      </fieldset>
                     )
                   )}
+
+                {/* NUTRITION TAB */}
+                {tab === "nutrients" && (
+                  <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                    {chosenRecipe?.nutrition.nutrients &&
+                      chosenRecipe?.nutrition.nutrients.map((nutrients) => (
+                        <div className="border-2 p-4">
+                          <h1>
+                            {nutrients.amount} {nutrients.unit} {nutrients.name}
+                          </h1>
+                        </div>
+                      ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
