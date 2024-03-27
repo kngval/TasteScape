@@ -9,24 +9,25 @@ export interface RecipeDetails {
   readyInMinutes: number;
   cuisines: string[];
   healthScore: number;
-  analyzedInstructions:{
-    0:{
-      steps:{
-        number:number;
-        step:string
-      }[]
-    }
+  analyzedInstructions: {
+    0: {
+      steps: {
+        number: number;
+        step: string;
+      }[];
+    };
   };
   nutrition: {
     nutrients: {
-      name: string,
-      amount: number
-    }[]
-  }
-  extendedIngredients:{
-      original: string;
+      name: string;
+      amount: number;
+      unit: string;
     }[];
-  summary: string
+  };
+  extendedIngredients: {
+    original: string;
+  }[];
+  summary: string;
 }
 interface ChosenRecipe {
   chosenRecipe: RecipeDetails | null;
@@ -43,13 +44,16 @@ export const fetchChosenRecipe = createAsyncThunk(
   "recipe/fetchChosenRecipe",
   async () => {
     try {
-      // const response = await axios.get(`http://localhost:3000/home/recipe/${id}`, {
-      //   withCredentials: true,
-      // });
+      // const response = await axios.get(
+      //   `http://localhost:3000/home/recipe/${id}`,
+      //   {
+      //     withCredentials: true,
+      //   }
+      // );
       // console.log(response.data);
       // const data = response.data;
       // return data as RecipeDetails;
-      
+
       return FoodMock as RecipeDetails
     } catch (error) {
       console.log(error);
@@ -74,7 +78,7 @@ const chosenRecipeSlice = createSlice({
       .addCase(fetchChosenRecipe.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Error fetching recipe details";
-        console.error("Error fetching recipe details:", action.error)
+        console.error("Error fetching recipe details:", action.error);
       });
   },
 });
