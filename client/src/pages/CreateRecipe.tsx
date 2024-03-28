@@ -11,6 +11,8 @@ import { FaPlus, FaTrash } from "react-icons/fa";
 import instructions from "../assets/svgs/MyRecipes/instructions.svg";
 import basket from "../assets/svgs/MyRecipes/basket.svg";
 import nutrition from "../assets/svgs/MyRecipes/nutrition.svg";
+import { IoIosCreate } from "react-icons/io";
+import { MdClear } from "react-icons/md";
 const CreateRecipe: React.FC = () => {
   // INGREDIENTS INPUT
   const [ingredient, setIngredient] = useState<string[]>([]);
@@ -23,7 +25,12 @@ const CreateRecipe: React.FC = () => {
   const [instructionList, setInstructionList] = useState<string[]>([]);
 
   // NUTRITION INPUT
+  const [nutrients, setNutrients] = useState<string[]>([]);
+  const [label, setLabel] = useState<string>("");
+  const [unit, setUnit] = useState<string>("");
+  const [amount, setAmount] = useState<string>("");
 
+  // INGREDIENT FUNCTIONS
   const addIngredients = () => {
     const newIngredient = `${quantity} ${measurement} ${ingredientName}`;
     setIngredient((prevIngredients) => [...prevIngredients, newIngredient]);
@@ -40,6 +47,7 @@ const CreateRecipe: React.FC = () => {
     );
   };
 
+  // INSTRUCTIONS FUNCTIONS
   const addInstruction = () => {
     setInstructionList((prevInstructions) => [
       ...prevInstructions,
@@ -53,14 +61,27 @@ const CreateRecipe: React.FC = () => {
       prevInstructions.filter((_, index) => index !== indexToRemove)
     );
   };
+
+  // NUTRITION FUNCTIONS
+  const addNutrients = () => {
+    const newNutrients = `${amount} ${unit} ${label}`;
+    setNutrients((prevNutrients) => [newNutrients, ...prevNutrients]);
+    setAmount("");
+    setUnit("");
+    setLabel("");
+  };
+
+  const deleteNutrients = (index: number) => {
+    setNutrients((prevNutients) =>
+      prevNutients.filter((_, nutrientIndex) => nutrientIndex !== index)
+    );
+  };
+
   return (
     <>
       <Navbar />
-      <div className="flex justify-center text-xs md:text-md">
-        <form
-          action=""
-          className="w-[90%] lg:w-[900px]  grid gap-8 py-5 mb-[5rem]"
-        >
+      <div className="flex flex-col items-center text-xs md:text-md mt-4 mb-[6rem]">
+        <form action="" className="w-[90%] lg:w-[900px]  grid gap-8 ">
           <div className="grid lg:grid-cols-2 gap-5">
             <div className="">
               <label>
@@ -274,6 +295,7 @@ const CreateRecipe: React.FC = () => {
             </legend>
 
             <div className="">
+              {/* instruction input */}
               <div className=" flex gap-2 items-center p-6">
                 <div className="w-full">
                   <label>Instructions : </label>
@@ -297,7 +319,7 @@ const CreateRecipe: React.FC = () => {
                   </div>
                 </div>
               </div>
-
+              {/* svg image */}
               <div className="flex flex-col items-center my-6">
                 <img
                   src={instructions}
@@ -307,6 +329,7 @@ const CreateRecipe: React.FC = () => {
                 <h1>Turn your ideas into reality</h1>
               </div>
 
+              {/* mapped instructions */}
               {instructionList && instructionList.length > 0 && (
                 <div className="grid gap-2 px-6 mt-2">
                   {instructionList.map((step, index) => (
@@ -331,13 +354,16 @@ const CreateRecipe: React.FC = () => {
           <fieldset className="bg-white border-2 p-4">
             <legend className="text-sm lg:text-lg ml-4">Nutrition</legend>
 
-            <div className="grid px-4">
+            {/* nutrition label inputs */}
+            <div className="grid lg:grid-cols-3 gap-5 px-4">
               <div className="">
                 <label>Nutrition Label : </label>
                 <input
                   type="text"
                   className="w-full block border-2 p-1 rounded-md"
                   placeholder="e.g Sodium , Protein , Carbohydrates"
+                  value={label}
+                  onChange={(e) => setLabel(e.target.value)}
                 />
               </div>
 
@@ -347,6 +373,8 @@ const CreateRecipe: React.FC = () => {
                   type="number"
                   className="w-full block border-2 p-1 rounded-md"
                   placeholder="0"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
                 />
               </div>
 
@@ -356,15 +384,61 @@ const CreateRecipe: React.FC = () => {
                   type="text"
                   className="w-full block border-2 p-1 rounded-md"
                   placeholder="e.g kg , g "
+                  value={unit}
+                  onChange={(e) => setUnit(e.target.value)}
                 />
               </div>
             </div>
 
+            {/* add nutrition label button */}
+            <div className="w-full px-4  lg:flex lg:justify-end">
+              <div
+                className="flex justify-center items-center bg-customPink text-white p-2 rounded-md cursor-pointer mt-4"
+                onClick={addNutrients}
+              >
+                <button type="button" className="flex items-center">
+                  <FaPlus className="w-[20px] h-[10px] translate-y-[1px]" />
+                  <h1 className="translate-y-[1px] lg:translate-y-0">
+                    Add Nutrition Label
+                  </h1>
+                </button>
+              </div>
+            </div>
+
+            {/* svg img */}
             <div className="flex flex-col items-center">
               <img src={nutrition} alt="" className="w-[200px] h-[200px]" />
               <h1>Keep track of what you consume</h1>
             </div>
+
+            {/* MAPPED NUTRITION LABELS */}
+            {nutrients && nutrients.length > 0 && (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-8">
+                {nutrients.map((label, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center py-2 lg:py-4 px-4 bg-customPink text-white rounded-md"
+                  >
+                    <p className="w-[80%] break-all">{label}</p>
+                    <FaTrash onClick={() => deleteNutrients(index)} />
+                  </div>
+                ))}
+              </div>
+            )}
           </fieldset>
+          <div className=" p-4   w-full grid justify-items-center gap-2">
+            <button
+              type="button"
+              className="w-[80%]  bg-customPink py-2 rounded-md text-white text-sm flex items-center justify-center gap-2"
+            >
+              Create Recipe
+              <IoIosCreate className="text-lg" />
+            </button>
+            <button className="w-[80%] bg-white py-2 rounded-md border-2 text-sm  flex items-center justify-center gap-2">
+              Clear All Fields
+              <MdClear className="text-lg" />
+            </button>
+          </div>
         </form>
       </div>
       <BottomNavbar />
