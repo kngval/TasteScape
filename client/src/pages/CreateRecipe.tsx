@@ -4,20 +4,30 @@ import { useState } from "react";
 //COMPONENTS
 import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
+import Modal from "../components/Modal";
 //icons
 import { FaPlus, FaTrash } from "react-icons/fa";
+import { IoIosCreate } from "react-icons/io";
+import { MdClear } from "react-icons/md";
 
-//ASSETS
+//SVG
 import instructions from "../assets/svgs/MyRecipes/instructions.svg";
 import basket from "../assets/svgs/MyRecipes/basket.svg";
 import nutrition from "../assets/svgs/MyRecipes/nutrition.svg";
-import { IoIosCreate } from "react-icons/io";
-import { MdClear } from "react-icons/md";
+import save from "../assets/svgs/MyRecipes/save.svg";
+import clear from "../assets/svgs/MyRecipes/clear.svg";
+
 const CreateRecipe: React.FC = () => {
+  //FOOD INFO
+  const [dishName, setDishName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [cookingTime, setCookingTime] = useState<number>(0);
+  const [servings, setServings] = useState<number>(0);
+  const [healthScore, setHealthScore] = useState<number>(0);
   // INGREDIENTS INPUT
   const [ingredient, setIngredient] = useState<string[]>([]);
   const [ingredientName, setIngredientName] = useState<string>("");
-  const [quantity, setQuantity] = useState<string>("");
+  const [quantity, setQuantity] = useState<number>(0);
   const [measurement, setMeasurement] = useState<string>("");
 
   //INSTRUCTIONS INPUT
@@ -28,17 +38,22 @@ const CreateRecipe: React.FC = () => {
   const [nutrients, setNutrients] = useState<string[]>([]);
   const [label, setLabel] = useState<string>("");
   const [unit, setUnit] = useState<string>("");
-  const [amount, setAmount] = useState<string>("");
+  const [amount, setAmount] = useState<number>(0);
+
+  //MODAL STATE
+  const [isOpenSubmitModal, setIsOpenSubmitModal] = useState(false);
+  const [isOpenClearModal, setIsOpenClearModal] = useState(false);
 
   // INGREDIENT FUNCTIONS
+  //ADD INGREDIENTS
   const addIngredients = () => {
     const newIngredient = `${quantity} ${measurement} ${ingredientName}`;
     setIngredient((prevIngredients) => [...prevIngredients, newIngredient]);
-    setQuantity("");
+    setQuantity(0);
     setMeasurement("");
     setIngredientName("");
   };
-
+  //REMOVE INGREDIENTS
   const removeIngredient = (ingredientToRemove: number) => {
     setIngredient((prevIngredient) =>
       prevIngredient.filter(
@@ -66,7 +81,7 @@ const CreateRecipe: React.FC = () => {
   const addNutrients = () => {
     const newNutrients = `${amount} ${unit} ${label}`;
     setNutrients((prevNutrients) => [newNutrients, ...prevNutrients]);
-    setAmount("");
+    setAmount(0);
     setUnit("");
     setLabel("");
   };
@@ -75,6 +90,33 @@ const CreateRecipe: React.FC = () => {
     setNutrients((prevNutients) =>
       prevNutients.filter((_, nutrientIndex) => nutrientIndex !== index)
     );
+  };
+
+  //CLEAR ALL FIELDS
+  const clearAllFields = () => {
+    //FOOD INFO
+    setDishName("");
+    setDescription("");
+    setCookingTime(0);
+    setServings(0);
+    setHealthScore(0);
+    //INGREDIENTS INFO
+    setIngredient([]);
+    setIngredientName("");
+    setQuantity(0);
+    setMeasurement("");
+
+    //INSTRUCTIONS INFO
+    setInstructionList([]);
+    setInstruction("");
+
+    //NUTRITION INFO
+    setNutrients([]);
+    setLabel("");
+    setAmount(0);
+    setUnit("");
+
+    setIsOpenClearModal(false);
   };
 
   return (
@@ -91,6 +133,8 @@ const CreateRecipe: React.FC = () => {
                 type="text"
                 className="block w-full p-2 border-2 rounded-md outline-none"
                 placeholder="e.g Filipino Chicken Adobo"
+                value={dishName}
+                onChange={(e) => setDishName(e.target.value)}
                 required
               />
             </div>
@@ -129,6 +173,8 @@ const CreateRecipe: React.FC = () => {
               id=""
               className="block w-full h-[200px] p-2 border-2 rounded-md outline-none"
               placeholder="e.g Adobo is a dish that is usually made with meat (chicken, pork, or beef) marinated in vinegar, soy sauce, garlic, and other spices. The meat is slowly cooked until it becomes tender and flavorful. Adobo is often served with rice and is a staple dish in many Filipino households"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               required
             ></textarea>
           </div>
@@ -178,6 +224,8 @@ const CreateRecipe: React.FC = () => {
                 name=""
                 id=""
                 className="block border-2 p-1 rounded-md w-full outline-none"
+                value={cookingTime}
+                onChange={(e) => setCookingTime(parseFloat(e.target.value))}
                 required
               />
             </div>
@@ -189,6 +237,8 @@ const CreateRecipe: React.FC = () => {
                 name=""
                 id=""
                 className="block border-2 p-1 rounded-md w-full outline-none"
+                value={servings}
+                onChange={(e) => setServings(parseFloat(e.target.value))}
                 required
               />
             </div>
@@ -199,6 +249,8 @@ const CreateRecipe: React.FC = () => {
                 name=""
                 id=""
                 className="block border-2 p-1 rounded-md w-full outline-none"
+                value={healthScore}
+                onChange={(e) => setHealthScore(parseFloat(e.target.value))}
                 required
               />
             </div>
@@ -226,7 +278,7 @@ const CreateRecipe: React.FC = () => {
                     <input
                       type="number"
                       className="border-2 p-1 rounded-md block w-full outline-none"
-                      onChange={(e) => setQuantity(e.target.value)}
+                      onChange={(e) => setQuantity(parseFloat(e.target.value))}
                       value={quantity}
                     />
                   </div>
@@ -374,7 +426,7 @@ const CreateRecipe: React.FC = () => {
                   className="w-full block border-2 p-1 rounded-md"
                   placeholder="0"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={(e) => setAmount(parseFloat(e.target.value))}
                 />
               </div>
 
@@ -430,17 +482,70 @@ const CreateRecipe: React.FC = () => {
             <button
               type="button"
               className="w-[80%]  bg-customPink py-2 rounded-md text-white text-sm flex items-center justify-center gap-2"
+              onClick={() => setIsOpenSubmitModal(true)}
             >
               Create Recipe
               <IoIosCreate className="text-lg" />
             </button>
-            <button className="w-[80%] bg-white py-2 rounded-md border-2 text-sm  flex items-center justify-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsOpenClearModal(true)}
+              className="w-[80%] bg-white py-2 rounded-md border-2 text-sm  flex items-center justify-center gap-2"
+            >
               Clear All Fields
               <MdClear className="text-lg" />
             </button>
           </div>
         </form>
       </div>
+      <Modal isOpen={isOpenSubmitModal}>
+        <div className="flex justify-center items-center mb-5">
+          <img src={save} alt="" className="h-[150px]" />
+        </div>
+        <div className="text-xxs sm:text-sm text-center mb-4">
+          Are you sure you want to create this recipe?
+          <span className="font-semibold text-customPink text-sm lg:text-xl block uppercase">
+            {dishName}
+          </span>
+        </div>
+
+        <div className="grid lg:grid-cols-2 text-sm gap-2">
+          <button className="py-2 bg-customPink text-white rounded-full">
+            Create Recipe
+          </button>
+          <button
+            className="py-2 border-2 border-customPink rounded-full text-customPink"
+            onClick={() => setIsOpenSubmitModal(false)}
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isOpenClearModal}>
+        <div className="flex justify-center items-center mb-5">
+          <img src={clear} alt="" className="h-[150px]" />
+        </div>
+        <div className="text-xs text-center mb-4">
+          Are you sure you want to{" "}
+          <span className="text-customPink">Clear All Fields</span> ?
+        </div>
+
+        <div className="grid lg:grid-cols-2 text-sm gap-2">
+          <button
+            className="py-2 border-2 border-customPink text-customPink rounded-full"
+            onClick={clearAllFields}
+          >
+            Clear All FIelds
+          </button>
+          <button
+            className="py-3 bg-customPink rounded-full text-white"
+            onClick={() => setIsOpenClearModal(false)}
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
       <BottomNavbar />
     </>
   );
