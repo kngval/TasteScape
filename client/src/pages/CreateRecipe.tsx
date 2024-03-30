@@ -16,29 +16,25 @@ import basket from "../assets/svgs/MyRecipes/basket.svg";
 import nutrition from "../assets/svgs/MyRecipes/nutrition.svg";
 import save from "../assets/svgs/MyRecipes/save.svg";
 import clear from "../assets/svgs/MyRecipes/clear.svg";
+import axios from "axios";
 
 const CreateRecipe: React.FC = () => {
-  //FOOD INFO
-  const [dishName, setDishName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [cookingTime, setCookingTime] = useState<number>(0);
-  const [servings, setServings] = useState<number>(0);
-  const [healthScore, setHealthScore] = useState<number>(0);
-  // INGREDIENTS INPUT
-  const [ingredient, setIngredient] = useState<string[]>([]);
-  const [ingredientName, setIngredientName] = useState<string>("");
-  const [quantity, setQuantity] = useState<number>(0);
-  const [measurement, setMeasurement] = useState<string>("");
+  const [title,setTitle] = useState<string>("");
+  const [description,setDescription] = useState<string>("");
+  const [cookingTime,setCookingTime] = useState<number>(0);
+  const [servings,setServings] = useState<number>(0);
+  const [healthScore,setHealthScore] = useState<number>(0);
 
-  //INSTRUCTIONS INPUT
-  const [instruction, setInstruction] = useState("");
-  const [instructionList, setInstructionList] = useState<string[]>([]);
-
-  // NUTRITION INPUT
+  const [ingredient,setIngredient] = useState<string[]>([])
   const [nutrients, setNutrients] = useState<string[]>([]);
-  const [label, setLabel] = useState<string>("");
-  const [unit, setUnit] = useState<string>("");
-  const [amount, setAmount] = useState<number>(0);
+  const [instructionList,setInstructionList] = useState<string[]>([]);
+  const [instruction,setInstruction] = useState<string>('');
+  const [quantity,setQuantity] = useState<number>(0);
+  const [label,setLabel] = useState<string>('');
+  const [unit,setUnit] = useState<string>('');
+  const [ingredientName,setIngredientName] = useState<string>('');
+  const [measurement,setMeasurement] = useState<string>('');
+  const [amount,setAmount] = useState<number>(0);
 
   //MODAL STATE
   const [isOpenSubmitModal, setIsOpenSubmitModal] = useState(false);
@@ -48,26 +44,18 @@ const CreateRecipe: React.FC = () => {
   //ADD INGREDIENTS
   const addIngredients = () => {
     const newIngredient = `${quantity} ${measurement} ${ingredientName}`;
-    setIngredient((prevIngredients) => [...prevIngredients, newIngredient]);
-    setQuantity(0);
-    setMeasurement("");
-    setIngredientName("");
-  };
+
+    setIngredient((prevIngredients) => [...prevIngredients,newIngredient])
+
+  }
   //REMOVE INGREDIENTS
   const removeIngredient = (ingredientToRemove: number) => {
-    setIngredient((prevIngredient) =>
-      prevIngredient.filter(
-        (_ingredients, index) => index !== ingredientToRemove
-      )
-    );
+    setIngredient((prevIngredient) => prevIngredient.filter((_,index) => index !== ingredientToRemove))
   };
 
   // INSTRUCTIONS FUNCTIONS
   const addInstruction = () => {
-    setInstructionList((prevInstructions) => [
-      ...prevInstructions,
-      instruction,
-    ]);
+    setInstructionList((prevInstructions) => [...prevInstructions,instruction]);
     setInstruction("");
   };
 
@@ -95,7 +83,7 @@ const CreateRecipe: React.FC = () => {
   //CLEAR ALL FIELDS
   const clearAllFields = () => {
     //FOOD INFO
-    setDishName("");
+    setTitle("");
     setDescription("");
     setCookingTime(0);
     setServings(0);
@@ -119,6 +107,27 @@ const CreateRecipe: React.FC = () => {
     setIsOpenClearModal(false);
   };
 
+  const createRecipe = async() => {
+    try {
+      const recipe = {
+        title,
+        description,
+        cookingTime,
+        servings,
+        healthScore,
+        ingredient,
+        instructions: instructionList,
+        nutrients,
+      }
+
+      const response = await axios.post('http://localhost:3000/my-recipes/createRecipe',recipe)
+
+      console.log("RECIPE CREATED : ", response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -133,8 +142,8 @@ const CreateRecipe: React.FC = () => {
                 type="text"
                 className="block w-full p-2 border-2 rounded-md outline-none"
                 placeholder="e.g Filipino Chicken Adobo"
-                value={dishName}
-                onChange={(e) => setDishName(e.target.value)}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 required
               />
             </div>
@@ -147,19 +156,18 @@ const CreateRecipe: React.FC = () => {
                 required
               >
                 <option value="">Select a cuisine type :</option>
-                <option value="">Chinese</option>
-                <option value="">Filipino</option>
-                <option value="">Italian</option>
-                <option value="">Thai</option>
-                <option value="">Indian</option>
-                <option value="">Italian</option>
-                <option value="">Japanese</option>
-                <option value="">Korean</option>
-                <option value="">Mexican</option>
-                <option value="">Greek</option>
-                <option value="">British</option>
-                <option value="">American</option>
-                <option value="">Carribean</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Filipino">Filipino</option>
+                <option value="Italian">Italian</option>
+                <option value="Thai">Thai</option>
+                <option value="Indian">Indian</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Korean">Korean</option>
+                <option value="Mexican">Mexican</option>
+                <option value="Greek">Greek</option>
+                <option value="British">British</option>
+                <option value="American">American</option>
+                <option value="Carribean">Carribean</option>
               </select>
             </div>
           </div>
@@ -180,11 +188,11 @@ const CreateRecipe: React.FC = () => {
           </div>
 
           <div>
-            <label>Image(Optional) :</label>
-            <input type="file" src="" alt="" className="hidden" />
+            <label htmlFor="fileInput">Image(Optional) :</label>
+            <input id="fileInput" type="file" src="" alt="" className="hidden" />
             <div
               className="w-full h-[200px] flex flex-col justify-center items-center bg-[#fff]  border-2 rounded-md"
-              onClick={() => {}}
+              onClick={() => document.getElementById('fileInput')?.click()}
             >
               <svg
                 viewBox="0 0 24 24"
@@ -221,11 +229,13 @@ const CreateRecipe: React.FC = () => {
               <label>Cooking Time in Minutes :</label>
               <input
                 type="number"
-                name=""
-                id=""
                 className="block border-2 p-1 rounded-md w-full outline-none"
                 value={cookingTime}
-                onChange={(e) => setCookingTime(parseFloat(e.target.value))}
+                onChange={(e) =>
+                  setCookingTime(
+                    e.target.value === "" ? 0 : parseFloat(e.target.value)
+                  )
+                }
                 required
               />
             </div>
@@ -238,7 +248,11 @@ const CreateRecipe: React.FC = () => {
                 id=""
                 className="block border-2 p-1 rounded-md w-full outline-none"
                 value={servings}
-                onChange={(e) => setServings(parseFloat(e.target.value))}
+                onChange={(e) =>
+                  setServings(
+                    e.target.value === "" ? 0 : parseFloat(e.target.value)
+                  )
+                }
                 required
               />
             </div>
@@ -250,7 +264,11 @@ const CreateRecipe: React.FC = () => {
                 id=""
                 className="block border-2 p-1 rounded-md w-full outline-none"
                 value={healthScore}
-                onChange={(e) => setHealthScore(parseFloat(e.target.value))}
+                onChange={(e) =>
+                  setHealthScore(
+                    e.target.value === "" ? 0 : parseFloat(e.target.value)
+                  )
+                }
                 required
               />
             </div>
@@ -278,7 +296,11 @@ const CreateRecipe: React.FC = () => {
                     <input
                       type="number"
                       className="border-2 p-1 rounded-md block w-full outline-none"
-                      onChange={(e) => setQuantity(parseFloat(e.target.value))}
+                      onChange={(e) =>
+                        setQuantity(
+                          e.target.value === "" ? 0 : parseFloat(e.target.value)
+                        )
+                      }
                       value={quantity}
                     />
                   </div>
@@ -426,7 +448,11 @@ const CreateRecipe: React.FC = () => {
                   className="w-full block border-2 p-1 rounded-md"
                   placeholder="0"
                   value={amount}
-                  onChange={(e) => setAmount(parseFloat(e.target.value))}
+                  onChange={(e) =>
+                    setAmount(
+                      e.target.value === "" ? 0 : parseFloat(e.target.value)
+                    )
+                  }
                 />
               </div>
 
@@ -505,12 +531,16 @@ const CreateRecipe: React.FC = () => {
         <div className="text-xxs sm:text-sm text-center mb-4">
           Are you sure you want to create this recipe?
           <span className="font-semibold text-customPink text-sm lg:text-xl block uppercase">
-            {dishName}
+            {title}
           </span>
         </div>
 
         <div className="grid lg:grid-cols-2 text-sm gap-2">
-          <button className="py-2 bg-customPink text-white rounded-full">
+          <button
+            className="py-2 bg-customPink text-white rounded-full"
+            onClick={createRecipe}
+            type="submit"
+          >
             Create Recipe
           </button>
           <button
