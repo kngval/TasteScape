@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import foodSearch from "./routes/foodSearch";
 import likedRoutes from "./routes/likedRoutes";
+import createdFoodRoutes from "./routes/createdFoodRoute";
 import "dotenv/config";
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(
 app.options("/favorites/:id", cors()); // Handle OPTIONS for DELETE
 app.use("/Home", foodSearch);
 app.use("/favorites", likedRoutes);
+app.use("/my-recipes",createdFoodRoutes);
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() =>
