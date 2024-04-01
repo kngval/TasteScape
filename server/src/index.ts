@@ -17,9 +17,9 @@ app.use(
   })
 );
 app.options("/favorites/:id", cors()); // Handle OPTIONS for DELETE
-app.use("/Home", foodSearch);
-app.use("/favorites", likedRoutes);
-app.use("/my-recipes",createdFoodRoutes);
+app.use("/Home", foodSearch); //Route for first mount in /Home
+app.use("/favorites", likedRoutes); //Route for liked recipes
+app.use("/my-recipes",createdFoodRoutes); //Route for creating Recipes
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() =>
