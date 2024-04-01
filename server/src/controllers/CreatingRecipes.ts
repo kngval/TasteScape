@@ -12,6 +12,21 @@ interface Recipe {
   nutrients: string[];
 }
 
+//FETCHING ALL RECIPES (GET REQUEST)
+export const fetchCreatedRecipes = async (req: Request, res: Response) => {
+  try {
+    const response = await RecipeModel.find();
+    console.log(response);
+    response
+      ? res.status(200).json(response)
+      : res.status(500).json({ error: "No Recipes" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//CREATING RECIPE (POST REQUEST)
 export const createRecipe = async (req: Request, res: Response) => {
   const recipe: Recipe = req.body;
 
