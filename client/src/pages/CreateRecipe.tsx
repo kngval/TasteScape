@@ -1,14 +1,16 @@
 //REACT
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 //COMPONENTS
 import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
 import Modal from "../components/Modal";
 //icons
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaCheckCircle, FaPlus, FaTrash } from "react-icons/fa";
 import { IoIosCreate } from "react-icons/io";
 import { MdClear } from "react-icons/md";
+import { ImSpinner2 } from "react-icons/im";
 
 //SVG
 import instructions from "../assets/svgs/MyRecipes/instructions.svg";
@@ -19,22 +21,28 @@ import clear from "../assets/svgs/MyRecipes/clear.svg";
 import axios from "axios";
 
 const CreateRecipe: React.FC = () => {
-  const [title,setTitle] = useState<string>("");
-  const [description,setDescription] = useState<string>("");
-  const [cookingTime,setCookingTime] = useState<number>(0);
-  const [servings,setServings] = useState<number>(0);
-  const [healthScore,setHealthScore] = useState<number>(0);
-
-  const [ingredient,setIngredient] = useState<string[]>([])
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [cookingTime, setCookingTime] = useState<number>(0);
+  const [servings, setServings] = useState<number>(0);
+  const [healthScore, setHealthScore] = useState<number>(0);
+  const [cuisineType, setCuisineType] = useState<string>("");
+  //ingredients input
+  const [ingredient, setIngredient] = useState<string[]>([]);
+  const [ingredientName, setIngredientName] = useState<string>("");
+  const [quantity, setQuantity] = useState<number>(0);
+  const [measurement, setMeasurement] = useState<string>("");
+  //INSTRUCTIONS INPUT
+  const [instructionList, setInstructionList] = useState<string[]>([]);
+  const [instruction, setInstruction] = useState<string>("");
+  //NUTRITION INPUT
   const [nutrients, setNutrients] = useState<string[]>([]);
-  const [instructionList,setInstructionList] = useState<string[]>([]);
-  const [instruction,setInstruction] = useState<string>('');
-  const [quantity,setQuantity] = useState<number>(0);
-  const [label,setLabel] = useState<string>('');
-  const [unit,setUnit] = useState<string>('');
-  const [ingredientName,setIngredientName] = useState<string>('');
-  const [measurement,setMeasurement] = useState<string>('');
-  const [amount,setAmount] = useState<number>(0);
+  const [label, setLabel] = useState<string>("");
+  const [unit, setUnit] = useState<string>("");
+  const [amount, setAmount] = useState<number>(0);
 
   //MODAL STATE
   const [isOpenSubmitModal, setIsOpenSubmitModal] = useState(false);
@@ -45,17 +53,24 @@ const CreateRecipe: React.FC = () => {
   const addIngredients = () => {
     const newIngredient = `${quantity} ${measurement} ${ingredientName}`;
 
-    setIngredient((prevIngredients) => [...prevIngredients,newIngredient])
-
-  }
+    setIngredient((prevIngredients) => [...prevIngredients, newIngredient]);
+    setIngredientName('');
+    setQuantity(0);
+    setMeasurement('');
+  };
   //REMOVE INGREDIENTS
   const removeIngredient = (ingredientToRemove: number) => {
-    setIngredient((prevIngredient) => prevIngredient.filter((_,index) => index !== ingredientToRemove))
+    setIngredient((prevIngredient) =>
+      prevIngredient.filter((_, index) => index !== ingredientToRemove)
+    );
   };
 
   // INSTRUCTIONS FUNCTIONS
   const addInstruction = () => {
-    setInstructionList((prevInstructions) => [...prevInstructions,instruction]);
+    setInstructionList((prevInstructions) => [
+      ...prevInstructions,
+      instruction,
+    ]);
     setInstruction("");
   };
 
@@ -107,24 +122,38 @@ const CreateRecipe: React.FC = () => {
     setIsOpenClearModal(false);
   };
 
-  const createRecipe = async() => {
+  const createRecipe = async () => {
     try {
+      setLoading(true);
       const recipe = {
         title,
         description,
+        cuisineType,
         cookingTime,
         servings,
         healthScore,
-        ingredient,
+        ingredients: ingredient,
         instructions: instructionList,
         nutrients,
+      };
+
+      const response = await axios.post(
+        "http://localhost:3000/my-recipes/createRecipe",
+        recipe
+      );
+      const data = response.data;
+      if(data){
+        setLoading(false);
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+          navigate('/my-recipes')
+        },2000)
       }
-
-      const response = await axios.post('http://localhost:3000/my-recipes/createRecipe',recipe)
-
-      console.log("RECIPE CREATED : ", response.data)
+      console.log("RECIPE CREATED : ", data);
     } catch (error) {
       console.log(error);
+    } finally {
     }
   };
 
@@ -154,6 +183,8 @@ const CreateRecipe: React.FC = () => {
                 id=""
                 className=" block p-2 w-full border-2 rounded-md outline-none bg-white ease-in-out transition duration-300"
                 required
+                value={cuisineType}
+                onChange={(e) => setCuisineType(e.target.value)}
               >
                 <option value="">Select a cuisine type :</option>
                 <option value="Chinese">Chinese</option>
@@ -189,10 +220,16 @@ const CreateRecipe: React.FC = () => {
 
           <div>
             <label htmlFor="fileInput">Image(Optional) :</label>
-            <input id="fileInput" type="file" src="" alt="" className="hidden" />
+            <input
+              id="fileInput"
+              type="file"
+              src=""
+              alt=""
+              className="hidden"
+            />
             <div
               className="w-full h-[200px] flex flex-col justify-center items-center bg-[#fff]  border-2 rounded-md"
-              onClick={() => document.getElementById('fileInput')?.click()}
+              onClick={() => document.getElementById("fileInput")?.click()}
             >
               <svg
                 viewBox="0 0 24 24"
@@ -525,31 +562,51 @@ const CreateRecipe: React.FC = () => {
         </form>
       </div>
       <Modal isOpen={isOpenSubmitModal}>
-        <div className="flex justify-center items-center mb-5">
-          <img src={save} alt="" className="h-[150px]" />
-        </div>
-        <div className="text-xxs sm:text-sm text-center mb-4">
-          Are you sure you want to create this recipe?
-          <span className="font-semibold text-customPink text-sm lg:text-xl block uppercase">
-            {title}
-          </span>
-        </div>
+        {loading ? (
+          <div className="flex flex-col justify-center items-center h-[300px] gap-5 p-2">
+            <ImSpinner2 className="animate-spin text-[#FF6F6F] text-4xl " />
+            <h1 className="">Adding Recipe to Collections...</h1>
+          </div>
+        ) : success ? (
+          <div className="flex flex-col justify-center items-center h-[300px]  gap-5 text-center p-2">
+            <FaCheckCircle className=" text-[#FF6F6F] text-5xl " />
+            <h1 className="w=">
+              Recipe Added Successfully.{" "}
+              <span className="text-[#FF6F6F] animate-pulse">
+                Redirecting...
+              </span>
+            </h1>
+          </div>
+        ) : (
+          <div>
+            <div className="flex justify-center items-center mb-5">
+              <img src={save} alt="" className="h-[150px]" />
+            </div>
+            <div className="text-xs sm:text-sm text-center mb-4">
+              Are you sure you want to create this recipe?
+              <span className="font-semibold text-customPink text-sm lg:text-xl block uppercase">
+                {title}
+              </span>
+            </div>
 
-        <div className="grid lg:grid-cols-2 text-sm gap-2">
-          <button
-            className="py-2 bg-customPink text-white rounded-full"
-            onClick={createRecipe}
-            type="submit"
-          >
-            Create Recipe
-          </button>
-          <button
-            className="py-2 border-2 border-customPink rounded-full text-customPink"
-            onClick={() => setIsOpenSubmitModal(false)}
-          >
-            Close
-          </button>
-        </div>
+            <div className="grid lg:grid-cols-2 text-sm gap-2">
+              <button
+                className="py-2 bg-customPink text-white rounded-full"
+                onClick={createRecipe}
+                type="submit"
+                disabled={loading}
+              >
+                Create Recipe
+              </button>
+              <button
+                className="py-2 border-2 border-customPink rounded-full text-customPink"
+                onClick={() => setIsOpenSubmitModal(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </Modal>
 
       <Modal isOpen={isOpenClearModal}>
