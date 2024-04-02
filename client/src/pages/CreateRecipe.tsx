@@ -25,6 +25,7 @@ const CreateRecipe: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
+  const [image, setImage] = useState<File | null>(null);
   const [description, setDescription] = useState<string>("");
   const [cookingTime, setCookingTime] = useState<number>(0);
   const [servings, setServings] = useState<number>(0);
@@ -48,15 +49,23 @@ const CreateRecipe: React.FC = () => {
   const [isOpenSubmitModal, setIsOpenSubmitModal] = useState(false);
   const [isOpenClearModal, setIsOpenClearModal] = useState(false);
 
+  //Handling Image
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      setImage(file);
+    }
+  };
+
   // INGREDIENT FUNCTIONS
   //ADD INGREDIENTS
   const addIngredients = () => {
     const newIngredient = `${quantity} ${measurement} ${ingredientName}`;
 
     setIngredient((prevIngredients) => [...prevIngredients, newIngredient]);
-    setIngredientName('');
+    setIngredientName("");
     setQuantity(0);
-    setMeasurement('');
+    setMeasurement("");
   };
   //REMOVE INGREDIENTS
   const removeIngredient = (ingredientToRemove: number) => {
@@ -125,6 +134,26 @@ const CreateRecipe: React.FC = () => {
   const createRecipe = async () => {
     try {
       setLoading(true);
+      // const formData = new FormData();
+      // formData.append("title", title);
+      // formData.append("description", description);
+      // formData.append("cuisineType", cuisineType);
+      // formData.append("cookingTime", cookingTime.toString());
+      // formData.append("servings", servings.toString());
+      // formData.append("healthScore", healthScore.toString());
+      // ingredient.forEach((ingredient, index) => {
+      //   formData.append(`ingredient[${index}]`, ingredient);
+      // });
+      // instructionList.forEach((instruction, index) => {
+      //   formData.append(`instruction[${index}]`, instruction);
+      // });
+      // nutrients.forEach((nutrient, index) => {
+      //   formData.append(`nutrient[${index}]`, nutrient);
+      // });
+      // if (image) {
+      //   formData.append("image", image); // Append the image file here
+      // }
+
       const recipe = {
         title,
         description,
@@ -142,13 +171,13 @@ const CreateRecipe: React.FC = () => {
         recipe
       );
       const data = response.data;
-      if(data){
+      if (data) {
         setLoading(false);
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
-          navigate('/my-recipes')
-        },2000)
+          navigate("/my-recipes");
+        }, 2000);
       }
       console.log("RECIPE CREATED : ", data);
     } catch (error) {
@@ -225,39 +254,54 @@ const CreateRecipe: React.FC = () => {
               type="file"
               src=""
               alt=""
+              onChange={handleFileChange}
               className="hidden"
+              accept="image/*"
             />
             <div
-              className="w-full h-[200px] flex flex-col justify-center items-center bg-[#fff]  border-2 rounded-md"
+              className="w-full h-[300px] sm:h-[400px] flex flex-col justify-center items-center bg-[#fff]  border-2 rounded-md"
               onClick={() => document.getElementById("fileInput")?.click()}
             >
-              <svg
-                viewBox="0 0 24 24"
-                className="w-[50px]"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  {" "}
-                  <path
-                    d="M12.75 9C12.75 8.58579 12.4142 8.25 12 8.25C11.5858 8.25 11.25 8.58579 11.25 9L11.25 11.25H9C8.58579 11.25 8.25 11.5858 8.25 12C8.25 12.4142 8.58579 12.75 9 12.75H11.25V15C11.25 15.4142 11.5858 15.75 12 15.75C12.4142 15.75 12.75 15.4142 12.75 15L12.75 12.75H15C15.4142 12.75 15.75 12.4142 15.75 12C15.75 11.5858 15.4142 11.25 15 11.25H12.75V9Z"
-                    fill="#808080"
-                  ></path>{" "}
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12Z"
-                    fill="#808080"
-                  ></path>{" "}
-                </g>
-              </svg>
-              <h1 className="text-[#808080] ">Select an Image</h1>
+              {image ? (
+                <div className="w-full h-full flex flex-col justify-center gap-2 px-4 text-center">
+                  <p>Selected Image: {image.name}</p>
+                  <img
+                    src={URL.createObjectURL(image)}
+                    alt=""
+                    className="h-[80%] object-cover object-center rounded-md"
+                  />
+                </div>
+              ) : (
+                <div className="text-center flex flex-col items-center">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="w-[50px] mr-2"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      {" "}
+                      <path
+                        d="M12.75 9C12.75 8.58579 12.4142 8.25 12 8.25C11.5858 8.25 11.25 8.58579 11.25 9L11.25 11.25H9C8.58579 11.25 8.25 11.5858 8.25 12C8.25 12.4142 8.58579 12.75 9 12.75H11.25V15C11.25 15.4142 11.5858 15.75 12 15.75C12.4142 15.75 12.75 15.4142 12.75 15L12.75 12.75H15C15.4142 12.75 15.75 12.4142 15.75 12C15.75 11.5858 15.4142 11.25 15 11.25H12.75V9Z"
+                        fill="#808080"
+                      ></path>{" "}
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12Z"
+                        fill="#808080"
+                      ></path>{" "}
+                    </g>
+                  </svg>
+                  <h1 className="text-[#808080] ">Select an Image</h1>
+                </div>
+              )}
             </div>
           </div>
 
