@@ -1,9 +1,11 @@
 import RecipeModel from "../models/CreateRecipe";
 import { Request, Response } from "express";
-
+import fs from "fs";
+import path from "path";
 interface Recipe {
   title: string;
   description: string;
+  // image: string;
   cookingTime: number;
   servings: number;
   healthScore: number;

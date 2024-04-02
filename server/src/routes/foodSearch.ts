@@ -1,19 +1,16 @@
-import express from "express"
+import express from "express";
 const router = express.Router();
 
-
 import {
-    getSearchList,
-    getRecipeDetails,
-    addLikedRecipe,
-    fetchRandomRecipe
-} from "../controllers/foodsController"
+  getSearchList,
+  getRecipeDetails,
+  addLikedRecipe,
+  fetchRandomRecipe,
+} from "../controllers/foodsController";
 
-
-router.get('/', fetchRandomRecipe);
-router.get('/:query', getSearchList);
-router.get('/recipe/:id', getRecipeDetails);
-router.post('/', addLikedRecipe);
-
+router.get("/", fetchRandomRecipe);
+router.get("/:query", getSearchList);
+router.get("/recipe/:id", getRecipeDetails);
+router.post("/", addLikedRecipe);
 
 export default router;
