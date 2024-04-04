@@ -1,11 +1,10 @@
 import RecipeModel from "../models/CreateRecipe";
 import { Request, Response } from "express";
-import fs from "fs";
-import path from "path";
+
 interface Recipe {
   title: string;
   description: string;
-  // image: string;
+  image: Buffer | string;
   cookingTime: number;
   servings: number;
   healthScore: number;
@@ -28,13 +27,24 @@ export const fetchCreatedRecipes = async (req: Request, res: Response) => {
   }
 };
 
+const base64Encode = (file: Buffer) => {
+  return file.toString("base64");
+};
+
 //CREATING RECIPE (POST REQUEST)
 export const createRecipe = async (req: Request, res: Response) => {
-  const recipe: Recipe = req.body;
-
+  const recipeData: Recipe = req.body;
+  console.log("Request Body : ", req.body);
+  const imageBase64 =
+    typeof recipeData.image === "string"
+      ? recipeData.image
+      : base64Encode(recipeData.image as Buffer);
+  recipeData.image = imageBase64;
   try {
-    if (recipe) {
-      const response = await RecipeModel.create(recipe);
+    if (recipeData) {
+      console.log("image :", recipeData.image);
+
+      const response = await RecipeModel.create(recipeData);
       res.status(200).json(response);
     } else {
       res.status(400).json({ error: "No Recipe Data Added" });
