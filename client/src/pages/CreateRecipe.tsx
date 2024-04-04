@@ -50,10 +50,14 @@ const CreateRecipe: React.FC = () => {
   const [isOpenClearModal, setIsOpenClearModal] = useState(false);
 
   //Handling Image
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
+      await getBase64(file);
       setImage(file);
+      console.log(file);
     }
   };
 
@@ -131,33 +135,36 @@ const CreateRecipe: React.FC = () => {
     setIsOpenClearModal(false);
   };
 
-  const createRecipe = async () => {
+  const getBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        if (reader.result) {
+          resolve(reader.result as string);
+        } else {
+          reject(new Error("Failed to read file"));
+        }
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+  
+
+  const createRecipe = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       setLoading(true);
-      // const formData = new FormData();
-      // formData.append("title", title);
-      // formData.append("description", description);
-      // formData.append("cuisineType", cuisineType);
-      // formData.append("cookingTime", cookingTime.toString());
-      // formData.append("servings", servings.toString());
-      // formData.append("healthScore", healthScore.toString());
-      // ingredient.forEach((ingredient, index) => {
-      //   formData.append(`ingredient[${index}]`, ingredient);
-      // });
-      // instructionList.forEach((instruction, index) => {
-      //   formData.append(`instruction[${index}]`, instruction);
-      // });
-      // nutrients.forEach((nutrient, index) => {
-      //   formData.append(`nutrient[${index}]`, nutrient);
-      // });
-      // if (image) {
-      //   formData.append("image", image); // Append the image file here
-      // }
 
+      let imageBase64 = '';
+      if (image) {
+        imageBase64 = await getBase64(image);
+      }
       const recipe = {
         title,
         description,
         cuisineType,
+        image:imageBase64,
         cookingTime,
         servings,
         healthScore,
@@ -165,6 +172,7 @@ const CreateRecipe: React.FC = () => {
         instructions: instructionList,
         nutrients,
       };
+      console.log("RECIPE BEFORE SUBMIT : ", recipe);
 
       const response = await axios.post(
         "http://localhost:3000/my-recipes/createRecipe",
@@ -190,7 +198,11 @@ const CreateRecipe: React.FC = () => {
     <>
       <Navbar />
       <div className="flex flex-col items-center text-xs md:text-md mt-4 mb-[6rem]">
-        <form action="" className="w-[90%] lg:w-[900px]  grid gap-8 ">
+        <form
+          action=""
+          className="w-[90%] lg:w-[900px]  grid gap-8"
+          onSubmit={createRecipe}
+        >
           <div className="grid lg:grid-cols-2 gap-5">
             <div className="">
               <label>
@@ -203,6 +215,7 @@ const CreateRecipe: React.FC = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
+                name="title"
               />
             </div>
             <div className="">
@@ -257,6 +270,7 @@ const CreateRecipe: React.FC = () => {
               onChange={handleFileChange}
               className="hidden"
               accept="image/*"
+              name="image"
             />
             <div
               className="w-full h-[300px] sm:h-[400px] flex flex-col justify-center items-center bg-[#fff]  border-2 rounded-md"
@@ -318,6 +332,7 @@ const CreateRecipe: React.FC = () => {
                   )
                 }
                 required
+                name="cookingTime"
               />
             </div>
 
@@ -325,7 +340,7 @@ const CreateRecipe: React.FC = () => {
               <label>Servings :</label>
               <input
                 type="number"
-                name=""
+                name="servings"
                 id=""
                 className="block border-2 p-1 rounded-md w-full outline-none"
                 value={servings}
@@ -341,7 +356,7 @@ const CreateRecipe: React.FC = () => {
               <label>Health Score :</label>
               <input
                 type="number"
-                name=""
+                name="healthScore"
                 id=""
                 className="block border-2 p-1 rounded-md w-full outline-none"
                 value={healthScore}
@@ -603,80 +618,79 @@ const CreateRecipe: React.FC = () => {
               <MdClear className="text-lg" />
             </button>
           </div>
-        </form>
-      </div>
-      <Modal isOpen={isOpenSubmitModal}>
-        {loading ? (
-          <div className="flex flex-col justify-center items-center h-[300px] gap-5 p-2">
-            <ImSpinner2 className="animate-spin text-[#FF6F6F] text-4xl " />
-            <h1 className="">Adding Recipe to Collections...</h1>
-          </div>
-        ) : success ? (
-          <div className="flex flex-col justify-center items-center h-[300px]  gap-5 text-center p-2">
-            <FaCheckCircle className=" text-[#FF6F6F] text-5xl " />
-            <h1 className="w=">
-              Recipe Added Successfully.{" "}
-              <span className="text-[#FF6F6F] animate-pulse">
-                Redirecting...
-              </span>
-            </h1>
-          </div>
-        ) : (
-          <div>
+          <Modal isOpen={isOpenSubmitModal}>
+            {loading ? (
+              <div className="flex flex-col justify-center items-center h-[300px] gap-5 p-2">
+                <ImSpinner2 className="animate-spin text-[#FF6F6F] text-4xl " />
+                <h1 className="">Adding Recipe to Collections...</h1>
+              </div>
+            ) : success ? (
+              <div className="flex flex-col justify-center items-center h-[300px]  gap-5 text-center p-2">
+                <FaCheckCircle className=" text-[#FF6F6F] text-5xl " />
+                <h1 className="w=">
+                  Recipe Added Successfully.{" "}
+                  <span className="text-[#FF6F6F] animate-pulse">
+                    Redirecting...
+                  </span>
+                </h1>
+              </div>
+            ) : (
+              <div>
+                <div className="flex justify-center items-center mb-5">
+                  <img src={save} alt="" className="h-[150px]" />
+                </div>
+                <div className="text-xs sm:text-sm text-center mb-4">
+                  Are you sure you want to create this recipe?
+                  <span className="font-semibold text-customPink text-sm lg:text-xl block uppercase">
+                    {title}
+                  </span>
+                </div>
+
+                <div className="grid lg:grid-cols-2 text-sm gap-2">
+                  <button
+                    className="py-2 bg-customPink text-white rounded-full"
+                    type="submit"
+                    disabled={loading}
+                  >
+                    Create Recipe
+                  </button>
+                  <button
+                    className="py-2 border-2 border-customPink rounded-full text-customPink"
+                    onClick={() => setIsOpenSubmitModal(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
+          </Modal>
+
+          <Modal isOpen={isOpenClearModal}>
             <div className="flex justify-center items-center mb-5">
-              <img src={save} alt="" className="h-[150px]" />
+              <img src={clear} alt="" className="h-[150px]" />
             </div>
-            <div className="text-xs sm:text-sm text-center mb-4">
-              Are you sure you want to create this recipe?
-              <span className="font-semibold text-customPink text-sm lg:text-xl block uppercase">
-                {title}
-              </span>
+            <div className="text-xs text-center mb-4">
+              Are you sure you want to{" "}
+              <span className="text-customPink">Clear All Fields</span> ?
             </div>
 
             <div className="grid lg:grid-cols-2 text-sm gap-2">
               <button
-                className="py-2 bg-customPink text-white rounded-full"
-                onClick={createRecipe}
-                type="submit"
-                disabled={loading}
+                className="py-2 border-2 border-customPink text-customPink rounded-full"
+                onClick={clearAllFields}
               >
-                Create Recipe
+                Clear All FIelds
               </button>
               <button
-                className="py-2 border-2 border-customPink rounded-full text-customPink"
-                onClick={() => setIsOpenSubmitModal(false)}
+                className="py-3 bg-customPink rounded-full text-white"
+                onClick={() => setIsOpenClearModal(false)}
               >
                 Close
               </button>
             </div>
-          </div>
-        )}
-      </Modal>
-
-      <Modal isOpen={isOpenClearModal}>
-        <div className="flex justify-center items-center mb-5">
-          <img src={clear} alt="" className="h-[150px]" />
-        </div>
-        <div className="text-xs text-center mb-4">
-          Are you sure you want to{" "}
-          <span className="text-customPink">Clear All Fields</span> ?
-        </div>
-
-        <div className="grid lg:grid-cols-2 text-sm gap-2">
-          <button
-            className="py-2 border-2 border-customPink text-customPink rounded-full"
-            onClick={clearAllFields}
-          >
-            Clear All FIelds
-          </button>
-          <button
-            className="py-3 bg-customPink rounded-full text-white"
-            onClick={() => setIsOpenClearModal(false)}
-          >
-            Close
-          </button>
-        </div>
-      </Modal>
+          </Modal>
+        </form>
+      </div>
       <BottomNavbar />
     </>
   );
