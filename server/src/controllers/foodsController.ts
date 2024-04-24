@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import axios from "axios";
 import LikedModel from "../models/LikedSchema";
 import "dotenv/config";
+import { getDb } from "../db/db";
 
 //FOR SEARCHING RECIPES
 interface SearchList {
@@ -15,7 +16,7 @@ interface SearchList {
 export const fetchRandomRecipe = async (req: Request, res: Response) => {
   try {
     const response = await axios.get(
-      `https://api.spoonacular.com/recipes/random?apiKey=${process.env.API_KEY}`
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.params.query}`
     );
     const data = response.data;
     res.status(200).json(data);
@@ -63,11 +64,14 @@ export const getRecipeDetails = async (req: Request, res: Response) => {
   }
 };
 
+
 //FETCH LIKED RECIPES
 
 export const fetchLikedRecipe = async (req: Request, res: Response) => {
   try {
-    const LikedRecipes = await LikedModel.find().sort({ createdAt: -1 });
+    const db = getDb();
+    const LikedRecipes = await db.collection("likedrecipes").find().toArray();
+    console.log(LikedRecipes);
     res.status(200).json(LikedRecipes);
   } catch (error) {
     console.log(error);
@@ -81,9 +85,10 @@ export const addLikedRecipe = async (req: Request, res: Response) => {
   console.log("Received Data:", { id, title, image });
 
   try {
-    const exists = await LikedModel.findOne({ id });
+    const db = getDb();
+    const exists = await db.collection('likedrecipes').findOne({ id });
     if (!exists) {
-      const LikedRecipes = await LikedModel.create({
+      const LikedRecipes = await db.collection('likedrecipes').insertOne({
         id,
         title,
         image,
@@ -102,8 +107,9 @@ export const addLikedRecipe = async (req: Request, res: Response) => {
 export const removeLikedRecipe = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
+    const db = getDb();
     const recipeId = parseInt(id);
-    const removedRecipe = await LikedModel.deleteOne({ id: recipeId });
+    const removedRecipe = await db.collection('likedrecipes').deleteOne({ id: recipeId });
     res.status(200).json(removedRecipe);
   } catch (error) {
     res.status(400).json({ error: error.message });
