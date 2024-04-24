@@ -32,7 +32,7 @@ const RecipeDetails: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchChosenRecipe());
+      dispatch(fetchChosenRecipe(id));
     }
   }, [dispatch, id]);
 
@@ -173,8 +173,8 @@ const RecipeDetails: React.FC = () => {
               </div>
               <div className="tab-details-container grid w-full gap-2 list-none">
                 {tab === "about" && (
-                  <fieldset className="w-full p-4 border-2">
-                    <legend className="text-sm">About the Dish :</legend>
+                  <fieldset className="w-full p-4 border-2 border-customPink">
+                    <legend className="text-sm">About the Dish </legend>
                     <div className="">
                       <div
                         className=""
