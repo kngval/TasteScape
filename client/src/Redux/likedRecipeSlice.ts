@@ -45,7 +45,7 @@ export const fetchLikedRecipes = createAsyncThunk('recipe/fetchLikedRecipe',asyn
         const data = response.data
         console.log(data);
         return data as IRecipes[]
-
+        
     } catch(error){
         console.log("fetched liked recipe error: ",error);
     }
