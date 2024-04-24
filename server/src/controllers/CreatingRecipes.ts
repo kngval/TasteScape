@@ -1,10 +1,12 @@
-import RecipeModel from "../models/CreateRecipe";
+import { getDb } from "../db/db";
 import { Request, Response } from "express";
-
+import { Collection, Document, ObjectId } from "mongodb";
+import cloudinary from "../utils/cloudinary";
+import RecipeModel from "../models/CreateRecipe";
 interface Recipe {
   title: string;
   description: string;
-  image: Buffer | string;
+  image: string;
   cookingTime: number;
   servings: number;
   healthScore: number;
@@ -13,10 +15,12 @@ interface Recipe {
   nutrients: string[];
 }
 
-//FETCHING ALL RECIPES (GET REQUEST)
+// FETCHING ALL RECIPES (GET REQUEST)
 export const fetchCreatedRecipes = async (req: Request, res: Response) => {
   try {
-    const response = await RecipeModel.find();
+    const db = getDb();
+    const collection: Collection<Document> = db.collection("createdrecipes");
+    const response = await collection.find().sort({ createdAt: -1 }).toArray();
     console.log(response);
     response
       ? res.status(200).json(response)
@@ -27,28 +31,48 @@ export const fetchCreatedRecipes = async (req: Request, res: Response) => {
   }
 };
 
-const base64Encode = (file: Buffer) => {
-  return file.toString("base64");
-};
-
-//CREATING RECIPE (POST REQUEST)
+// CREATING RECIPE (POST REQUEST)
 export const createRecipe = async (req: Request, res: Response) => {
   const recipeData: Recipe = req.body;
-  console.log("Request Body : ", req.body);
-  const imageBase64 =
-    typeof recipeData.image === "string"
-      ? recipeData.image
-      : base64Encode(recipeData.image as Buffer);
-  recipeData.image = imageBase64;
   try {
-    if (recipeData) {
-      console.log("image :", recipeData.image);
+    const db = getDb();
+    const recipeImg = recipeData.image;
+    const imgResponse = await cloudinary.uploader.upload(recipeImg, {
+      upload_preset: "tastescape",
+    });
+    recipeData.image = imgResponse.url;
 
-      const response = await RecipeModel.create(recipeData);
-      res.status(200).json(response);
-    } else {
-      res.status(400).json({ error: "No Recipe Data Added" });
-    }
+    const newRecipe = await db
+      .collection("createdrecipes")
+      .insertOne(recipeData);
+
+    newRecipe
+      ? res
+          .status(200)
+          .json({ message: "Recipe Created Successfully", recipe: recipeData })
+      : res.status(500).json({ error: "Failed to Create Recipe" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to create recipe" });
+  }
+};
+
+//CREATED RECIPES DETAILS
+export const fetchCreatedRecipeDetails = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+  try {
+    const db = getDb();
+    const ClickedRecipe = await db
+      .collection("createdrecipes")
+      .find({ _id: new ObjectId(id) })
+      .toArray();
+    console.log(ClickedRecipe);
+    ClickedRecipe
+      ? res.status(200).json(ClickedRecipe)
+      : res.status(500).json({ error: "Failed to fetch Created Recipe" });
   } catch (error) {
     console.log(error);
   }
