@@ -11,7 +11,7 @@ const RecipeSchema = new mongoose.Schema({
   ingredients: [String],
   instructions: [String],
   nutrients: [String],
+  createdAt: Date,  
 });
-
 const RecipeModel = mongoose.model<Document>("CreatedRecipes", RecipeSchema);
 export default RecipeModel;
