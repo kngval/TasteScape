@@ -1,14 +1,17 @@
 // REACT & REDUX IMPORTS
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../Redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchLikedRecipes } from "../Redux/likedRecipeSlice";
 // COMPONENTS
 import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
 import { Recipes } from "../components/Recipes";
 import LoadingSpinner from "../components/LoadingSpinner";
+import axios from "axios";
+import Recipe from "../interfaces/IRecipes";
 const Profile = () => {
+  const [createdRecipes, setCreatedRecipes] = useState<Recipe[]>([]);
   const { likedRecipes, loading } = useSelector(
     (state: RootState) => state.likedRecipes
   );
@@ -16,7 +19,21 @@ const Profile = () => {
 
   useEffect(() => {
     dispatch(fetchLikedRecipes());
+    fetchCreatedRecipes();
   }, [dispatch]);
+
+  const fetchCreatedRecipes = async() => {
+    try {
+      const response = await axios.get('http://localhost:3000/my-recipes');
+      const data = response.data;
+      if(data){
+        setCreatedRecipes(data);
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <Navbar />
@@ -26,17 +43,18 @@ const Profile = () => {
           <div className="pfp-header-wrapper  flex flex-col  items-center relative w-full  bg-[#fcfcfc] ">
             <div className="head w-full h-[200px] lg:h-[300px] ">
               <img
-                src="https://scontent.fmnl25-3.fna.fbcdn.net/v/t39.30808-6/420924621_1928494867552019_7848630957939104409_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeF4u2npJvVUIbJgTwJwdHcqPMu6VVFecgo8y7pVUV5yCoAq63Si4CxjHMTOqVJrthF5ckVK1AETQI_2uWg3HGxs&_nc_ohc=GqBtJ621R1MAX8JCFB_&_nc_ht=scontent.fmnl25-3.fna&oh=00_AfAab9UaUpT1nNobETtdVZqvFlwUg-Zdckzp45A_EZ9RSQ&oe=65F1530B"
-                alt=""
+                src=""
+                alt="cover photo"
                 className="w-full h-full object-cover object-center"
               />
             </div>
             <div className="z-50 flex flex-col lg:flex-row items-center lg:justify-between lg: lg:w-full lg:p-4 -mt-[5rem] lg:mb-0">
               <div className="lg:flex items-center ">
                 <div className="pfp-icon-container flex justify-center items-center rounded-full w-[200px]   mb-2 border-[5px] border-[#fcfcfc] ">
+                  {/* PFP HERE */}
                   <img
-                    src="https://scontent.fmnl25-1.fna.fbcdn.net/v/t39.30808-6/427946549_1941758782892294_7126879791046981568_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHhM_bqgOcQmV04dBxhSi1zBg8ymP9XlHUGDzKY_1eUdYgXEohr-o614_geGqMbI_AjeEVBmSQ3JsnYUGMwaLXY&_nc_ohc=UgR5P-otfOIAX8a99YZ&_nc_ht=scontent.fmnl25-1.fna&oh=00_AfCypSNXpC3Nciis9LiVwYfjUsWnJsoWKo9xMu3lSYoV1A&oe=65F1F8F3"
-                    alt=""
+                    src=""
+                    alt="pfp"
                     className="w-full h-full object-cover object-center rounded-full"
                   />
                 </div>
@@ -89,10 +107,33 @@ const Profile = () => {
               <div className="w-full flex  overflow-x-auto scrollbar-style ">
                 <div className="flex gap-2 pb-4">
                   {likedRecipes &&
-                    likedRecipes.map((liked) => (
+                    likedRecipes.map((liked,index) => (
                       <div className="text-xs md:text-sm xl:text-md  bg-white w-[200px] sm:w-[300px] lg:w-[300px] border-gray-200 border-2">
                         <Recipes
-                          key={liked.id}
+                          key={index}
+                          id={liked.id}
+                          image={liked.image}
+                          title={liked.title}
+                          isLiked={liked.isLiked}
+                        />
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div className="p-4 bg-[#fcfcfc] w-full">
+            <h1 className="mb-2 ml-2 text-lg">Created Recipes</h1>
+            <div className=" flex flex-col items-center ">
+              <div className="w-full flex  overflow-x-auto scrollbar-style ">
+                <div className="flex gap-2 pb-4">
+                  {createdRecipes && createdRecipes.length > 0 &&
+                    createdRecipes.map((liked,index) => (
+                      <div className="text-xs md:text-sm xl:text-md  bg-white w-[200px] sm:w-[300px] lg:w-[300px] border-gray-200 border-2">
+                        <Recipes
+                          key={index}
                           id={liked.id}
                           image={liked.image}
                           title={liked.title}
