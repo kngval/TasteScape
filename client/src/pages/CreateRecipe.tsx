@@ -25,7 +25,8 @@ const CreateRecipe: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState<string | null >(null);
+  // const [preview, setPreview] = useState<string | null>();
   const [description, setDescription] = useState<string>("");
   const [cookingTime, setCookingTime] = useState<number>(0);
   const [servings, setServings] = useState<number>(0);
@@ -50,16 +51,20 @@ const CreateRecipe: React.FC = () => {
   const [isOpenClearModal, setIsOpenClearModal] = useState(false);
 
   //Handling Image
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files && event.target.files[0];
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
-      await getBase64(file);
-      setImage(file);
-      console.log(file);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        if(typeof reader.result === 'string'){
+          setImage(reader.result);
+          console.log(reader.result);
+        }
+      }
     }
   };
+
 
   // INGREDIENT FUNCTIONS
   //ADD INGREDIENTS
@@ -135,50 +140,32 @@ const CreateRecipe: React.FC = () => {
     setIsOpenClearModal(false);
   };
 
-  const getBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        if (reader.result) {
-          resolve(reader.result as string);
-        } else {
-          reject(new Error("Failed to read file"));
-        }
-      };
-      reader.onerror = (error) => reject(error);
-    });
-  };
-  
-
   const createRecipe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
 
-      let imageBase64 = '';
-      if (image) {
-        imageBase64 = await getBase64(image);
-      }
       const recipe = {
         title,
         description,
         cuisineType,
-        image:imageBase64,
+        image,
         cookingTime,
         servings,
         healthScore,
         ingredients: ingredient,
         instructions: instructionList,
         nutrients,
+        createdAt: new Date(),
       };
-      console.log("RECIPE BEFORE SUBMIT : ", recipe);
 
       const response = await axios.post(
         "http://localhost:3000/my-recipes/createRecipe",
         recipe
       );
+
       const data = response.data;
+
       if (data) {
         setLoading(false);
         setSuccess(true);
@@ -278,9 +265,8 @@ const CreateRecipe: React.FC = () => {
             >
               {image ? (
                 <div className="w-full h-full flex flex-col justify-center gap-2 px-4 text-center">
-                  <p>Selected Image: {image.name}</p>
                   <img
-                    src={URL.createObjectURL(image)}
+                    src={image}
                     alt=""
                     className="h-[80%] object-cover object-center rounded-md"
                   />
