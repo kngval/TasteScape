@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { FoodMock } from '../mock/foodMockData'
-// import axios from "axios";
+// import { FoodMock } from '../mock/foodMockData'
+import axios from "axios";
 export interface RecipeDetails {
   id: number;
   title: string;
@@ -42,19 +42,19 @@ const initialState: ChosenRecipe = {
 };
 export const fetchChosenRecipe = createAsyncThunk(
   "recipe/fetchChosenRecipe",
-  async () => {
+  async (id: string) => {
     try {
-      // const response = await axios.get(
-      //   `http://localhost:3000/home/recipe/${id}`,
-      //   {
-      //     withCredentials: true,
-      //   }
-      // );
-      // console.log(response.data);
-      // const data = response.data;
-      // return data as RecipeDetails;
+      const response = await axios.get(
+        `http://localhost:3000/home/recipe/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      const data = response.data;
+      return data as RecipeDetails;
 
-      return FoodMock as RecipeDetails
+      // return FoodMock as RecipeDetails
     } catch (error) {
       console.log(error);
     }
