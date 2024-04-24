@@ -24,8 +24,8 @@ export const fetchRecipes = createAsyncThunk(
       withCredentials: true,
     });
 
-    console.log(response.data);
-    const data = response.data;
+    console.log(response.data.results);
+    const data = response.data.results;
     return data as IRecipes[];
   }
 );
