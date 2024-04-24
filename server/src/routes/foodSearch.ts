@@ -8,7 +8,7 @@ import {
   fetchRandomRecipe,
 } from "../controllers/foodsController";
 
-router.get("/", fetchRandomRecipe);
+router.get("/:query", fetchRandomRecipe);
 router.get("/:query", getSearchList);
 router.get("/recipe/:id", getRecipeDetails);
 router.post("/", addLikedRecipe);
