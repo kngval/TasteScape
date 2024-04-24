@@ -51,18 +51,15 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
     }
   };
   return (
-    <>  
+    <>
+      
         <Link to={`/recipe/${id} `}>
-          <div className="w-full">
-            <img
-              src={image}
-              className="food-img  w-full h-full object-cover"
-              alt=""
-            />
+          <div className="h-[200px]">
+            <img src={image} className="food-img w-full h-full object-cover object-center" alt="" />
           </div>
         </Link>
 
-        <div className="foodName flex justify-between items-center px-4 py-3">
+        <div className="foodName  flex justify-between items-center px-4 py-3">
           <div className="text-start w-3/4">
             <h1 className="">{title}</h1>
           </div>
