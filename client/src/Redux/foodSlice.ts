@@ -38,7 +38,7 @@ export const searchRecipes = createAsyncThunk(
     });
 
     console.log(response.data);
-    const data = response.data;
+    const data = response.data.results;
     return data as IRecipes[];
   }
 );
