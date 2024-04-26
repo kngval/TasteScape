@@ -27,15 +27,19 @@ export const fetchRandomRecipe = async (req: Request, res: Response) => {
 
 export const getSearchList = async (req: Request, res: Response) => {
   try {
+    const db = getDb();
     const response = await axios.get(
       `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.params.query}`
     );
     const apiData: SearchList[] = response.data.results;
 
     // Fetch liked recipes from the database
-    const likedRecipeIds = (await LikedModel.find({}, { id: 1 })).map(
-      (likedRecipe) => likedRecipe.id
-    );
+    const likedRecipeIds = (
+      await db
+        .collection("likedrecipes")
+        .find({}, { projection: { id: 1 } })
+        .toArray()
+    ).map((likedRecipe) => likedRecipe.id);
 
     // Add isLiked property based on whether the recipe is liked
     const recipeData: SearchList[] = apiData.map((recipe) => ({
@@ -64,7 +68,6 @@ export const getRecipeDetails = async (req: Request, res: Response) => {
   }
 };
 
-
 //FETCH LIKED RECIPES
 
 export const fetchLikedRecipe = async (req: Request, res: Response) => {
@@ -86,9 +89,9 @@ export const addLikedRecipe = async (req: Request, res: Response) => {
 
   try {
     const db = getDb();
-    const exists = await db.collection('likedrecipes').findOne({ id });
+    const exists = await db.collection("likedrecipes").findOne({ id });
     if (!exists) {
-      const LikedRecipes = await db.collection('likedrecipes').insertOne({
+      const LikedRecipes = await db.collection("likedrecipes").insertOne({
         id,
         title,
         image,
@@ -109,7 +112,9 @@ export const removeLikedRecipe = async (req: Request, res: Response) => {
   try {
     const db = getDb();
     const recipeId = parseInt(id);
-    const removedRecipe = await db.collection('likedrecipes').deleteOne({ id: recipeId });
+    const removedRecipe = await db
+      .collection("likedrecipes")
+      .deleteOne({ id: recipeId });
     res.status(200).json(removedRecipe);
   } catch (error) {
     res.status(400).json({ error: error.message });
