@@ -15,7 +15,7 @@ const SearchForm = () => {
 
   useEffect(() => {
     if (query) {
-      navigate('/search')
+      navigate("/search");
       dispatch(searchRecipes(query));
     }
   }, [query]);
@@ -40,15 +40,11 @@ const SearchForm = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
           <div className="w-8 lg:w-10 flex items-center   rounded-e-sm bg-white p-2">
-          <button
-            type="submit"
-            className="w-full h-full"
-          >
-            <img src={searchIcon} className="w-full h-full" alt="" />
-          </button>
+            <button type="submit" className="w-full h-full">
+              <img src={searchIcon} className="w-full h-full" alt="" />
+            </button>
           </div>
         </div>
-        
       </div>
     </form>
   );
