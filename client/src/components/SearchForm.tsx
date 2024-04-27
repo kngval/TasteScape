@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 // import axios from "axios"
 import searchIcon from "../assets/svgs/search.svg";
 import { useDispatch } from "react-redux";
@@ -6,23 +6,19 @@ import { AppDispatch } from "../Redux/store";
 import { searchRecipes } from "../Redux/foodSlice";
 import { useNavigate } from "react-router-dom";
 
-const SearchForm = () => {
+
+
+const SearchForm: React.FC = () => {
   const [search, setSearch] = useState("");
-  const [query, setQuery] = useState("");
   const dispatch = useDispatch<AppDispatch>();
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (query) {
-      navigate("/search");
-      dispatch(searchRecipes(query));
-    }
-  }, [query]);
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setQuery(search);
+    if (search) {
+      dispatch(searchRecipes(search));
+      navigate(`/search?query=${encodeURIComponent(search)}`);
+    }
   };
 
   return (
