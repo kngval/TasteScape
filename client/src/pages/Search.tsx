@@ -6,13 +6,16 @@ import SearchForm from "../components/SearchForm";
 import { RootState } from "../Redux/store";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorPopUp from "../components/ErrorPopUp";
-// import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const Search = () => {
   const { searchedRecipes, loading } = useSelector(
     (state: RootState) => state.recipes
   );
-  // const [queryStr, setQueryStr] = useState('');
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const query = queryParams.get("query");
 
   return (
     <>
@@ -20,33 +23,40 @@ const Search = () => {
 
       <ErrorPopUp />
       {/* SEARCH FORM */}
-      <div className="w-full h-[100px] relative">
+      <div className="w-full h-[100px] relative bg-customPink mb-[5rem]">
         <SearchForm />
       </div>
 
       {/* LOADING SPINNER */}
       {loading && !searchedRecipes && <LoadingSpinner />}
 
+      {query && (
+        <div className="text-center">
+          <h1 className="text-gray-500">
+            Search Results For {">"} {query}
+          </h1>
+        </div>
+      )}
+
       {/* SEARCHED RECIPES */}
       {searchedRecipes && searchedRecipes.length > 0 && (
         <div>
-        <div>
-          <h1>Search results for</h1>
+          <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
+            {searchedRecipes &&
+              searchedRecipes.length > 0 &&
+              searchedRecipes.map((recipe, index) => (
+                <div className="text-xs md:text-sm xl:text-md  bg-white   border-gray-200 border-2">
+                  <Recipes
+                    key={index}
+                    id={recipe.id}
+                    title={recipe.title}
+                    isLiked={recipe.isLiked}
+                    image={recipe.image}
+                  />
+                </div>
+              ))}
+          </div>
         </div>
-      <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 my-[6rem]">
-        {searchedRecipes && searchedRecipes.length > 0 &&
-          searchedRecipes.map((recipe) => (
-            <div className="text-xs md:text-sm xl:text-md  bg-white   border-gray-200 border-2">
-              <Recipes
-                id={recipe.id}
-                title={recipe.title}
-                isLiked={recipe.isLiked}
-                image={recipe.image}
-              />
-            </div>
-          ))}
-      </div>
-      </div>
       )}
       <BottomNavbar />
     </>

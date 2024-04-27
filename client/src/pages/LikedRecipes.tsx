@@ -24,7 +24,7 @@ const LikedRecipes = () => {
         <div className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {liked &&
             liked.map((likedRecipe) => (
-              <div className="text-xs md:text-sm xl:text-md  bg-white  border-gray-200 border-2">
+              <div className="text-xs md:text-sm xl:text-md bg-white  border-gray-200 border-2">
                 <Recipes
                   key={likedRecipe.id}
                   id={likedRecipe.id}
