@@ -59,7 +59,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked }) => {
           </div>
         </Link>
 
-        <div className="foodName  flex justify-between items-center px-4 py-3">
+        <div className="foodName  flex justify-between items-center px-4 py-3 ">
           <div className="text-start w-3/4">
             <h1 className="">{title}</h1>
           </div>
