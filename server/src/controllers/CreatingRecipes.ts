@@ -77,3 +77,19 @@ export const fetchCreatedRecipeDetails = async (
     console.log(error);
   }
 };
+
+export const getCreatedRecipeDetails = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const db = getDb();
+    const response = await db
+      .collection("createdrecipes")
+      .findOne({ _id: new ObjectId(id) });
+    console.log(response);
+    response
+      ? res.status(200).json(response)
+      : res.status(500).json({ error: "Nothing found in db..." });
+  } catch (error) {
+    console.log(error);
+  }
+};
