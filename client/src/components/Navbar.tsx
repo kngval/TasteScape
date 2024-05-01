@@ -1,15 +1,15 @@
 import { NavLink } from "react-router-dom";
 import NavBtns from "./NavBtns";
 import searchIcon from "../assets/svgs/search.svg";
-
+import TasteScape from "../assets/svgs/TasteScape.svg"
 const Navbar: React.FC = () => {
   return (
     <>
       <nav className=" text-sm lg:text-md sticky top-0 flex justify-center w-full bg-white p-2 z-[100]">
         <div className="w-[95%] flex justify-between items-center">
-          <div className="flex items-center h-full">
-            <NavLink to="/home" className="">
-              <h1 className="navbar-title text-xl font-">TasteScape</h1>
+          <div className="flex items-center h-full py-3">
+            <NavLink to="/home" className="flex items-center justify-center">
+              <img src={TasteScape} alt="" className="w-[120px]"/>
             </NavLink>
           </div>
 
