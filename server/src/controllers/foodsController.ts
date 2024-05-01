@@ -3,6 +3,7 @@ import axios from "axios";
 import LikedModel from "../models/LikedSchema";
 import "dotenv/config";
 import { getDb } from "../db/db";
+import { ObjectId } from "mongodb";
 
 //FOR SEARCHING RECIPES
 interface SearchList {
@@ -62,12 +63,13 @@ export const getRecipeDetails = async (req: Request, res: Response) => {
       `https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.API_KEY}&includeNutrition=true`
     );
     const data = response.data;
-    res.status(200).json(data);
+    data
+      ? res.status(200).json(data)
+      : res.status(500).json({ error: "no response data" });
   } catch (error) {
     console.log(error);
   }
 };
-
 //FETCH LIKED RECIPES
 
 export const fetchLikedRecipe = async (req: Request, res: Response) => {
