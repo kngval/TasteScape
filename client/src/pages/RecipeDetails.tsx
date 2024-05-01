@@ -12,9 +12,10 @@ import serving from "../assets/svgs/RecipeDetails/serving.svg";
 import location from "../assets/svgs/RecipeDetails/location.svg";
 import Navbar from "../components/Navbar";
 import { BottomNavbar } from "../components/BottomNavbar";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const RecipeDetails: React.FC = () => {
-  const [tab, setTab] = useState<string>("ingredients");
+  const [tab, setTab] = useState<string>("about");
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const chosenRecipe = useSelector(
@@ -37,7 +38,7 @@ const RecipeDetails: React.FC = () => {
   }, [dispatch, id]);
 
   if (loading) {
-    return <div>LOADING...</div>;
+    return <div className="w-full h-screen flex justify-center items-center"><LoadingSpinner /></div>;
   }
   if (error) {
     return <div>{error}</div>;
@@ -46,7 +47,7 @@ const RecipeDetails: React.FC = () => {
     <>
       <Navbar />
       <div className="flex justify-center">
-        <div className="RecipeContainer w-full lg:w-[1000px] xl:w-[1200px] lg:mt-10 mb-20 grid gap-[100px]  justify-items-cente">
+        <div className="RecipeContainer w-full lg:w-[1000px] xl:w-[1200px] lg:mt-10 mb-20 grid  justify-items-center">
           {/* RECIPE IMAGE AND RECIPE DETAILS BAR */}
           <div className="img-wrapper relative xl:rounded-xl w-full">
             <img
@@ -55,7 +56,7 @@ const RecipeDetails: React.FC = () => {
               alt=""
             />
             <div className="gradient xl:rounded-xl flex justify-center bg-gradient-to-b from-transparent to-black  absolute top-0 bottom-0 w-full h-full z-10">
-              <h1 className="z-50 absolute text-2xl text-white bottom-20 font-bold xl:hidden">
+              <h1 className="z-50 absolute text-2xl text-white bottom-20 font-bold xl:hidden text-center">
                 {chosenRecipe?.title}
               </h1>
 
@@ -113,19 +114,21 @@ const RecipeDetails: React.FC = () => {
               </div>
             </div>
           </div>
+          <div className="abt-wrapper p-2 flex justify-center items-center mt-[5rem]">
+            <button
+              className={`${
+                tab === "about" ? "bg-customPink text-white" : "bg-gray-200"
+              }  text-center  px-3 py-2 rounded-full w-[300px] text-xxs sm:text-sm xl:px-0 mb-10`}
+              onClick={() => handleClick("about")}
+            >
+              About The Dish
+            </button>
+          </div>
 
           {/* INGREDIENTS, INSTRUCTIONS, AND NUTRIENTS */}
           <div className="display w-full  sm:px-2 lg:px-10  recipe-container">
-            <div className="flex justify-center w-full">
-              <div className="btnContainer text-xxs grid grid-cols-4 gap-5  sm:text-sm xl:px-0 mb-10">
-                <button
-                  className={`${
-                    tab === "about" ? "bg-customPink text-white" : "bg-gray-200"
-                  } rounded-sm text-center  px-3 py-2`}
-                  onClick={() => handleClick("about")}
-                >
-                  About The Dish
-                </button>
+            <div className="flex justify-center w-full px-2">
+              <div className="btnContainer text-xxs grid grid-cols-3 gap-5  sm:text-sm xl:px-0 mb-10">
                 <button
                   className={`${
                     tab === "ingredients"
@@ -163,9 +166,7 @@ const RecipeDetails: React.FC = () => {
             <div className="infoDeta flex flex-col items-center p-2 lg:px-0">
               <div className="text-center mb-10">
                 <p className="text-xs xl:text-md uppercase">
-                  {tab === "ingredients" || "instructions"
-                    ? `${tab} FOR MAKING`
-                    : `${tab}`}{" "}
+                  {tab === "ingredients" ? `ingredients for making` : tab === "instructions" ? "instructions for making" : tab === "nutrients" ? "nutrients of" : "About the Dish"}
                 </p>
                 <h1 className="headline font-bold xl:text-xl xl:font-extrabold">
                   {chosenRecipe?.title}
