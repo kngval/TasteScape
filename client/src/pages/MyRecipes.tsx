@@ -3,12 +3,18 @@ import Navbar from "../components/Navbar";
 import chef3 from "../assets/svgs/MyRecipes/chef3.svg";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Recipe from "../interfaces/IRecipes";
 import axios from "axios";
-import { Recipes } from "../components/Recipes";
+import CreatedRecipeComponent from "../components/CreatedRecipeComponent";
+
+interface CreatedRecipe {
+  _id:string;
+  title:string;
+  image:string;
+  isLiked:boolean;
+}
 
 const MyRecipes = () => {
-  const [myRecipes, setMyRecipes] = useState<Recipe[]>([]);
+  const [myRecipes, setMyRecipes] = useState<CreatedRecipe[]>([]);
 
   useEffect(() => {
     fetchCreatedRecipes();
@@ -28,7 +34,7 @@ const MyRecipes = () => {
     <>
       <Navbar />
 
-      <div className="mt-[4rem] mb-[5rem] lg:mt-[10rem]">
+      <div className="mt-[4rem] mb-[5rem]  ">
         <div className="w-full flex justify-center ">
           <div
             className="bg-customPink p-2 text-sm lg:text-lg text-white rounded-sm cursor-pointer"
@@ -51,13 +57,13 @@ const MyRecipes = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-2 p-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
           {myRecipes &&
             myRecipes.length > 0 &&
             myRecipes.map((recipe) => (
               <div className="text-xs md:text-sm xl:text-md  bg-white  border-gray-200 border-2">
-                <Recipes
-                  id={recipe.id}
+                <CreatedRecipeComponent
+                  _id={recipe._id}
                   title={recipe.title}
                   image={recipe.image}
                   isLiked={recipe.isLiked}
