@@ -7,6 +7,7 @@ import RecipeDetails from "./pages/RecipeDetails";
 import Search from "./pages/Search";
 import CreateRecipe from "./pages/CreateRecipe";
 import Login from "./auth/Login";
+import CreatedRecipeDetails from "./pages/CreatedRecipeDetails";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/search" element={<Search />} />
           <Route path="/my-recipes" element={<MyRecipes />} />
+          <Route path="/my-recipes/:id" element={<CreatedRecipeDetails />} />
           <Route path="/my-recipes/createRecipe" element={<CreateRecipe />}/>
           <Route path="/favorites" element={<LikedRecipes />} />
           <Route path="/profile" element={<Profile />} />
