@@ -116,7 +116,7 @@ export const removeLikedRecipe = async (req: Request, res: Response) => {
     const recipeId = parseInt(id);
     const removedRecipe = await db
       .collection("likedrecipes")
-      .deleteOne({ id: recipeId });
+      .deleteOne({ id:recipeId });
     res.status(200).json(removedRecipe);
   } catch (error) {
     res.status(400).json({ error: error.message });
