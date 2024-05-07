@@ -5,6 +5,7 @@ import cloudinary from "../utils/cloudinary";
 interface Recipe {
   title: string;
   description: string;
+  cuisineType: string;
   image: string;
   cookingTime: number;
   servings: number;
@@ -32,23 +33,42 @@ export const fetchCreatedRecipes = async (req: Request, res: Response) => {
 
 // CREATING RECIPE (POST REQUEST)
 export const createRecipe = async (req: Request, res: Response) => {
-  const recipeData: Recipe = req.body;
+  const {
+    title,
+    description,
+    cuisineType,
+    image,
+    cookingTime,
+    servings,
+    healthScore,
+    ingredients,
+    instructions,
+    nutrients,
+  } : Recipe = req.body;
   try {
     const db = getDb();
-    const recipeImg = recipeData.image;
-    const imgResponse = await cloudinary.uploader.upload(recipeImg, {
+    const imgResponse = await cloudinary.uploader.upload(image, {
       upload_preset: "tastescape",
     });
-    recipeData.image = imgResponse.url;
 
-    const newRecipe = await db
-      .collection("createdrecipes")
-      .insertOne(recipeData);
+    const newRecipe = await db.collection("createdrecipes").insertOne({
+      title,
+      description,
+      cuisineType,
+      image: imgResponse.secure_url,
+      cookingTime,
+      servings,
+      healthScore,
+      ingredients,
+      instructions,
+      nutrients,
+      createdAt: new Date(),
+    });
 
     newRecipe
       ? res
           .status(200)
-          .json({ message: "Recipe Created Successfully", recipe: recipeData })
+          .json({ message: "Recipe Created Successfully", newRecipe })
       : res.status(500).json({ error: "Failed to Create Recipe" });
   } catch (error) {
     console.log(error);
@@ -99,7 +119,7 @@ export const deleteCreatedRecipe = async (req: Request, res: Response) => {
   try {
     const db = getDb();
     const response = await db
-      .collection("likedrecipes") // Target the "likedrecipes" collection
+      .collection("createdrecipes") // Target the "likedrecipes" collection
       .deleteOne({ _id: new ObjectId(id) }); // Delete the recipe by its ID
     console.log(response);
     if (response.deletedCount === 1) {
@@ -110,32 +130,5 @@ export const deleteCreatedRecipe = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Failed to delete recipe" });
-  }
-};
-
-export const addLikedCreatedRecipe = async (req: Request, res: Response) => {
-  const { _id, title, image }: { _id: string; title: string; image: string } =
-    req.body;
-  console.log("Received Data:", { _id, title, image });
-
-  try {
-    const db = getDb();
-    const exists = await db
-      .collection("likedrecipes")
-      .findOne({ _id: new ObjectId(_id) });
-    if (!exists) {
-      const LikedRecipes = await db.collection("likedrecipes").insertOne({
-        _id: new ObjectId(_id),
-        title,
-        image,
-        isLiked: true,
-      });
-      res.status(200).json(LikedRecipes);
-    } else {
-      throw Error("Already Liked this Recipe");
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: error.message });
   }
 };
