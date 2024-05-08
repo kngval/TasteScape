@@ -1,6 +1,6 @@
 
 interface Recipe {
-        id: string,
+        id: number,
         title: string,
         image: string
         isLiked:boolean
