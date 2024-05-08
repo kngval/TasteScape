@@ -21,8 +21,9 @@ interface ErrorData {
 }
 
 
-export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title,isLiked}:{id:string, image:string, title:string ,isLiked:boolean},thunkAPI) => {
+export const addLikedRecipe = createAsyncThunk('recipe/addLikedRecipe', async({id,image,title,isLiked}:{id:number, image:string, title:string ,isLiked:boolean},thunkAPI) => {
     try{
+        console.log(id);
         const response  = await axios.post("http://localhost:3000/home",{id,image,title,isLiked},{ withCredentials:true });
         const data = response.data
         console.log(data);
@@ -51,7 +52,7 @@ export const fetchLikedRecipes = createAsyncThunk('recipe/fetchLikedRecipe',asyn
     }
 });
 
-export const deleteLikedRecipe = createAsyncThunk('recipe/deleteLikedRecipe', async(id:string) => {
+export const deleteLikedRecipe = createAsyncThunk('recipe/deleteLikedRecipe', async(id:number) => {
     try{
         const response = await axios.delete(`http://localhost:3000/favorites/${id}`,{withCredentials:true})
         console.log(response)
