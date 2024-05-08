@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
 import axios from "axios";
-import LikedModel from "../models/LikedSchema";
 import "dotenv/config";
 import { getDb } from "../db/db";
 import { ObjectId } from "mongodb";
 
 //FOR SEARCHING RECIPES
 interface SearchList {
-  id: number;
+  id: string;
   title: string;
   image: string;
   isLiked: boolean;
@@ -85,7 +84,7 @@ export const fetchLikedRecipe = async (req: Request, res: Response) => {
 
 //LIKING RECIPES
 export const addLikedRecipe = async (req: Request, res: Response) => {
-  const { id, title, image }: { id: string; title: string; image: string } =
+  const { id, title, image }: { id: number; title: string; image: string } =
     req.body;
   console.log("Received Data:", { id, title, image });
 
@@ -116,7 +115,7 @@ export const removeLikedRecipe = async (req: Request, res: Response) => {
     const recipeId = parseInt(id);
     const removedRecipe = await db
       .collection("likedrecipes")
-      .deleteOne({ id:recipeId });
+      .deleteOne({ id: recipeId });
     res.status(200).json(removedRecipe);
   } catch (error) {
     res.status(400).json({ error: error.message });
