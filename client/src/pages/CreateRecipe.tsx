@@ -25,7 +25,7 @@ const CreateRecipe: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
-  const [image, setImage] = useState<string | null >(null);
+  const [image, setImage] = useState<string | null>(null);
   // const [preview, setPreview] = useState<string | null>();
   const [description, setDescription] = useState<string>("");
   const [cookingTime, setCookingTime] = useState<number>(0);
@@ -57,14 +57,13 @@ const CreateRecipe: React.FC = () => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        if(typeof reader.result === 'string'){
+        if (typeof reader.result === "string") {
           setImage(reader.result);
           console.log(reader.result);
         }
-      }
+      };
     }
   };
-
 
   // INGREDIENT FUNCTIONS
   //ADD INGREDIENTS
