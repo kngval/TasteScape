@@ -43,7 +43,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked, }) => {
   const isRecipeLiked =
     likedRecipes && likedRecipes.some((recipe) => recipe.id === id);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     const response = await dispatch(deleteLikedRecipe(id));
     if (response) {
       dispatch(displaySuccessMsg("Recipe removed from Favorites"));
@@ -75,7 +75,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked, }) => {
             strokeWidth={0.5}
             stroke="currentColor"
             className={` w-4 h-5  ${
-              isRecipeLiked || liked
+              isRecipeLiked || liked 
                 ? "fill-customPink stroke-0"
                 : "fill-none stroke-1"
             } ${location.pathname === "/favorites" ? "hidden" : "block"}`}
