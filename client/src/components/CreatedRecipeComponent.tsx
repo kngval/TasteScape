@@ -54,7 +54,7 @@ const CreatedRecipeComponent: React.FC<CreatedRecipe> = ({
   };
 
   const isRecipeLiked =
-    likedRecipes && likedRecipes.some((recipe) => recipe.id === _id);
+    likedRecipes && likedRecipes.some((recipe) => recipe.id === recipe.id);
 
   const handleDelete = async (id: string) => {
     try {
