@@ -1,5 +1,3 @@
-
-
 db.createCollection("createdrecipes", {
   validator: {
     $jsonSchema: {
@@ -14,11 +12,11 @@ db.createCollection("createdrecipes", {
         "servings",
         "instructions",
         "nutrients",
-        "ingredients"
+        "ingredients",
       ],
       properties: {
-        _id:{bsonType:"objectId"},
-        title: { bsonType: "string"},
+        _id: { bsonType: "objectId" }, 
+        title: { bsonType: "string" },
         cuisineType: { bsonType: "string" },
         description: { bsonType: "string" },
         image: { bsonType: "string" },
@@ -37,10 +35,8 @@ db.createCollection("createdrecipes", {
           bsonType: "array",
           items: { bsonType: "string" },
         },
-        createdAt: {bsonType:"date"}
+        createdAt: { bsonType: "date" },
       },
     },
   },
 });
-
-
