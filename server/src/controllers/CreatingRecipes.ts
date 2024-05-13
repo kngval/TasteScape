@@ -1,6 +1,6 @@
 import { getDb } from "../db/db";
 import { Request, Response } from "express";
-import { Collection, Document, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 import cloudinary from "../utils/cloudinary";
 interface Recipe {
   title: string;
@@ -19,8 +19,10 @@ interface Recipe {
 export const fetchCreatedRecipes = async (req: Request, res: Response) => {
   try {
     const db = getDb();
-    const collection: Collection<Document> = db.collection("createdrecipes");
-    const response = await collection.find().sort({ createdAt: -1 }).toArray();
+    const response = await db
+      .collection("createdrecipes")
+      .find({ user: req.user.userId });
+    // const response = await collection.find().sort({ createdAt: -1 }).toArray();
     console.log(response);
     response
       ? res.status(200).json(response)
@@ -44,7 +46,7 @@ export const createRecipe = async (req: Request, res: Response) => {
     ingredients,
     instructions,
     nutrients,
-  } : Recipe = req.body;
+  }: Recipe = req.body;
   try {
     const db = getDb();
     const imgResponse = await cloudinary.uploader.upload(image, {

@@ -7,8 +7,11 @@ import {
   fetchCreatedRecipes,
   getCreatedRecipeDetails,
 } from "../controllers/CreatingRecipes";
+import { protectedRoutes } from "../authMiddleware/authMiddleware";
 
-router.get("/", fetchCreatedRecipes);
+router.use(protectedRoutes);
+
+router.get("/",fetchCreatedRecipes);
 router.post("/createRecipe", createRecipe);
 router.get("/:id", getCreatedRecipeDetails);
 router.delete("/:id", deleteCreatedRecipe);
