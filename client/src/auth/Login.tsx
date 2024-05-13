@@ -3,13 +3,29 @@ import lock from "../assets/svgs/lock.svg";
 import emailSvg from "../assets/svgs/email.svg";
 import recipebook from "./recipebook.svg";
 import chefslide from "./chefslide.svg";
-import grocery from "./grocery.svg"
+import grocery from "./grocery.svg";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../Redux/store";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../Redux/authSlice";
 const Login = () => {
-  const sliderImgs = [chefslide, recipebook,grocery];
+  const sliderImgs = [chefslide, recipebook, grocery];
+  const [email, setEmail] = useState<string | undefined>();
+  const [password, setPassword] = useState<string | undefined>();
 
   const [currIndex, setCurrIndex] = useState<number>(0);
   const [direction, setDirection] = useState<number>(1);
+
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/home");
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     const autoSlider = setInterval(() => {
@@ -28,6 +44,13 @@ const Login = () => {
 
     return () => clearInterval(autoSlider);
   }, [currIndex]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (email && password) {
+      dispatch(loginUser({ email, password }));
+    }
+  };
   return (
     <div className="lg:flex items-center">
       <div className="hidden relative lg:flex items-center justify-center w-[600px] xl:w-[800px] 2xl:w-[1000px] h-screen bg-customPink">
@@ -48,24 +71,44 @@ const Login = () => {
           </div>
           <div className="text-center text-[#ffffff]">
             <h1 className=" text-[20px] font-bold mt-10 mb-2">
-              {currIndex === 0 ? "Turn your Ideas into reality " : currIndex === 1 ? "Explore a wide variety of Recipes" : "Craft your own Recipes"}
+              {currIndex === 0
+                ? "Turn your Ideas into reality "
+                : currIndex === 1
+                ? "Explore a wide variety of Recipes"
+                : "Craft your own Recipes"}
             </h1>
             <p className="text-sm px-4">
-              {currIndex === 0 ? "Create and Innovate your own culinary legacy" : currIndex === 1 ? "Discover vast recipes from around the world" : "Dive into the world of cooking and unleash your creativity by crafting your own delicious recipes"}
+              {currIndex === 0
+                ? "Create and Innovate your own culinary legacy"
+                : currIndex === 1
+                ? "Discover vast recipes from around the world"
+                : "Dive into the world of cooking and unleash your creativity by crafting your own delicious recipes"}
             </p>
           </div>
         </div>
 
-            <div className="absolute bottom-10 flex gap-2">
-                <div className={`w-[8px] h-[8px] rounded-full ${currIndex === 0 ? "bg-white" : "bg-[#ffffff46]"}`}></div>
-                <div className={`w-[8px] h-[8px] rounded-full ${currIndex === 1 ? "bg-white" : "bg-[#ffffff46]"}`}></div>
-                <div className={`w-[8px] h-[8px] rounded-full ${currIndex === 2 ? "bg-white" : "bg-[#ffffff46]"}`}></div>
-            </div>
-
+        <div className="absolute bottom-10 flex gap-2">
+          <div
+            className={`w-[8px] h-[8px] rounded-full ${
+              currIndex === 0 ? "bg-white" : "bg-[#ffffff46]"
+            }`}
+          ></div>
+          <div
+            className={`w-[8px] h-[8px] rounded-full ${
+              currIndex === 1 ? "bg-white" : "bg-[#ffffff46]"
+            }`}
+          ></div>
+          <div
+            className={`w-[8px] h-[8px] rounded-full ${
+              currIndex === 2 ? "bg-white" : "bg-[#ffffff46]"
+            }`}
+          ></div>
+        </div>
       </div>
       <form
         action=""
         className="login-form w-[300px] mt-[15rem] m-auto lg:m-auto font-sans"
+        onSubmit={handleSubmit}
       >
         {/* TITLE */}
         <div className="flex justify-center mb-5">
@@ -78,6 +121,8 @@ const Login = () => {
             <img src={emailSvg} alt="" className="w-[25px] " />
 
             <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               type="text"
               className="w-full outline-none"
               placeholder="Email"
@@ -90,6 +135,8 @@ const Login = () => {
             <img src={lock} alt="" className="w-[21px] " />
 
             <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               type="password"
               className="w-full outline-none"
               placeholder="Password"
@@ -98,7 +145,10 @@ const Login = () => {
           </div>
           {/* SIGN-IN BTN */}
           <div className="signin-btn flex justify-center my-5 text-xs">
-            <button className="bg-customPink text-white w-full py-3 rounded-md">
+            <button
+              type="submit"
+              className="bg-customPink text-white w-full py-3 rounded-md"
+            >
               Sign In
             </button>
           </div>
