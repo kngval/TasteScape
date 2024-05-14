@@ -144,7 +144,6 @@ const CreateRecipe: React.FC = () => {
 
   const createRecipe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       setLoading(true);
 
