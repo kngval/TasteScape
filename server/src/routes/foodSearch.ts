@@ -11,9 +11,9 @@ import { protectedRoutes } from "../authMiddleware/authMiddleware";
 
 router.use(protectedRoutes);
 
-router.get("/:query",fetchRandomRecipe);
+router.get("/:query", fetchRandomRecipe);
 router.get("/:query", getSearchList);
-router.get("/recipe/:id",getRecipeDetails);
+router.get("/recipe/:id", getRecipeDetails);
 router.post("/", addLikedRecipe);
 
 export default router;

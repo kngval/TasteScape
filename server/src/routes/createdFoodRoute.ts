@@ -11,7 +11,7 @@ import { protectedRoutes } from "../authMiddleware/authMiddleware";
 
 router.use(protectedRoutes);
 
-router.get("/",fetchCreatedRecipes);
+router.get("/", fetchCreatedRecipes);
 router.post("/createRecipe", createRecipe);
 router.get("/:id", getCreatedRecipeDetails);
 router.delete("/:id", deleteCreatedRecipe);

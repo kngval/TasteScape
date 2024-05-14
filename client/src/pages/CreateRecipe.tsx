@@ -19,6 +19,8 @@ import nutrition from "../assets/svgs/MyRecipes/nutrition.svg";
 import save from "../assets/svgs/MyRecipes/save.svg";
 import clear from "../assets/svgs/MyRecipes/clear.svg";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../Redux/store";
 
 const CreateRecipe: React.FC = () => {
   const navigate = useNavigate();
@@ -49,6 +51,7 @@ const CreateRecipe: React.FC = () => {
   //MODAL STATE
   const [isOpenSubmitModal, setIsOpenSubmitModal] = useState(false);
   const [isOpenClearModal, setIsOpenClearModal] = useState(false);
+  const token = useSelector((state: RootState) => state.auth.userInfo?.token);
 
   //Handling Image
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,6 +144,7 @@ const CreateRecipe: React.FC = () => {
 
   const createRecipe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       setLoading(true);
 
@@ -160,7 +164,12 @@ const CreateRecipe: React.FC = () => {
 
       const response = await axios.post(
         "http://localhost:3000/my-recipes/createRecipe",
-        recipe
+        recipe,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       const data = response.data;

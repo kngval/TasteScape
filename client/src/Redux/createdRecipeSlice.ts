@@ -22,9 +22,16 @@ const initialState: CreatedRecipeState = {
 
 export const fetchCreatedRecipes = createAsyncThunk(
   "recipes/fetchCreatedRecipes",
-  async () => {
+  async (_, thunkAPI) => {
     try {
-      const response = await axios.get("http://localhost:3000/my-recipes/");
+      const state = thunkAPI.getState() as {
+        auth: { userInfo: { token: string } };
+      };
+      const { token } = state.auth.userInfo;
+      const response = await axios.get("http://localhost:3000/my-recipes/", {
+        withCredentials: true,
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = response.data;
       return data as CreatedRecipe[];
     } catch (error) {

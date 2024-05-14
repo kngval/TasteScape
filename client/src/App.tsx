@@ -8,21 +8,25 @@ import Search from "./pages/Search";
 import CreateRecipe from "./pages/CreateRecipe";
 import Login from "./auth/Login";
 import CreatedRecipeDetails from "./pages/CreatedRecipeDetails";
+import { useSelector } from "react-redux";
+import { RootState } from "./Redux/store";
 
 
 function App() {
-  return (
+  const userInfo = useSelector((state:RootState) => state.auth.userInfo);
+
+    return (
     <BrowserRouter>
       <div>
         <Routes>
-          <Route path="/" element={<Login />}/>
-          <Route path="/home" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/my-recipes" element={<MyRecipes />} />
-          <Route path="/my-recipes/:id" element={<CreatedRecipeDetails />} />
-          <Route path="/my-recipes/createRecipe" element={<CreateRecipe />}/>
-          <Route path="/favorites" element={<LikedRecipes />} />
+          <Route path="/" element={!userInfo ? <Login /> : <Home />}/>
+          <Route path="/home" element={userInfo ? <Home /> : <Login />} />
+          <Route path="/search" element={userInfo ? <Search /> : <Login />} />
+          <Route path="/search" element={userInfo ? <Search /> : <Login />} />
+          <Route path="/my-recipes" element={userInfo ? <MyRecipes /> : <Login />} />
+          <Route path="/my-recipes/:id" element={ userInfo ? <CreatedRecipeDetails /> : <Login />} />
+          <Route path="/my-recipes/createRecipe" element={userInfo ? <CreateRecipe /> : <Login />}/>
+          <Route path="/favorites" element={ userInfo ? <LikedRecipes /> : <Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/recipe/:id" element={<RecipeDetails />} />
         </Routes>

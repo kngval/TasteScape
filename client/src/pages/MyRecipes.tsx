@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CreatedRecipeComponent from "../components/CreatedRecipeComponent";
+import { useSelector } from "react-redux";
+import { RootState } from "../Redux/store";
 
 interface CreatedRecipe {
   _id:string;
@@ -15,14 +17,18 @@ interface CreatedRecipe {
 
 const MyRecipes = () => {
   const [myRecipes, setMyRecipes] = useState<CreatedRecipe[]>([]);
-
+  const token = useSelector((state:RootState) => state.auth.userInfo?.token)
   useEffect(() => {
     fetchCreatedRecipes();
   }, []);
 
   const fetchCreatedRecipes = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/my-recipes");
+      const response = await axios.get("http://localhost:3000/my-recipes",{
+        headers: {
+          Authorization:`Bearer ${token}`
+        }
+      });
       setMyRecipes(response.data);
     } catch (err) {
       console.log(err);

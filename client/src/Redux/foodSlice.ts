@@ -19,9 +19,16 @@ const initialState: FoodState = {
 
 export const fetchRecipes = createAsyncThunk(
   "recipes/fetchRecipes",
-  async (query: string) => {
+  async (query: string, thunkAPI) => {
+    const state = thunkAPI.getState() as {
+      auth: { userInfo: { token: string } };
+    };
+    const { token } = state.auth.userInfo;
     const response = await axios.get(`http://localhost:3000/home/${query}`, {
       withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     console.log(response.data.results);
@@ -32,9 +39,17 @@ export const fetchRecipes = createAsyncThunk(
 
 export const searchRecipes = createAsyncThunk(
   "recipes/searchRecipes",
-  async (query: string) => {
+  async (query: string, thunkAPI) => {
+    const state = thunkAPI.getState() as {
+      auth: { userInfo: { token: string } };
+    };
+    const { token } = state.auth.userInfo;
+
     const response = await axios.get(`http://localhost:3000/home/${query}`, {
       withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     console.log(response.data);

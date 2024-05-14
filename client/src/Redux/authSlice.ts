@@ -1,7 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+
+type UserInfo = {
+  id: string;
+  email: string;
+  token: string;
+};
+
 type AuthState = {
-  userInfo: string | null;
+  userInfo: UserInfo | null;
 };
 
 const initialState: AuthState = {
@@ -21,6 +28,7 @@ export const loginUser = createAsyncThunk(
         });
 
         if (res) {
+          console.log(res.data);
           return res.data;
         }
       }

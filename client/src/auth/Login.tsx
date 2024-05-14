@@ -44,7 +44,7 @@ const Login = () => {
 
     return () => clearInterval(autoSlider);
   }, [currIndex]);
-
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email && password) {

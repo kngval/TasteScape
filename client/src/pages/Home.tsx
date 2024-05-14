@@ -9,7 +9,6 @@ import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
 import ErrorPopUp from "../components/ErrorPopUp";
 import SearchForm from "../components/SearchForm";
-//assets
 
 //Exported Functions
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -23,26 +22,31 @@ const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [firstMountRecipes, setFirstMountRecipes] = useState<Recipe[]>([]);
-
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   useEffect(() => {
-    dispatch(fetchRecipes('American'));
-    fetchRecipes2();
-  }, [dispatch]);
+    if (userInfo) {
+      dispatch(fetchRecipes("American"));
+      fetchRecipes2();
+    }
+  }, [dispatch, userInfo]);
 
   const fetchRecipes2 = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/home/asian`, {
-        withCredentials: true,
-      });
+      if (userInfo) {
+        const response = await axios.get(`http://localhost:3000/home/asian`, {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${userInfo?.token}`,
+          },
+        });
 
-      const asianRecipes = response.data.results;
-      setFirstMountRecipes(asianRecipes);
+        const asianRecipes = response.data.results;
+        setFirstMountRecipes(asianRecipes);
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
-  
 
   return (
     <>

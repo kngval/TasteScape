@@ -29,7 +29,7 @@ export const protectedRoutes = async (
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-
+      console.log(token);
       // Verify token and assert its type
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as {
         userId: string;

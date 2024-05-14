@@ -21,7 +21,7 @@ export const fetchCreatedRecipes = async (req: Request, res: Response) => {
     const db = getDb();
     const response = await db
       .collection("createdrecipes")
-      .find({ user: req.user.userId });
+      .find().toArray();
     // const response = await collection.find().sort({ createdAt: -1 }).toArray();
     console.log(response);
     response

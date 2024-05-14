@@ -72,7 +72,6 @@ export const getRecipeDetails = async (req: Request, res: Response) => {
 //FETCH LIKED RECIPES
 
 export const fetchLikedRecipe = async (req: Request, res: Response) => {
-  const { userId } = req.user
   try {
     const db = getDb();
     const LikedRecipes = await db.collection("likedrecipes").find().toArray();
