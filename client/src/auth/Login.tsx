@@ -9,15 +9,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../Redux/store";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../Redux/authSlice";
+import LoadingSpinner from "../components/LoadingSpinner";
 const Login = () => {
   const sliderImgs = [chefslide, recipebook, grocery];
-  const [email, setEmail] = useState<string | undefined>();
-  const [password, setPassword] = useState<string | undefined>();
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
 
   const [currIndex, setCurrIndex] = useState<number>(0);
   const [direction, setDirection] = useState<number>(1);
 
-  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { userInfo, error,loading } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -44,13 +45,20 @@ const Login = () => {
 
     return () => clearInterval(autoSlider);
   }, [currIndex]);
-  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email && password) {
       dispatch(loginUser({ email, password }));
     }
   };
+  // if(loading){
+  //   return (
+  //     <div className="w-full h-screen flex justify-center items-center">
+  //       <LoadingSpinner />
+  //     </div>
+  //   )
+  // }
   return (
     <div className="lg:flex items-center">
       <div className="hidden relative lg:flex items-center justify-center w-[600px] xl:w-[800px] 2xl:w-[1000px] h-screen bg-customPink">
@@ -121,12 +129,10 @@ const Login = () => {
             <img src={emailSvg} alt="" className="w-[25px] " />
 
             <input
-              value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="text"
               className="w-full outline-none"
               placeholder="Email"
-              required
             />
           </div>
 
@@ -135,14 +141,17 @@ const Login = () => {
             <img src={lock} alt="" className="w-[21px] " />
 
             <input
-              value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               className="w-full outline-none"
               placeholder="Password"
-              required
             />
           </div>
+
+          {error && (
+            <div className="border-2 border-customPink p-3  text-customPink">{error}</div>
+
+          )}
           {/* SIGN-IN BTN */}
           <div className="signin-btn flex justify-center my-5 text-xs">
             <button

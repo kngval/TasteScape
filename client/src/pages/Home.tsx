@@ -2,6 +2,7 @@
 import { AppDispatch, RootState } from "../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { fetchRecipes } from "../Redux/foodSlice";
 //Components
 import { Header } from "../components/Header";
 import { Recipes } from "../components/Recipes";
@@ -9,12 +10,10 @@ import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
 import ErrorPopUp from "../components/ErrorPopUp";
 import SearchForm from "../components/SearchForm";
-
-//Exported Functions
 import LoadingSpinner from "../components/LoadingSpinner";
+//Libraries
 import axios from "axios";
 import Recipe from "../interfaces/IRecipes";
-import { fetchRecipes } from "../Redux/foodSlice";
 const Home: React.FC = () => {
   //REDUX STATES
   const recipes = useSelector((state: RootState) => state?.recipes.recipes);
@@ -28,6 +27,7 @@ const Home: React.FC = () => {
       dispatch(fetchRecipes("American"));
       fetchRecipes2();
     }
+   
   }, [dispatch, userInfo]);
 
   const fetchRecipes2 = async () => {

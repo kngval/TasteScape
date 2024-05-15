@@ -25,13 +25,11 @@ export const signupUser = async (req: Request, res: Response) => {
       password: hashedPassword,
     });
     user
-      ? res
-          .status(200)
-          .json({
-            _id: user.insertedId,
-            email,
-            token: generateToken(user.insertedId),
-          })
+      ? res.status(200).json({
+          _id: user.insertedId,
+          email,
+          token: generateToken(user.insertedId),
+        })
       : res.status(400).json({ error: "error creating new user" });
   } catch (error) {
     console.log(error);
@@ -42,28 +40,25 @@ export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   try {
-    if(!email || !password){
-      res.status(500).json({error : "Please add all fields"});
-      return;
+    if (!email || !password) {
+      return res.status(500).json({ error: "Please add all fields" });
     }
-    const db = getDb();
-    const user = await db.collection("users").findOne({ email });
-    if (!user) {
-      res.status(500).json({ error: "User does not exist" });
-      return;
-    }
-    if (user && (await compare(password, user.password))) {
-      res
-        .status(200)
-        .json({
+    if (email && password) {
+      const db = getDb();
+      const user = await db.collection("users").findOne({ email });
+      if (!user) {
+        return res.status(500).json({ error: "User does not exist" });
+      }
+      if (user && (await compare(password, user.password))) {
+        res.status(200).json({
           id: user._id,
           email,
           token: generateToken(user._id),
           status: "logged in successfully",
         });
-    } else {
-      res.status(500).json({ error: "Wrong login credentials" });
-      return;
+      } else {
+        return res.status(500).json({ error: "Wrong login credentials" });
+      }
     }
   } catch (error) {
     console.log(error);
