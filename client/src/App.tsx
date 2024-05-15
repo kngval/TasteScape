@@ -10,11 +10,13 @@ import Login from "./auth/Login";
 import CreatedRecipeDetails from "./pages/CreatedRecipeDetails";
 import { useSelector } from "react-redux";
 import { RootState } from "./Redux/store";
+import EditProfile from "./pages/EditProfile";
 
 
 function App() {
   const userInfo = useSelector((state:RootState) => state.auth.userInfo);
-
+  
+ 
     return (
     <BrowserRouter>
       <div>
@@ -28,7 +30,8 @@ function App() {
           <Route path="/my-recipes/createRecipe" element={userInfo ? <CreateRecipe /> : <Login />}/>
           <Route path="/favorites" element={ userInfo ? <LikedRecipes /> : <Login />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/recipe/:id" element={<RecipeDetails />} />
+          <Route path="/profile/edit-profile" element={userInfo ? <EditProfile /> : <Login/>} />
+          <Route path="/recipe/:id" element={ userInfo ? <RecipeDetails /> : <Login />} />
         </Routes>
         </div>
     </BrowserRouter>
