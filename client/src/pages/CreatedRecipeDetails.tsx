@@ -11,6 +11,8 @@ import Navbar from "../components/Navbar";
 import { BottomNavbar } from "../components/BottomNavbar";
 import LoadingSpinner from "../components/LoadingSpinner";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../Redux/store";
 
 interface CreatedRecipeInterface {
   _id: string;
@@ -33,7 +35,7 @@ const CreatedRecipeDetails: React.FC = () => {
   const handleClick = (tab: string) => {
     setTab(tab);
   };
-
+  const token = useSelector((state:RootState) => state.auth.userInfo?.token)
   useEffect(() => {
     if (id) fetchCreatedRecipeDetails(id);
   }, [id]);
@@ -42,7 +44,7 @@ const CreatedRecipeDetails: React.FC = () => {
     if (id) {
       try {
         const response = await axios.get(
-          `http://localhost:3000/my-recipes/${id}`
+          `http://localhost:3000/my-recipes/${id}`, {headers: {Authorization:`Bearer ${token}`}}
         );
         console.log(response);
         const data = response.data;

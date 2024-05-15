@@ -3,17 +3,18 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 
-// Define a type alias for the decoded token
-interface DecodedToken {
-  userId?: string;
-}
 
 declare global {
   namespace Express {
     interface Request {
-      user?: DecodedToken;
+      user?: String;
     }
   }
+}
+
+// Decoded Token Type Aliases
+interface DecodedToken {
+  id: string;
 }
 
 export const protectedRoutes = async (
@@ -28,25 +29,32 @@ export const protectedRoutes = async (
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
+      
+      // Encoded Token
       token = req.headers.authorization.split(" ")[1];
-      console.log(token);
+      console.log("EncodedToken" ,token);
+
       // Verify token and assert its type
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as {
-        userId: string;
-      };
+      const decodedToken = jwt.verify(
+        token,
+        process.env.JWT_SECRET
+      ) as DecodedToken;
+      console.log("Decoded Token",decodedToken);
+      const tokenId = decodedToken.id
+      console.log("TOKEN ID : ",tokenId)
 
       // Get user from token
       const db = getDb();
-      const user = await db
+      const userDB = await db
         .collection("users")
         .findOne(
-          { _id: new ObjectId(decodedToken.userId) },
-          { projection: { password: 0 } }
+          { _id: new ObjectId(decodedToken.id) },
+          { projection: { _id: 1 } }
         );
+        console.log("USER FROM DB", userDB)
+        req.user = userDB._id.toString();
+        console.log('REQ.USER : ', req.user)
       next();
-      if (user) {
-        req.user = user as DecodedToken;
-      }
     } catch (error) {
       console.log(error);
       res.status(401).json({ error: "Not Authorized" });

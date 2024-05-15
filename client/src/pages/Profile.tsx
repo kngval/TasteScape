@@ -10,61 +10,103 @@ import { Recipes } from "../components/Recipes";
 import LoadingSpinner from "../components/LoadingSpinner";
 import axios from "axios";
 import Recipe from "../interfaces/IRecipes";
+import { useNavigate } from "react-router-dom";
+
+interface Profile {
+  image: string;
+  cover: string;
+  name: string;
+}
+
 const Profile = () => {
   const [createdRecipes, setCreatedRecipes] = useState<Recipe[]>([]);
-  const { likedRecipes, loading } = useSelector(
+  const { likedRecipes } = useSelector(
     (state: RootState) => state.likedRecipes
   );
-  const dispatch = useDispatch<AppDispatch>();
+  const token = useSelector((state: RootState) => state.auth.userInfo?.token);
+  const [profile, setProfile] = useState<Profile>();
 
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchLikedRecipes());
+    fetchProfile();
     fetchCreatedRecipes();
   }, [dispatch]);
 
-  const fetchCreatedRecipes = async() => {
+  const fetchCreatedRecipes = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/my-recipes');
+      const response = await axios.get("http://localhost:3000/my-recipes", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = response.data;
-      if(data){
+      if (data) {
         setCreatedRecipes(data);
       }
-
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const fetchProfile = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.data) {
+        setProfile(response.data);
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (!likedRecipes || !createdRecipes || !profile) {
+    return(
+    <div className="h-screen w-full flex justify-center items-center">
+      <LoadingSpinner />
+    </div>
+    )
   }
   return (
     <>
       <Navbar />
-      <div className="parent-wrapper w-full flex flex-col items-center lg:justify-center ">
+      <div className="parent-wrapper w-full flex flex-col items-center lg:justify-center mb-[5rem]">
         {/* PFP & HEADER */}
         <div className="pfp-page-wrapper w-full lg:w-[70%]">
           <div className="pfp-header-wrapper  flex flex-col  items-center relative w-full  bg-[#fcfcfc] ">
             <div className="head w-full h-[200px] lg:h-[300px] ">
               <img
-                src=""
+                src={profile?.cover}
                 alt="cover photo"
                 className="w-full h-full object-cover object-center"
               />
             </div>
             <div className="z-50 flex flex-col lg:flex-row items-center lg:justify-between lg: lg:w-full lg:p-4 -mt-[5rem] lg:mb-0">
               <div className="lg:flex items-center ">
-                <div className="pfp-icon-container flex justify-center items-center rounded-full w-[200px]   mb-2 border-[5px] border-[#fcfcfc] ">
+                <div className="pfp-icon-container flex justify-center items-center rounded-full w-[200px] h-[200px]  mb-2">
                   {/* PFP HERE */}
                   <img
-                    src=""
+                    src={profile?.image}
                     alt="pfp"
                     className="w-full h-full object-cover object-center rounded-full"
                   />
                 </div>
-                <div className="pfp-name text-center ml-0  lg:ml-[1rem] mb-2 lg:mb-0 w-[200px]">
-                  <h1 className="font-medium text-md md:text-lg lg:text-2xl lg:font-extrabold ">
-                    
+                <div className="pfp-name text-center lg:text-start ml-0  lg:ml-[1rem] mb-2 lg:mb-0 w-[200px]">
+                  <h1 className="font-medium text-md md:text-lg lg:text-2xl">
+                    {profile?.name}
                   </h1>
                 </div>
               </div>
-              <div className=" bg-customPink flex justify-center items-center w-[80%] lg:w-[170px] h-[40px] text-white px-2 lg:px-4 py-2 rounded-md text-sm ">
+              <div
+                onClick={() => navigate("/profile/edit-profile")}
+                className=" bg-customPink flex justify-center items-center w-[80%] lg:w-[170px] h-[40px] text-white px-2 lg:px-4 py-2 rounded-md text-sm "
+              >
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -107,7 +149,7 @@ const Profile = () => {
               <div className="w-full flex  overflow-x-auto scrollbar-style ">
                 <div className="flex gap-2 pb-4">
                   {likedRecipes &&
-                    likedRecipes.map((liked,index) => (
+                    likedRecipes.map((liked, index) => (
                       <div className="text-xs md:text-sm xl:text-md  bg-white w-[200px] sm:w-[300px] lg:w-[300px] border-gray-200 border-2">
                         <Recipes
                           key={index}
@@ -123,14 +165,14 @@ const Profile = () => {
             </div>
           </div>
 
-
           <div className="p-4 bg-[#fcfcfc] w-full">
             <h1 className="mb-2 ml-2 text-lg">Created Recipes</h1>
             <div className=" flex flex-col items-center ">
               <div className="w-full flex  overflow-x-auto scrollbar-style ">
                 <div className="flex gap-2 pb-4">
-                  {createdRecipes && createdRecipes.length > 0 &&
-                    createdRecipes.map((liked,index) => (
+                  {createdRecipes &&
+                    createdRecipes.length > 0 &&
+                    createdRecipes.map((liked, index) => (
                       <div className="text-xs md:text-sm xl:text-md  bg-white w-[200px] sm:w-[300px] lg:w-[300px] border-gray-200 border-2">
                         <Recipes
                           key={index}

@@ -37,8 +37,12 @@ const RecipeDetails: React.FC = () => {
     }
   }, [dispatch, id]);
 
-  if (loading) {
-    return <div className="w-full h-screen flex justify-center items-center"><LoadingSpinner /></div>;
+  if (loading || !chosenRecipe?.image) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
   }
   if (error) {
     return <div>{error}</div>;
@@ -166,7 +170,13 @@ const RecipeDetails: React.FC = () => {
             <div className="infoDeta flex flex-col items-center p-2 lg:px-0">
               <div className="text-center mb-10">
                 <p className="text-xs xl:text-md uppercase">
-                  {tab === "ingredients" ? `ingredients for making` : tab === "instructions" ? "instructions for making" : tab === "nutrients" ? "nutrients of" : "About the Dish"}
+                  {tab === "ingredients"
+                    ? `ingredients for making`
+                    : tab === "instructions"
+                    ? "instructions for making"
+                    : tab === "nutrients"
+                    ? "nutrients of"
+                    : "About the Dish"}
                 </p>
                 <h1 className="headline font-bold xl:text-xl xl:font-extrabold">
                   {chosenRecipe?.title}

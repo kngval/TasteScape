@@ -17,12 +17,14 @@ interface Recipe {
 
 // FETCHING ALL RECIPES (GET REQUEST)
 export const fetchCreatedRecipes = async (req: Request, res: Response) => {
+  const userId = req.user;
   try {
     const db = getDb();
     const response = await db
       .collection("createdrecipes")
-      .find().toArray();
-    // const response = await collection.find().sort({ createdAt: -1 }).toArray();
+      .find({ userId })
+      .sort({ createdAt: -1 })
+      .toArray();
     console.log(response);
     response
       ? res.status(200).json(response)
@@ -47,6 +49,8 @@ export const createRecipe = async (req: Request, res: Response) => {
     instructions,
     nutrients,
   }: Recipe = req.body;
+  const userId = req.user;
+  console.log(userId);
   try {
     const db = getDb();
     const imgResponse = await cloudinary.uploader.upload(image, {
@@ -65,6 +69,7 @@ export const createRecipe = async (req: Request, res: Response) => {
       instructions,
       nutrients,
       createdAt: new Date(),
+      userId,
     });
 
     newRecipe
@@ -118,11 +123,12 @@ export const getCreatedRecipeDetails = async (req: Request, res: Response) => {
 //DELETE CREATED RECIPE
 export const deleteCreatedRecipe = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const userId = req.user;
   try {
     const db = getDb();
     const response = await db
       .collection("createdrecipes") // Target the "likedrecipes" collection
-      .deleteOne({ _id: new ObjectId(id) }); // Delete the recipe by its ID
+      .deleteOne({ _id: new ObjectId(id), userId }); 
     console.log(response);
     if (response.deletedCount === 1) {
       res.status(200).json({ message: "Recipe deleted successfully" });

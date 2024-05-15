@@ -41,12 +41,19 @@ const initialState: ChosenRecipe = {
 };
 export const fetchChosenRecipe = createAsyncThunk(
   "recipe/fetchChosenRecipe",
-  async (id: string) => {
+  async (id: string, thunkAPI) => {
     try {
+      const state = thunkAPI.getState() as {
+        auth: { userInfo: { token: string } };
+      };
+      const { token } = state.auth.userInfo;
       const response = await axios.get(
         `http://localhost:3000/home/recipe/${id}`,
         {
           withCredentials: true,
+          headers:{
+            Authorization : `Bearer ${token}`
+          }
         }
       );
 

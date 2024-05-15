@@ -72,7 +72,6 @@ const MyRecipes = () => {
                   _id={recipe._id}
                   title={recipe.title}
                   image={recipe.image}
-                  isLiked={recipe.isLiked}
                 />
               </div>
             ))}

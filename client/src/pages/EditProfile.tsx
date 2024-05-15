@@ -2,13 +2,32 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import { BottomNavbar } from "../components/BottomNavbar";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../Redux/store";
+import { useNavigate } from "react-router-dom";
 const EditProfile = () => {
   const [image, setImage] = useState<string | null>(null);
   const [cover, setCover] = useState<string | null>(null);
   const [name, setName] = useState<string>("");
-  const handleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-    imgType: string
+  const navigate = useNavigate();
+
+  const token = useSelector((state: RootState) => state.auth.userInfo?.token);
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        if (typeof reader.result === "string") {
+          setImage(reader.result);
+          console.log(reader.result);
+        }
+      };
+    }
+  };
+
+  const handleFileChangeCover = async (
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -16,18 +35,12 @@ const EditProfile = () => {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
-          if (imgType === "image") {
-            setImage(reader.result);
-            console.log(reader.result);
-          } else if (imgType === "cover") {
-            setCover(reader.result);
-            console.log(reader.result);
-          }
+          setCover(reader.result);
+          console.log(reader.result);
         }
       };
     }
   };
-
   const clearAllFields = () => {
     setImage(null);
     setCover(null);
@@ -40,14 +53,24 @@ const EditProfile = () => {
     try {
       const pfp = {
         image,
-        name, 
+        name,
         cover,
       };
+      console.log("INITIAL STATE: ",pfp)
       const response = await axios.patch(
         "http://localhost:3000/profile/edit-profile",
-        pfp
+        pfp,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      console.log(response);
+
+      if (response.data) {
+        navigate("/profile");
+        console.log(response.data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -73,7 +96,7 @@ const EditProfile = () => {
               <input
                 id="pfp-image-input"
                 type="file"
-                onChange={(e) => handleFileChange(e, "image")}
+                onChange={(e) => handleFileChange(e)}
                 className="hidden"
                 accept="image/*"
                 name="pfp-image"
@@ -119,8 +142,8 @@ const EditProfile = () => {
             <div className="w-full sm:w-[500px]">
               <label className="text-xs">Name:</label>
               <input
-                onChange={(e) => setName(e.target.value)}
                 value={name}
+                onChange={(e) => setName(e.target.value)}
                 type="text"
                 className="block border-2 px-2 rounded-xl w-full"
                 required
@@ -141,7 +164,7 @@ const EditProfile = () => {
                 id="cp"
                 type="file"
                 className="hidden"
-                onChange={(e) => handleFileChange(e, "cover")}
+                onChange={(e) => handleFileChangeCover(e)}
                 required
               />
               {cover ? (

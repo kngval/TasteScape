@@ -26,6 +26,7 @@ export const fetchRandomRecipe = async (req: Request, res: Response) => {
 };
 
 export const getSearchList = async (req: Request, res: Response) => {
+  const userId = req.user;
   try {
     const db = getDb();
     const response = await axios.get(
@@ -37,7 +38,7 @@ export const getSearchList = async (req: Request, res: Response) => {
     const likedRecipeIds = (
       await db
         .collection("likedrecipes")
-        .find({}, { projection: { id: 1 } })
+        .find({ userId }, { projection: { id: 1 } })
         .toArray()
     ).map((likedRecipe) => likedRecipe.id);
 
@@ -72,9 +73,13 @@ export const getRecipeDetails = async (req: Request, res: Response) => {
 //FETCH LIKED RECIPES
 
 export const fetchLikedRecipe = async (req: Request, res: Response) => {
+  const userId = req.user;
   try {
     const db = getDb();
-    const LikedRecipes = await db.collection("likedrecipes").find().toArray();
+    const LikedRecipes = await db
+      .collection("likedrecipes")
+      .find({ userId })
+      .toArray();
     console.log(LikedRecipes);
     res.status(200).json(LikedRecipes);
   } catch (error) {
@@ -86,17 +91,19 @@ export const fetchLikedRecipe = async (req: Request, res: Response) => {
 export const addLikedRecipe = async (req: Request, res: Response) => {
   const { id, title, image }: { id: number; title: string; image: string } =
     req.body;
-  console.log("Received Data:", { id, title, image });
+  const userId = req.user;
+  console.log("Received Data:", { id, title, image, userId });
 
   try {
     const db = getDb();
-    const exists = await db.collection("likedrecipes").findOne({ id });
+    const exists = await db.collection("likedrecipes").findOne({ id, userId });
     if (!exists) {
       const LikedRecipes = await db.collection("likedrecipes").insertOne({
         id,
         title,
         image,
         isLiked: true,
+        userId,
       });
       res.status(200).json(LikedRecipes);
     } else {
@@ -109,13 +116,12 @@ export const addLikedRecipe = async (req: Request, res: Response) => {
 };
 
 export const removeLikedRecipe = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const userId = req.user;
   try {
     const db = getDb();
-    const recipeId = parseInt(id);
     const removedRecipe = await db
       .collection("likedrecipes")
-      .deleteOne({ id: recipeId });
+      .deleteOne({ userId });
     res.status(200).json(removedRecipe);
   } catch (error) {
     res.status(400).json({ error: error.message });
