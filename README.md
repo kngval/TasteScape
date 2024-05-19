@@ -1,4 +1,4 @@
-![icon](./client/dist/assets/TasteScape-D5FSnmPW.svg)
+![icon](https://asset.cloudinary.com/dcmdk5q3u/1f40cacb55dce4c6b1ca974a7d021100)
 
 # Follow the guidelines for running _TasteScape_
 
