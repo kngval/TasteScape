@@ -1,12 +1,12 @@
 import express from "express";
 import cors from "cors";
-import foodSearch from "./routes/foodSearch";
-import likedRoutes from "./routes/likedRoutes";
-import createdFoodRoutes from "./routes/createdFoodRoute";
-import profileRoutes from "./routes/profileRoutes"
-import authRoutes from "./routes/userAuth.routes"
+import foodSearch from "../routes/foodSearch";
+import likedRoutes from "../routes/likedRoutes";
+import createdFoodRoutes from "../routes/createdFoodRoute";
+import profileRoutes from "../routes/profileRoutes";
+import authRoutes from "../routes/userAuth.routes";
 import "dotenv/config";
-import { connectToDb } from "./db/db";
+import { connectToDb } from "../db/db";
 const app = express();
 const PORT = process.env.PORT;
 
@@ -25,7 +25,7 @@ connectToDb()
     app.use("/Home", foodSearch); //Route for first mount in /Home
     app.use("/favorites", likedRoutes); //Route for liked recipes
     app.use("/my-recipes", createdFoodRoutes); //Route for creating Recipes
-    app.use("/profile",profileRoutes);
+    app.use("/profile", profileRoutes);
     app.use("/", authRoutes);
     app.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);
