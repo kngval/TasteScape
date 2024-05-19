@@ -9,25 +9,24 @@ import { useSelector } from "react-redux";
 import { RootState } from "../Redux/store";
 
 interface CreatedRecipe {
-  _id:string;
-  title:string;
-  image:string;
-  isLiked:boolean;
+  _id: string;
+  title: string;
+  image: string;
 }
 
 const MyRecipes = () => {
   const [myRecipes, setMyRecipes] = useState<CreatedRecipe[]>([]);
-  const token = useSelector((state:RootState) => state.auth.userInfo?.token)
+  const token = useSelector((state: RootState) => state.auth.userInfo?.token);
   useEffect(() => {
     fetchCreatedRecipes();
-  }, []);
+  }, [myRecipes]);
 
   const fetchCreatedRecipes = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/my-recipes",{
+      const response = await axios.get("http://localhost:3000/my-recipes", {
         headers: {
-          Authorization:`Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       setMyRecipes(response.data);
     } catch (err) {

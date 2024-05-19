@@ -78,7 +78,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked, }) => {
               isRecipeLiked || liked 
                 ? "fill-customPink stroke-0"
                 : "fill-none stroke-1"
-            } ${location.pathname === "/favorites" ? "hidden" : "block"}`}
+            } ${location.pathname === "/favorites"  ? "hidden" : "block"}`}
           >
             <path
               strokeLinecap="round"
@@ -95,7 +95,7 @@ export const Recipes: React.FC<IRecipes> = ({ image, title, id, isLiked, }) => {
           viewBox="0 0 1920 1920"
           xmlns="http://www.w3.org/2000/svg"
           className={`xl:w-[25px] ${
-            location.pathname === "/favorites" ? "block" : "hidden"
+            location.pathname === "/favorites"  ? "block" : "hidden"
           } stroke-black`}
           onClick={() => handleDelete(id)}
         >

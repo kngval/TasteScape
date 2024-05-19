@@ -7,30 +7,40 @@ import { fetchLikedRecipes } from "../Redux/likedRecipeSlice";
 import { BottomNavbar } from "../components/BottomNavbar";
 import Navbar from "../components/Navbar";
 import { Recipes } from "../components/Recipes";
-import LoadingSpinner from "../components/LoadingSpinner";
 import axios from "axios";
-import Recipe from "../interfaces/IRecipes";
 import { useNavigate } from "react-router-dom";
 
+import favRecipes from "../assets/svgs/favorites.svg";
+import chef from "../assets/svgs/MyRecipes/chef3.svg";
+import initialUser from "../assets/svgs/initialUser.svg";
+import CreatedRecipeComponent from "../components/CreatedRecipeComponent";
+import { logout } from "../Redux/authSlice";
 interface Profile {
   image: string;
   cover: string;
   name: string;
 }
 
+interface CreatedRecipe {
+  _id: string;
+  title: string;
+  image: string;
+}
+
 const Profile = () => {
-  const [createdRecipes, setCreatedRecipes] = useState<Recipe[]>([]);
+  const [createdRecipes, setCreatedRecipes] = useState<CreatedRecipe[]>([]);
   const { likedRecipes } = useSelector(
     (state: RootState) => state.likedRecipes
   );
-  const token = useSelector((state: RootState) => state.auth.userInfo?.token);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [profile, setProfile] = useState<Profile>();
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(fetchLikedRecipes());
     fetchProfile();
+
+    dispatch(fetchLikedRecipes());
     fetchCreatedRecipes();
   }, [dispatch]);
 
@@ -38,12 +48,11 @@ const Profile = () => {
     try {
       const response = await axios.get("http://localhost:3000/my-recipes", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userInfo?.token}`,
         },
       });
-      const data = response.data;
-      if (data) {
-        setCreatedRecipes(data);
+      if (response.data) {
+        setCreatedRecipes(response.data);
       }
     } catch (error) {
       console.log(error);
@@ -54,7 +63,7 @@ const Profile = () => {
     try {
       const response = await axios.get("http://localhost:3000/profile", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userInfo?.token}`,
         },
       });
       if (response.data) {
@@ -66,43 +75,43 @@ const Profile = () => {
     }
   };
 
-  if (!likedRecipes || !createdRecipes || !profile) {
-    return(
-    <div className="h-screen w-full flex justify-center items-center">
-      <LoadingSpinner />
-    </div>
-    )
-  }
   return (
     <>
       <Navbar />
-      <div className="parent-wrapper w-full flex flex-col items-center lg:justify-center mb-[5rem]">
+      <div className="parent-wrapper w-full flex flex-col items-center lg:justify-center mb-[5rem] ">
         {/* PFP & HEADER */}
-        <div className="pfp-page-wrapper w-full lg:w-[70%]">
-          <div className="pfp-header-wrapper  flex flex-col  items-center relative w-full  bg-[#fcfcfc] ">
-            <div className="head w-full h-[200px] lg:h-[300px] ">
+        <div className="pfp-page-wrapper w-full lg:w-[70%] bg-white">
+          <div className="pfp-header-wrapper  flex flex-col  items-center relative w-full  ">
+            <div
+              className={`head w-full h-[200px] lg:h-[300px] ${
+                !profile?.cover ? "bg-customPink" : "bg-none"
+              }`}
+            >
               <img
                 src={profile?.cover}
-                alt="cover photo"
-                className="w-full h-full object-cover object-center"
+                alt=""
+                className={`w-full h-full object-cover object-center`}
               />
             </div>
             <div className="z-50 flex flex-col lg:flex-row items-center lg:justify-between lg: lg:w-full lg:p-4 -mt-[5rem] lg:mb-0">
               <div className="lg:flex items-center ">
-                <div className="pfp-icon-container flex justify-center items-center rounded-full w-[200px] h-[200px]  mb-2">
+                <div className="pfp-icon-container flex justify-center items-center rounded-full w-[200px] h-[200px]  mb-2 border-[0.5rem] border-customPink">
                   {/* PFP HERE */}
                   <img
-                    src={profile?.image}
+                    src={profile?.image ? profile.image : initialUser}
                     alt="pfp"
-                    className="w-full h-full object-cover object-center rounded-full"
+                    className={`w-full h-full object-cover object-center rounded-full ${
+                      !profile?.image ? "bg-white" : "k bg-none"
+                    }`}
                   />
                 </div>
-                <div className="pfp-name text-center lg:text-start ml-0  lg:ml-[1rem] mb-2 lg:mb-0 w-[200px]">
-                  <h1 className="font-medium text-md md:text-lg lg:text-2xl">
-                    {profile?.name}
+                <div className="pfp-name text-center lg:text-start ml-0  lg:ml-[1rem] mb-2 lg:mb-0 w-[200px] lg:w-[250px]">
+                  <h1 className=" text-md md:text-lg lg:text-2xl">
+                    {profile?.name ? profile.name : userInfo?.email}
                   </h1>
                 </div>
               </div>
+
               <div
                 onClick={() => navigate("/profile/edit-profile")}
                 className=" bg-customPink flex justify-center items-center w-[80%] lg:w-[170px] h-[40px] text-white px-2 lg:px-4 py-2 rounded-md text-sm "
@@ -143,13 +152,13 @@ const Profile = () => {
             <div className="w-[95%] h-[1px] bg-gray-300 mt-[2rem] mb-[1rem]"></div>
           </div>
 
-          <div className="p-4 bg-[#fcfcfc] w-full">
+          <div className="px-4 py-12 w-full">
             <h1 className="mb-2 ml-2 text-lg">Liked Recipes</h1>
             <div className=" flex flex-col items-center ">
               <div className="w-full flex  overflow-x-auto scrollbar-style ">
-                <div className="flex gap-2 pb-4">
-                  {likedRecipes &&
-                    likedRecipes.map((liked, index) => (
+                {likedRecipes && likedRecipes.length > 0 ? (
+                  <div className="flex gap-2 pb-4">
+                    {likedRecipes.map((liked, index) => (
                       <div className="text-xs md:text-sm xl:text-md  bg-white w-[200px] sm:w-[300px] lg:w-[300px] border-gray-200 border-2">
                         <Recipes
                           key={index}
@@ -160,34 +169,51 @@ const Profile = () => {
                         />
                       </div>
                     ))}
-                </div>
+                  </div>
+                ) : (
+                  <div className="w-full flex flex-col items-center">
+                    <img src={favRecipes} alt="" className="w-[300px]" />
+                    <h1>Liked recipes will be displayed here</h1>
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
-          <div className="p-4 bg-[#fcfcfc] w-full">
+          <div className="px-4 py-12  w-full">
             <h1 className="mb-2 ml-2 text-lg">Created Recipes</h1>
             <div className=" flex flex-col items-center ">
               <div className="w-full flex  overflow-x-auto scrollbar-style ">
-                <div className="flex gap-2 pb-4">
-                  {createdRecipes &&
-                    createdRecipes.length > 0 &&
-                    createdRecipes.map((liked, index) => (
+                {createdRecipes && createdRecipes.length > 0 ? (
+                  <div className="flex gap-2 pb-4">
+                    {createdRecipes.map((recipe, index) => (
                       <div className="text-xs md:text-sm xl:text-md  bg-white w-[200px] sm:w-[300px] lg:w-[300px] border-gray-200 border-2">
-                        <Recipes
+                        <CreatedRecipeComponent
                           key={index}
-                          id={liked.id}
-                          image={liked.image}
-                          title={liked.title}
-                          isLiked={liked.isLiked}
+                          _id={recipe._id}
+                          image={recipe.image}
+                          title={recipe.title}
                         />
                       </div>
                     ))}
-                </div>
+                  </div>
+                ) : (
+                  <div className="w-full flex flex-col items-center justify-center gap-5">
+                    <img src={chef} alt="" className="w-[300px]" />
+                    <h1>Created Recipes will be displayed here</h1>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
+        <button
+          onClick={() => dispatch(logout())}
+          type="button"
+          className="bg-customPink text-white w-[300px] py-2 rounded-md my-8"
+        >
+          Logout
+        </button>
       </div>
 
       <BottomNavbar />

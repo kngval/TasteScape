@@ -8,15 +8,18 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../Redux/store";
 import { useNavigate } from "react-router-dom";
-import { clearError, loginUser } from "../Redux/authSlice";
-const Login = () => {
+import { clearError, signUpUser } from "../Redux/authSlice";
+const SignUp = () => {
   const sliderImgs = [chefslide, recipebook, grocery];
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+
   const [currIndex, setCurrIndex] = useState<number>(0);
   const [direction, setDirection] = useState<number>(1);
 
-  const { userInfo, error } = useSelector((state: RootState) => state.auth);
+  const { userInfo, error, success } = useSelector(
+    (state: RootState) => state.auth
+  );
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -24,8 +27,7 @@ const Login = () => {
     if (userInfo) {
       navigate("/home");
     }
-  }, [userInfo]);
-
+  }, [userInfo, success]);
   useEffect(() => {
     if (error) {
       const timer = setTimeout(() => {
@@ -35,8 +37,6 @@ const Login = () => {
       return () => clearTimeout(timer); // Cleanup timeout on component unmount
     }
   }, [error, dispatch]);
-
-
   useEffect(() => {
     const autoSlider = setInterval(() => {
       setCurrIndex((prevIndex) => {
@@ -58,10 +58,12 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (email && password) {
-      dispatch(loginUser({ email, password }));
+      dispatch(signUpUser({ email, password }));
+      setEmail("");
+      setPassword("");
     }
   };
-  
+
   return (
     <div className="lg:flex items-center">
       <div className="hidden relative lg:flex items-center justify-center w-[600px] xl:w-[800px] 2xl:w-[1000px] h-screen bg-customPink">
@@ -122,9 +124,10 @@ const Login = () => {
         onSubmit={handleSubmit}
       >
         {/* TITLE */}
-        <div className="flex flex-col items-center justify-center mb-5">
+        <div className="flex justify-center mb-5">
           <img src={TasteScape} alt="" />
         </div>
+
         <div className="grid gap-2 text-xs">
           {/* EMAIL INPUT */}
           <div className="flex border-[1px]  border-[#e7e7e7] py-2 px-4 gap-2 bg-white rounded-md">
@@ -150,9 +153,15 @@ const Login = () => {
             />
           </div>
 
-          {error && (
-            <div className="border-2 border-customPink p-3  text-customPink">{error}</div>
-
+          {error && !success && (
+            <div className="border-2 border-customPink p-3  text-customPink">
+              {error}
+            </div>
+          )}
+          {success && !error && (
+            <div className="border-2 border-customPink p-3  text-customPink">
+              {success}
+            </div>
           )}
           {/* SIGN-IN BTN */}
           <div className="signin-btn flex justify-center my-5 text-xs">
@@ -160,14 +169,19 @@ const Login = () => {
               type="submit"
               className="bg-customPink text-white w-full py-3 rounded-md"
             >
-              Log In
+              Sign Up
             </button>
           </div>
 
           <div className="text-center">
             <h3 className="text-[#a1a1a1]">
-              Dont have an account?{" "}
-              <span onClick={() => navigate("/signup")} className="text-customPink cursor-pointer">Create One</span>
+              Already have an account?{" "}
+              <span
+                onClick={() => navigate("/login")}
+                className="text-customPink cursor-pointer"
+              >
+                Login
+              </span>
             </h3>
           </div>
         </div>
@@ -176,4 +190,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

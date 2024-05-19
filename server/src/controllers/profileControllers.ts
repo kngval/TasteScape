@@ -15,7 +15,7 @@ export const getProfile = async (req: Request, res: Response) => {
     const db = getDb();
     const Profile = await db.collection("profile").findOne({ userId });
 
-    Profile
+    return Profile
       ? res.status(200).json(Profile)
       : res.status(400).json({ error: "Profile not found" });
   } catch (error) {

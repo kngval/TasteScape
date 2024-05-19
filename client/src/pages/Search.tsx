@@ -7,7 +7,7 @@ import { RootState } from "../Redux/store";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorPopUp from "../components/ErrorPopUp";
 import { useLocation } from "react-router-dom";
-
+import groceries from "../assets/svgs/groceriess.svg";
 const Search = () => {
   const { searchedRecipes, loading } = useSelector(
     (state: RootState) => state.recipes
@@ -57,6 +57,13 @@ const Search = () => {
               ))}
           </div>
         </div>
+      )}
+
+      {!searchedRecipes && (
+       <div className="w-full flex flex-col items-center ">
+        <img src={groceries} alt="" className="w-[300px]"/>
+        <h1>Searched recipes will be displayed here</h1>
+       </div> 
       )}
       <BottomNavbar />
     </>

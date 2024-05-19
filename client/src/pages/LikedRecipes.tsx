@@ -39,8 +39,9 @@ const LikedRecipes = () => {
             </div>
           </div>
         ): (
-          <div className="">
-            <img src={favorites} alt="" />
+          <div className="flex flex-col items-center text-center p-4">
+            <img src={favorites} alt="" className="w-[300px]"/>
+            <h1>Your favorite recipes will be displayed here</h1>
           </div>
         )}
 

@@ -145,7 +145,7 @@ const EditProfile = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 type="text"
-                className="block border-2 px-2 rounded-xl w-full"
+                className="block border-2 px-4 py-2 rounded-xl w-full outline-none text-sm"
                 required
               />
             </div>
