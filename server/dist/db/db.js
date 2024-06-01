@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDb = exports.connectToDb = void 0;
 const mongodb_1 = require("mongodb");
 const uri = process.env.MONGO_URI;
-const PORT = process.env.PORT;
 let db;
 async function connectToDb() {
     try {
@@ -20,7 +19,7 @@ async function connectToDb() {
 exports.connectToDb = connectToDb;
 function getDb() {
     if (!db) {
-        throw new Error('Db not Connected...');
+        throw new Error("Db not Connected...");
     }
     return db;
 }

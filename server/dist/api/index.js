@@ -5,13 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const foodSearch_1 = __importDefault(require("./routes/foodSearch"));
-const likedRoutes_1 = __importDefault(require("./routes/likedRoutes"));
-const createdFoodRoute_1 = __importDefault(require("./routes/createdFoodRoute"));
-const profileRoutes_1 = __importDefault(require("./routes/profileRoutes"));
-const userAuth_routes_1 = __importDefault(require("./routes/userAuth.routes"));
+const foodSearch_1 = __importDefault(require("../routes/foodSearch"));
+const likedRoutes_1 = __importDefault(require("../routes/likedRoutes"));
+const createdFoodRoute_1 = __importDefault(require("../routes/createdFoodRoute"));
+const profileRoutes_1 = __importDefault(require("../routes/profileRoutes"));
+const userAuth_routes_1 = __importDefault(require("../routes/userAuth.routes"));
 require("dotenv/config");
-const db_1 = require("./db/db");
+const db_1 = require("../db/db");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT;
 (0, db_1.connectToDb)()

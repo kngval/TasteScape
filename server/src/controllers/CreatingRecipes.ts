@@ -128,7 +128,7 @@ export const deleteCreatedRecipe = async (req: Request, res: Response) => {
     const db = getDb();
     const response = await db
       .collection("createdrecipes") // Target the "likedrecipes" collection
-      .deleteOne({ _id: new ObjectId(id), userId }); 
+      .deleteOne({ _id: new ObjectId(id), userId });
     console.log(response);
     if (response.deletedCount === 1) {
       res.status(200).json({ message: "Recipe deleted successfully" });

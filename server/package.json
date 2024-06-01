@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "vercel-build":"echo hello"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
