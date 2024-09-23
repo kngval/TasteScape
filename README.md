@@ -1,4 +1,4 @@
-![icon](https://asset.cloudinary.com/dcmdk5q3u/1f40cacb55dce4c6b1ca974a7d021100)
+![icon](https://res.cloudinary.com/dcmdk5q3u/image/upload/v1716111894/TasteScape_ygapol.svg)
 
 # Follow the guidelines for running _TasteScape_
 
